@@ -1,42 +1,30 @@
 class RGBShiftEffect extends EffectShell {
   constructor(container = document.body, itemsWrapper = null, options = {}) {
-    super(container, itemsWrapper)
-    if (!this.container || !this.itemsWrapper) return
+    super(container, itemsWrapper);
+    if (!this.container || !this.itemsWrapper) return;
 
-    options.strength = options.strength || 0.25
-    this.options = options
+    options.strength = options.strength || 0.25;
+    this.options = options;
 
-    this.init()
+    this.init();
   }
 
   init() {
-    this.position = new THREE.Vector3(0, 0, 0)
-    this.scale = new THREE.Vector3(1, 1, 1)
-    this.geometry = new THREE.PlaneBufferGeometry(1, 1, 32, 32)
+    this.position = new THREE.Vector3(0, 0, 0);
+    this.scale = new THREE.Vector3(1, 1, 1);
+    this.geometry = new THREE.PlaneBufferGeometry(1, 1, 32, 32);
     this.uniforms = {
-      uTime: {
-        value: 0
-      },
-      uTexture: {
-        value: null
-      },
-      uOffsetRed: {
-        value: new THREE.Vector2(0.0, 0.0)
-      },
-      uOffsetGreen: { 
-        value: new THREE.Vector2(0.0, 0.0) 
-      },
-      uOffsetBlue: { 
-        value: new THREE.Vector2(0.0, 0.0) 
-      },
-      uAlpha: {
-        value: 0
-      }
-    }
+      uTime: { value: 0 },
+      uTexture: { value: null },
+      uOffsetRed: { value: new THREE.Vector2(0.0, 0.0) },
+      uOffsetGreen: { value: new THREE.Vector2(0.0, 0.0) },
+      uOffsetBlue: { value: new THREE.Vector2(0.0, 0.0) },
+      uAlpha: { value: 0 },
+    };
     this.material = new THREE.ShaderMaterial({
       uniforms: this.uniforms,
       vertexShader: `
-        uniform vec2 uOffset;
+        uniform vec2 uOffsetRed;
 
         varying vec2 vUv;
 
@@ -49,15 +37,14 @@ class RGBShiftEffect extends EffectShell {
 
         void main() {
           vUv = uv;
-          vec3 newPosition = position;
-          newPosition = deformationCurve(position,uv,uOffset);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );
+          vec3 newPosition = deformationCurve(position, uv, uOffsetRed);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
         }
       `,
       fragmentShader: `
         uniform sampler2D uTexture;
         uniform float uAlpha;
-        uniform vec2 uOffsetRed; 
+        uniform vec2 uOffsetRed;
         uniform vec2 uOffsetGreen;
         uniform vec2 uOffsetBlue;
 
@@ -71,14 +58,14 @@ class RGBShiftEffect extends EffectShell {
         }
 
         void main() {
-          vec3 color = rgbShift(uTexture, vUv, uOffset, uOffsetGreen, uOffsetBlue);
+          vec3 color = rgbShift(uTexture, vUv, uOffsetRed, uOffsetGreen, uOffsetBlue);
           gl_FragColor = vec4(color, uAlpha);
         }
       `,
-      transparent: true
-    })
-    this.plane = new THREE.Mesh(this.geometry, this.material)
-    this.scene.add(this.plane)
+      transparent: true,
+    });
+    this.plane = new THREE.Mesh(this.geometry, this.material);
+    this.scene.add(this.plane);
   }
 
   onMouseEnter() {
