@@ -20,8 +20,14 @@ class RGBShiftEffect extends EffectShell {
       uTexture: {
         value: null
       },
-      uOffset: {
+      uOffsetRed: {
         value: new THREE.Vector2(0.0, 0.0)
+      },
+      uOffsetGreen: { 
+        value: new THREE.Vector2(0.0, 0.0) 
+      },
+      uOffsetBlue: { 
+        value: new THREE.Vector2(0.0, 0.0) 
       },
       uAlpha: {
         value: 0
@@ -51,19 +57,22 @@ class RGBShiftEffect extends EffectShell {
       fragmentShader: `
         uniform sampler2D uTexture;
         uniform float uAlpha;
-        uniform vec2 uOffset;
+        uniform vec2 uOffsetRed; 
+        uniform vec2 uOffsetGreen;
+        uniform vec2 uOffsetBlue;
 
         varying vec2 vUv;
 
-        vec3 rgbShift(sampler2D texture, vec2 uv, vec2 offset) {
-          float r = texture2D(uTexture,vUv + uOffset).r;
-          vec2 gb = texture2D(uTexture,vUv).gb;
-          return vec3(r,gb);
+        vec3 rgbShift(sampler2D texture, vec2 uv, vec2 offsetRed, vec2 offsetGreen, vec2 offsetBlue) {
+          float r = texture2D(texture, uv + offsetRed).r;
+          float g = texture2D(texture, uv + offsetGreen).g;
+          float b = texture2D(texture, uv + offsetBlue).b;
+          return vec3(r, g, b);
         }
 
         void main() {
-          vec3 color = rgbShift(uTexture,vUv,uOffset);
-          gl_FragColor = vec4(color,uAlpha);
+          vec3 color = rgbShift(uTexture, vUv, uOffset, uOffsetGreen, uOffsetBlue);
+          gl_FragColor = vec4(color, uAlpha);
         }
       `,
       transparent: true
