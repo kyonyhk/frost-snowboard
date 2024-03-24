@@ -112,11 +112,25 @@ class RGBShiftEffect extends EffectShell {
 
   onPositionUpdate() {
     // compute offset
-    let offset = this.plane.position
+    let offsetRed = this.plane.position
       .clone()
       .sub(this.position)
-      .multiplyScalar(-this.options.strength)
-    this.uniforms.uOffset.value = offset
+      .multiplyScalar(-this.options.strength);
+    this.uniforms.uOffsetRed.value = offsetRed;
+  
+    // If you want to add unique offsets for green and blue, you can do it here
+    // For example, using different strength values or directions
+    let offsetGreen = this.plane.position
+      .clone()
+      .sub(this.position)
+      .multiplyScalar(-this.options.strength * 0.8); // Just an example strength factor
+    this.uniforms.uOffsetGreen.value = offsetGreen;
+  
+    let offsetBlue = this.plane.position
+      .clone()
+      .sub(this.position)
+      .multiplyScalar(-this.options.strength * 0.6); // Just an example strength factor
+    this.uniforms.uOffsetBlue.value = offsetBlue;
   }
 
   onMouseOver(index, e) {
