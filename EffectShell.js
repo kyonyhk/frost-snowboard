@@ -172,7 +172,7 @@ class EffectShell {
   
     get itemsElements() {
       // convert NodeList to Array
-      const items = [...this.itemsWrapper.querySelectorAll('.link.is-collection')]
+      const items = [...this.itemsWrapper.querySelectorAll('.link')]
   
       //create Array of items including element, image and index
       return items.map((item, index) => ({
