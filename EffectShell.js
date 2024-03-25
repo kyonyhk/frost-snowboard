@@ -18,7 +18,9 @@ class EffectShell {
   
       // renderer
       this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-      this.renderer.setSize(this.viewport.width, this.viewport.height)
+      const width = window.innerWidth;
+      const height = window.innerHeight; // Equivalent to 100vh
+      this.renderer.setSize(width, height);
       this.renderer.setPixelRatio = window.devicePixelRatio
       this.renderer.domElement.classList.add("collections-canvas")
       this.container.appendChild(this.renderer.domElement)
@@ -136,9 +138,11 @@ class EffectShell {
     }
   
     onWindowResize() {
-      this.camera.aspect = this.viewport.aspectRatio
-      this.camera.updateProjectionMatrix()
-      this.renderer.setSize(this.viewport.width, this.viewport.height)
+      const width = window.innerWidth;
+      const height = window.innerHeight; // Update to viewport height
+      this.camera.aspect = width / height;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(width, height);
     }
   
     onUpdate() {}
