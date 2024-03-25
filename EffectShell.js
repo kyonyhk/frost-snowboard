@@ -23,7 +23,7 @@ class EffectShell {
       this.renderer.domElement.classList.add("collections-canvas")
       this.container.appendChild(this.renderer.domElement)
 
-      console.log(this.render.domElement)
+      console.log(this.renderer.domElement)
   
       // scene
       this.scene = new THREE.Scene()
