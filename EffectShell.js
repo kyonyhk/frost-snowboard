@@ -1,5 +1,5 @@
 class EffectShell {
-    constructor(container = document.body, itemsWrapper = null) {
+    constructor(container = document.querySelector('.section.is-collections-main'), itemsWrapper = null) {
       this.container = container
       this.itemsWrapper = itemsWrapper
       if (!this.container || !this.itemsWrapper) return
@@ -18,8 +18,8 @@ class EffectShell {
   
       // renderer
       this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-      const width = window.innerWidth;
-      const height = window.innerHeight; // Equivalent to 100vh
+      const width = this.container.offsetWidth;
+      const height = this.container.offsetHeight;
       this.renderer.setSize(width, height);
       this.renderer.setPixelRatio = window.devicePixelRatio
       this.renderer.domElement.classList.add("collections-canvas")
@@ -138,8 +138,8 @@ class EffectShell {
     }
   
     onWindowResize() {
-      const width = window.innerWidth;
-      const height = window.innerHeight; // Update to viewport height
+      const width = this.container.offsetWidth;
+      const height = this.container.offsetHeight;
       this.camera.aspect = width / height;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(width, height);
