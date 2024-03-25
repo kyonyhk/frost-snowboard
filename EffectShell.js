@@ -22,6 +22,8 @@ class EffectShell {
       this.renderer.setPixelRatio = window.devicePixelRatio
       this.renderer.domElement.classList.add("collections-canvas")
       this.container.appendChild(this.renderer.domElement)
+
+      console.log(this.render.domElement)
   
       // scene
       this.scene = new THREE.Scene()
