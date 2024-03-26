@@ -1,10 +1,9 @@
 class RGBShiftEffect extends EffectShell {
-  constructor(container = document.querySelector('.section.is-collections-main'), itemsWrapper = null, options = {}) {
+  constructor(container, itemsWrapper = null, options = {}) {
     super(container, itemsWrapper);
     if (!this.container || !this.itemsWrapper) return;
 
-    options.strength = options.strength || 0.25;
-    this.options = options;
+    this.options = options || { strength: 0.25 };
 
     this.init();
   }
