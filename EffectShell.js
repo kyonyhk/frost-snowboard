@@ -1,6 +1,7 @@
 class EffectShell {
     constructor(container = document.querySelector('.section.is-collections-main'), itemsWrapper = null) {
       this.container = container
+      console.log(container)
       this.itemsWrapper = itemsWrapper
       if (!this.container || !this.itemsWrapper) return
       this.setup()
