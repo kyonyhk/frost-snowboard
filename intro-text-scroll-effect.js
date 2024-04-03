@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   tl.from(splitType.words, {
     duration: 1.5,
-    x: 20,
+    x: -20,
     opacity: 0,
     stagger: 0.2,
     ease: "power4.inOut",
