@@ -1,6 +1,6 @@
 const text = document.querySelector(".h-h2.is-intro");
 const span = document.querySelector(".h-h2.is-intro.is-span");
-const splineElement = document.querySelector("intro-3d-scene_wrap");
+const splineElement = document.querySelector(".3d-element.is-intro");
 
 console.log(text)
 
