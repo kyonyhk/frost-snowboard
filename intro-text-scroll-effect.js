@@ -6,6 +6,7 @@ const blurOverlay = document.querySelector(".section.is-blur-overlay");
 
 console.log(text)
 console.log(splineElement)
+console.log(blurOverlay)
 
 const splitType = new SplitType(text);
 const splitTypeSpan = new SplitType(span);
