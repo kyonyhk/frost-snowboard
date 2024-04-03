@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       end: "bottom 80%",
       toggleActions: "play pause resume reverse",
       scrub: true,
-      markers: true,
+      markers: {startColor: "white", endColor: "white"},
     },
   });
 
