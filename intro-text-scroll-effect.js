@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
   const tlSpline = gsap.timeline({
     scrollTrigger: {
       trigger: splineElement,
-      start: "top 80%",
-      end: "bottom 80%",
+      start: "top 40%",
+      end: "bottom bottom",
       toggleActions: "play pause resume reverse",
       scrub: true,
       markers: {startColor: "white", endColor: "white"},
