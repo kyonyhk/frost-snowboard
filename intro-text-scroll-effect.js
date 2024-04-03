@@ -3,6 +3,7 @@ const span = document.querySelector(".h-h2.is-intro.is-span");
 const splineElement = document.querySelector(".3d-element.is-intro");
 
 console.log(text)
+console.log(splineElement)
 
 const splitType = new SplitType(text);
 const splitTypeSpan = new SplitType(span);
