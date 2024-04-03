@@ -82,6 +82,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   tlCollectionBlur.to(blurOverlay, {
     opacity: 100,
-    ease: "power4.out"
-  }
+    ease: "power4.out",
+  })
  });
