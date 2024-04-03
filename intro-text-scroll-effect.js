@@ -31,8 +31,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
   });
   
   tl.from(splineElement, {
-    duration: 3,
-    yPercent: -10,
+    duration: 5,
+    yPercent: -30,
     opacity: 0,
     ease: "power4.out",
   }, "<")
