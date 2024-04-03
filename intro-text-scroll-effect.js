@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     duration: 5,
     yPercent: -30,
     opacity: 0,
-    ease: "power4.out",
+    ease: "power1.out",
   }, "<")
   
   tl.to(splitTypeSpan.words, {
