@@ -71,7 +71,7 @@ class RGBShiftEffect extends EffectShell {
     if (!this.currentItem || !this.isMouseOver) {
       this.isMouseOver = true
       // show plane
-      TweenLite.to(this.uniforms.uAlpha, 0.5, {
+      gsap.to(this.uniforms.uAlpha, 0.5, {
         value: 1,
         ease: Power4.easeOut
       })
@@ -79,7 +79,7 @@ class RGBShiftEffect extends EffectShell {
   }
 
   onMouseLeave(event) {
-    TweenLite.to(this.uniforms.uAlpha, 0.5, {
+    gsap.to(this.uniforms.uAlpha, 0.5, {
       value: 0,
       ease: Power4.easeOut
     })
@@ -101,7 +101,7 @@ class RGBShiftEffect extends EffectShell {
     )
 
     this.position = new THREE.Vector3(x, y, 0)
-    TweenLite.to(this.plane.position, 1, {
+    gsap.to(this.plane.position, 1, {
       x: x,
       y: y,
       ease: Power4.easeOut,
