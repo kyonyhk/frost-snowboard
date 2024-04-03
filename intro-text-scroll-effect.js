@@ -1,6 +1,8 @@
 const text = document.querySelector(".h-h2.is-intro");
 const span = document.querySelector(".h-h2.is-intro.is-span");
 const splineElement = document.querySelector(".three-d-element.is-intro");
+const collectionsSection = document.querySelector(".section.is-collections-main");
+const blurOverlay = document.querySelector(".section.is-blur-overlay");
 
 console.log(text)
 console.log(splineElement)
@@ -34,6 +36,28 @@ document.addEventListener("DOMContentLoaded", (event) => {
     },
   });
 
+  const tlCollectionsBlur = gsap.timeline({
+    scrollTrigger: {
+      trigger: collectionsSection,
+      start: "top bottom",
+      end: "bottom 80%",
+      toggleActions: "play pause resume reverse",
+      scrub: true,
+      markers: {startColor: "orange", endColor: "orange"},
+    }
+  })
+
+  const tlCollections = gsap.timeline({
+    scrollTrigger: {
+      trigger: collectionsSection,
+      start: "top 40%",
+      end: "bottom bottom",
+      toggleActions: "play pause resume reverse",
+      scrub: true,
+      markers: {startColor: "orange", endColor: "orange"},
+    }
+  })
+
   tl.from(splitType.words, {
     duration: 1.5,
     x: -20,
@@ -51,8 +75,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   tlSpline.from(splineElement, {
     duration: 1,
-    yPercent: 10,
+    yPercent: -10,
     opacity: 0,
     ease: "power1.out",
   }, "<")
+
+  tlCollectionBlur.to(blurOverlay, {
+    opacity: 100,
+    ease: "power4.out"
+  }
  });
