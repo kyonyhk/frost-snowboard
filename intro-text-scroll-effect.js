@@ -23,6 +23,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
     },
   });
 
+  const tlSpline = gsap.timeline({
+    scrollTrigger: {
+      trigger: splineElement,
+      start: "top 80%",
+      end: "bottom 80%",
+      toggleActions: "play pause resume reverse",
+      scrub: true,
+      markers: true,
+    },
+  });
+
   tl.from(splitType.words, {
     duration: 1.5,
     x: 20,
@@ -31,17 +42,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
     ease: "power4.inOut",
   });
   
-  tl.from(splineElement, {
-    duration: 5,
-    yPercent: -30,
-    opacity: 0,
-    ease: "power1.out",
-  }, "<")
-  
   tl.to(splitTypeSpan.words, {
     duration: 1,
     color: "#A1FCCF",
     stagger: 0.05,
     ease: "power4.inOut",
   });
+
+  tlSpline.from(splineElement, {
+    duration: 1,
+    yPercent: -30,
+    opacity: 0,
+    ease: "power1.out",
+  }, "<")
  });
