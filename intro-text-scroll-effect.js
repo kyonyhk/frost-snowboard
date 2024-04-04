@@ -4,7 +4,6 @@ const splineElement = document.querySelector(".three-d-element.is-intro");
 
 console.log(text)
 console.log(splineElement)
-console.log(blurOverlay)
 
 const splitType = new SplitType(text);
 const splitTypeSpan = new SplitType(span);
