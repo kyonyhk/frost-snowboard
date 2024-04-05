@@ -71,7 +71,7 @@
     hLines.forEach((line, index) => {
       gsap.fromTo(line, { x: -canvas.width, opacity: 0 }, {
         x: 0,
-        opacity: 0.5,
+        opacity: 0.1,
         duration: 1,
         delay: index * 0.02,
         onUpdate: drawLines,
@@ -83,7 +83,7 @@
       vLines.forEach((line, index) => {
         gsap.fromTo(line, { y: canvas.height, opacity: 0 }, {
           y: -lineSpacing,
-          opacity: 0.5,
+          opacity: 0.1,
           duration: 1,
           delay: index * 0.02,
           onUpdate: drawLines,
