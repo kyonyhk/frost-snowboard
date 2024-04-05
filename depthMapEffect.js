@@ -243,7 +243,10 @@
             })();
         function c(t, e) {
             var i = new Image();
-            return (i.src = t), (i.onload = e), i;
+            i.crossOrigin = 'anonymous'; // Add this line
+            i.src = t;
+            i.onload = e;
+            return i;
         }
         function h(t, e, i, a) {
             (this.name = t), (this.suffix = e), (this.gl = a), (this.program = i), (this.location = a.getUniformLocation(i, t));
