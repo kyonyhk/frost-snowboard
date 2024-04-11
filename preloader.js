@@ -28,19 +28,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function animateTagline() {
     var tagline = document.querySelector('.s-s4.is-loading.is-tagline');
-    var mySplitText = new SplitText(tagline, {type: "chars"});
-    var chars = mySplitText.chars; // An array of all the characters
+    var split = new SplitType(tagline, { types: 'chars' });
 
-    gsap.from(chars, {
+    gsap.from(split.chars, {
       duration: 0.5,
       opacity: 0,
       yPercent: 100,
       stagger: 0.05,
-      ease: "expo.out",
-      onComplete: function() {
-        // Clean up SplitText to avoid memory leaks
-        mySplitText.revert();
-      }
+      ease: "expo.out"
     });
   }
 });
