@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function scrambleCharacter(char, originalText) {
-    let possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let scrambleInterval = setInterval(() => {
       char.textContent = possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
     }, 50);
