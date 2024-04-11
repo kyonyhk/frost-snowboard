@@ -26,14 +26,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }, 20);
 
-  function animateTagline() {
-    var tagline = document.querySelector('.s-s4.is-loading.is-tagline');
+function animateTagline() {
+  var tagline = document.querySelector('.s-s4.is-loading.is-tagline');
+  var split = new SplitType(tagline, { types: 'chars' });
 
-    gsap.from(tagline, {
-      duration: 0.5,
-      opacity: 0,
-      yPercent: 100,
-      ease: "power4.out"
-    });
-  }
-});
+  // Scramble text effect
+  gsap.to(split.chars, {
+    duration: 0.5,
+    scrambleText: {
+      text: "CONQUER YOUR NEXT SEASON",
+      chars: "01Frost Quakeshift CoreFeel the terrain, not the tremors. Watch as Frost's QuakeShift Core absorbs the shock of rugged landscapes, keeping your ride smooth. It's the silent guardian in your board, ensuring each run is as steady as it is exhilarating.",
+      revealDelay: 0.5,
+      tweenLength: false
+    },
+    stagger: 0.05,
+    ease: "power4.out"
+  });
+}
+
