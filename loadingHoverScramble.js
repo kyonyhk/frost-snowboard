@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const button = document.querySelector('.loading_button-container');
-  const textElement = document.querySelector('.s-s4.is-loading.is-preloader');
+  const textElement = document.querySelector('.s-s4.is-loading.is-tagline');
   let originalText = textElement.textContent;
   let isScrambling = false;
 
