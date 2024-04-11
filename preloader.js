@@ -31,68 +31,73 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 20);
 
   function createCharacterSpans(textElement, text) {
-      textElement.innerHTML = ''; // Clear existing content
-      text.split('').forEach(char => {
-          const span = document.createElement('span');
-          span.textContent = char;
-          textElement.appendChild(span);
-      });
+    textElement.innerHTML = ''; // Clear existing content
+    text.split('').forEach(char => {
+      const span = document.createElement('span');
+      span.textContent = char;
+      textElement.appendChild(span);
+    });
   }
 
   function animateTagline() {
-      var tagline = document.querySelector('.s-s4.is-loading.is-tagline');
+    var tagline = document.querySelector('.s-s4.is-loading.is-tagline');
+    tagline.style.opacity = 0.2; // Reduce opacity for the entire tagline during the animation
   
-      // Create spans for each character in the tagline
-      createCharacterSpans(tagline, tagline.textContent);
+    // Create spans for each character in the tagline
+    createCharacterSpans(tagline, tagline.textContent);
   
-      // Animate each character
-      Array.from(tagline.children).forEach((charSpan, index) => {
-          gsap.fromTo(charSpan, 
-              { opacity: 0 }, 
-              { 
-                  opacity: 1, 
-                  duration: 0.5, 
-                  onStart: () => scrambleCharacter(charSpan, charSpan.textContent),
-                  ease: "power4.out"
-              }
-          );
-      });
+    // Animate each character
+    Array.from(tagline.children).forEach((charSpan, index) => {
+      gsap.fromTo(charSpan, 
+        { opacity: 0 }, 
+        { 
+          opacity: 1, 
+          duration: 0.5, 
+          onStart: () => scrambleCharacter(charSpan, charSpan.textContent),
+          ease: "power4.out",
+          onComplete: () => {
+            if (index === tagline.children.length - 1) {
+              tagline.style.opacity = 1; // Reset opacity once all characters are done animating
+            }
+          }
+        }
+      );
+    });
   }
 
   function scrambleCharacter(char, originalText) {
-      let textElement = char.parentNode; // Get the parent element which is .s-s4.is-loading.is-tagline
-      textElement.style.opacity = 0.2; // Reduce opacity when animation starts
-      let possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let scrambleInterval = setInterval(() => {
-          char.textContent = possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
-      }, 50);
-  
-      setTimeout(() => {
-          clearInterval(scrambleInterval);
-          char.textContent = originalText;
-          if (Array.from(textElement.children).every(span => span.textContent === originalText)) {
-              textElement.style.opacity = 1; // Reset opacity once all characters are done animating
-          }
-      }, 500); // This duration should match the GSAP animation duration
+    let possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let scrambleInterval = setInterval(() => {
+      char.textContent = possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+    }, 50);
+
+    setTimeout(() => {
+      clearInterval(scrambleInterval);
+      char.textContent = originalText;
+    }, 500);
   }
 
   function initializeHoverEffect() {
     const button = document.querySelector('.loading_button-container');
     const textElement = document.querySelector('.s-s4.is-loading.is-tagline');
-    const originalText = "UNVEIL FROST"; // Default text
-    const alternateText = "CONQUER THE SEASON"; // Text to toggle to
+    const originalText = "UNVEIL FROST";
+    const alternateText = "CONQUER THE SEASON";
 
     if (button && textElement) {
-        button.addEventListener('mouseover', function() {
-            const currentText = textElement.textContent;
-            const newText = currentText === originalText ? alternateText : originalText;
-            createCharacterSpans(textElement, newText); // Update text with character spans
+      button.addEventListener('mouseover', function() {
+        textElement.style.opacity = 0.2; // Reduce opacity during hover effect
+        const currentText = textElement.textContent;
+        const newText = currentText === originalText ? alternateText : originalText;
+        createCharacterSpans(textElement, newText); // Update text with character spans
 
-            // Apply scramble effect to each character
-            Array.from(textElement.children).forEach((charSpan, index) => {
-                scrambleCharacter(charSpan, newText[index]);
-            });
+        // Apply scramble effect to each character
+        Array.from(textElement.children).forEach((charSpan, index) => {
+          scrambleCharacter(charSpan, newText[index]);
+          if (index === textElement.children.length - 1) {
+            textElement.style.opacity = 1; // Reset opacity once all characters are done animating
+          }
         });
+      });
     }
   }
 });
