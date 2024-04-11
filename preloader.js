@@ -60,15 +60,20 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function scrambleCharacter(char, originalText) {
-    let possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let scrambleInterval = setInterval(() => {
-      char.textContent = possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
-    }, 50);
-
-    setTimeout(() => {
-      clearInterval(scrambleInterval);
-      char.textContent = originalText;
-    }, 500); // This duration should match the GSAP animation duration
+      let textElement = char.parentNode; // Get the parent element which is .s-s4.is-loading.is-tagline
+      textElement.style.opacity = 0.2; // Reduce opacity when animation starts
+      let possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      let scrambleInterval = setInterval(() => {
+          char.textContent = possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+      }, 50);
+  
+      setTimeout(() => {
+          clearInterval(scrambleInterval);
+          char.textContent = originalText;
+          if (Array.from(textElement.children).every(span => span.textContent === originalText)) {
+              textElement.style.opacity = 1; // Reset opacity once all characters are done animating
+          }
+      }, 500); // This duration should match the GSAP animation duration
   }
 
   function initializeHoverEffect() {
