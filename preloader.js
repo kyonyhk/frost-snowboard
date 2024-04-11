@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (load >= 100) {
       clearInterval(interval);
+      setTimeout(function() {
+        preloader.style.opacity = '0';
+        preloader.style.transition = 'opacity 1s ease-out';
+        preloader.style.transitionTimingFunction = 'cubic-bezier(0.19, 1, 0.22, 1)'; 
+      }, 1000); // 
     }
   }, 20); 
 });
