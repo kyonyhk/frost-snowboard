@@ -28,14 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function animateTagline() {
     var tagline = document.querySelector('.s-s4.is-loading.is-tagline');
-    var split = new SplitType(tagline, { types: 'chars' });
 
-    gsap.from(split.chars, {
+    gsap.from(tagline, {
       duration: 0.5,
       opacity: 0,
       yPercent: 100,
-      stagger: 0.05,
-      ease: "expo.out"
+      ease: "power4.out"
     });
   }
 });
