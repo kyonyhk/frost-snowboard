@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function initializeHoverEffect() {
     const button = document.querySelector('.loading_button-container');
-    const textElement = document.querySelector('.s-s4.is-loading.is-preloader');
+    const textElement = document.querySelector('.s-s4.is-loading.is-tagline');
     if (button && textElement) {
       const originalText = textElement.textContent;
       const chars = [...originalText]; // Convert string to array of characters
