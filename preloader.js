@@ -31,21 +31,23 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 20);
 
   function animateTagline() {
-    var tagline = document.querySelector('.s-s4.is-loading.is-tagline');
-    var split = new SplitType(tagline, { types: 'chars' });
-
-    split.chars.forEach(char => {
-      let originalText = char.textContent;
-      gsap.fromTo(char, 
-        { opacity: 0 }, 
-        { 
-          opacity: 1, 
-          duration: 0.5, 
-          onStart: () => scrambleCharacter(char, originalText),
-          ease: "power4.out"
-        }
-      );
-    });
+      var tagline = document.querySelector('.s-s4.is-loading.is-tagline');
+  
+      // Create spans for each character in the tagline
+      createCharacterSpans(tagline.textContent);
+  
+      // Animate each character
+      Array.from(tagline.children).forEach((charSpan, index) => {
+          gsap.fromTo(charSpan, 
+              { opacity: 0 }, 
+              { 
+                  opacity: 1, 
+                  duration: 0.5, 
+                  onStart: () => scrambleCharacter(charSpan, charSpan.textContent),
+                  ease: "power4.out"
+              }
+          );
+      });
   }
 
   function scrambleCharacter(char, originalText) {
