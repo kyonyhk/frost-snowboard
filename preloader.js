@@ -26,21 +26,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }, 20);
 
-function animateTagline() {
+  function animateTagline() {
   var tagline = document.querySelector('.s-s4.is-loading.is-tagline');
   var split = new SplitType(tagline, { types: 'chars' });
 
-  // Scramble text effect
-  gsap.to(split.chars, {
-    duration: 0.5,
-    scrambleText: {
-      text: "CONQUER YOUR NEXT SEASON",
-      chars: "01Frost Quakeshift CoreFeel the terrain, not the tremors. Watch as Frost's QuakeShift Core absorbs the shock of rugged landscapes, keeping your ride smooth. It's the silent guardian in your board, ensuring each run is as steady as it is exhilarating.",
-      revealDelay: 0.5,
-      tweenLength: false
-    },
-    stagger: 0.05,
-    ease: "power4.out"
+  split.chars.forEach(char => {
+    let originalText = char.textContent;
+    gsap.fromTo(char, 
+      { opacity: 0 }, 
+      { 
+        opacity: 1, 
+        duration: 0.5, 
+        onStart: () => scrambleCharacter(char, originalText),
+        ease: "power4.out"
+      }
+    );
   });
+}
+
+  function scrambleCharacter(char, originalText) {
+    let possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let scrambleInterval = setInterval(() => {
+      char.textContent = possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+    }, 50);
+  
+    setTimeout(() => {
+      clearInterval(scrambleInterval);
+      char.textContent = originalText;
+    }, 500); // Duration should match the GSAP animation duration
+  }
 }
 
