@@ -66,22 +66,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const originalText = "UNVEIL FROST"; // Default text
     const alternateText = "CONQUER THE SEASON"; // Text to toggle to
 
-    console.log('initializeHoverEffect - button:', button);
-    console.log('initializeHoverEffect - textElement:', textElement);
+    // Create spans for each character in the original text
+    function createCharacterSpans(text) {
+        textElement.innerHTML = ''; // Clear existing content
+        text.split('').forEach(char => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            textElement.appendChild(span);
+        });
+    }
+
+    createCharacterSpans(originalText); // Initialize with original text
 
     if (button && textElement) {
         button.addEventListener('mouseover', function() {
-            console.log('Hover effect triggered');
-            textElement.textContent = textElement.textContent === originalText ? alternateText : originalText;
-            let chars = textElement.textContent.split('');
-            chars.forEach((char, index) => {
-                // Make sure the childNodes[index] is a text node
-                if (textElement.childNodes[index] && textElement.childNodes[index].nodeType === Node.TEXT_NODE) {
-                    scrambleCharacter(textElement.childNodes[index], char);
-                }
+            const currentText = textElement.textContent;
+            const newText = currentText === originalText ? alternateText : originalText;
+            createCharacterSpans(newText); // Update text with character spans
+
+            // Apply scramble effect to each character
+            Array.from(textElement.children).forEach((charSpan, index) => {
+                scrambleCharacter(charSpan, newText[index]);
             });
         });
     }
-}
-
+  }
 });
