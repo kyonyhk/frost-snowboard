@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
           // Ensure the changes have been rendered
           requestAnimationFrame(() => {
             animateTagline();
+            // Initialize hover effect after the tagline is displayed
+            initializeHoverEffect();
           });
         }, 1000); // Matches the duration of the opacity transition
       }, 1000);
@@ -56,5 +58,21 @@ document.addEventListener('DOMContentLoaded', function() {
       clearInterval(scrambleInterval);
       char.textContent = originalText;
     }, 500); // This duration should match the GSAP animation duration
+  }
+
+  function initializeHoverEffect() {
+    const button = document.querySelector('.loading_button-container');
+    const textElement = document.querySelector('.s-s4.is-loading.is-preloader');
+    if (button && textElement) {
+      const originalText = textElement.textContent;
+      const chars = [...originalText]; // Convert string to array of characters
+
+      button.addEventListener('mouseover', function() {
+        chars.forEach((char, index) => {
+          // Apply scrambleCharacter to each character
+          scrambleCharacter(textElement.childNodes[index], char);
+        });
+      });
+    }
   }
 });
