@@ -93,11 +93,20 @@ document.addEventListener('DOMContentLoaded', function() {
         // Apply scramble effect to each character
         Array.from(textElement.children).forEach((charSpan, index) => {
           scrambleCharacter(charSpan, newText[index]);
+          // Check if this is the last character
           if (index === textElement.children.length - 1) {
-            textElement.style.opacity = 1; // Reset opacity once all characters are done animating
+            // After the last character's animation completes, reset the opacity
+            gsap.to(charSpan, {
+              opacity: 1, 
+              duration: 0.5,
+              onComplete: () => {
+                textElement.style.opacity = 1; // Reset opacity after all characters are done
+              }
+            });
           }
         });
       });
     }
   }
+
 });
