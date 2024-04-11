@@ -63,16 +63,25 @@ document.addEventListener('DOMContentLoaded', function() {
   function initializeHoverEffect() {
     const button = document.querySelector('.loading_button-container');
     const textElement = document.querySelector('.s-s4.is-loading.is-tagline');
-    if (button && textElement) {
-      const originalText = textElement.textContent;
-      const chars = [...originalText]; // Convert string to array of characters
+    const originalText = "UNVEIL FROST"; // Default text
+    const alternateText = "CONQUER THE SEASON"; // Text to toggle to
 
-      button.addEventListener('mouseover', function() {
-        chars.forEach((char, index) => {
-          // Apply scrambleCharacter to each character
-          scrambleCharacter(textElement.childNodes[index], char);
+    console.log('initializeHoverEffect - button:', button);
+    console.log('initializeHoverEffect - textElement:', textElement);
+
+    if (button && textElement) {
+        button.addEventListener('mouseover', function() {
+            console.log('Hover effect triggered');
+            textElement.textContent = textElement.textContent === originalText ? alternateText : originalText;
+            let chars = textElement.textContent.split('');
+            chars.forEach((char, index) => {
+                // Make sure the childNodes[index] is a text node
+                if (textElement.childNodes[index] && textElement.childNodes[index].nodeType === Node.TEXT_NODE) {
+                    scrambleCharacter(textElement.childNodes[index], char);
+                }
+            });
         });
-      });
     }
-  }
+}
+
 });
