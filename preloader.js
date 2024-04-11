@@ -30,11 +30,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }, 20);
 
+  function createCharacterSpans(textElement, text) {
+      textElement.innerHTML = ''; // Clear existing content
+      text.split('').forEach(char => {
+          const span = document.createElement('span');
+          span.textContent = char;
+          textElement.appendChild(span);
+      });
+  }
+
   function animateTagline() {
       var tagline = document.querySelector('.s-s4.is-loading.is-tagline');
   
       // Create spans for each character in the tagline
-      createCharacterSpans(tagline.textContent);
+      createCharacterSpans(tagline, tagline.textContent);
   
       // Animate each character
       Array.from(tagline.children).forEach((charSpan, index) => {
@@ -68,23 +77,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const originalText = "UNVEIL FROST"; // Default text
     const alternateText = "CONQUER THE SEASON"; // Text to toggle to
 
-    // Create spans for each character in the original text
-    function createCharacterSpans(text) {
-        textElement.innerHTML = ''; // Clear existing content
-        text.split('').forEach(char => {
-            const span = document.createElement('span');
-            span.textContent = char;
-            textElement.appendChild(span);
-        });
-    }
-
-    createCharacterSpans(originalText); // Initialize with original text
-
     if (button && textElement) {
         button.addEventListener('mouseover', function() {
             const currentText = textElement.textContent;
             const newText = currentText === originalText ? alternateText : originalText;
-            createCharacterSpans(newText); // Update text with character spans
+            createCharacterSpans(textElement, newText); // Update text with character spans
 
             // Apply scramble effect to each character
             Array.from(textElement.children).forEach((charSpan, index) => {
