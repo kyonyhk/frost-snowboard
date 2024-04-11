@@ -18,8 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
           loadingCounterWrap.style.display = 'none';
           loadingTaglineWrap.style.display = 'block';
-          animateTagline();
-        }, 1000);
+
+          // Ensure the changes have been rendered
+          requestAnimationFrame(() => {
+            animateTagline();
+          });
+        }, 1000); // Matches the duration of the opacity transition
       }, 1000);
     }
   }, 20);
@@ -51,6 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
       clearInterval(scrambleInterval);
       char.textContent = originalText;
-    }, 500);
+    }, 500); // This duration should match the GSAP animation duration
   }
-}); // This closing curly brace and parenthesis were missing
+});
