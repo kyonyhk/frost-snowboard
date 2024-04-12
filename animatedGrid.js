@@ -62,7 +62,6 @@
     start: "top 50%",
     end: "bottom bottom",
     scrub: true,
-    markers: true,
     onEnter: () => animateLines(),
     once: true,
   });
