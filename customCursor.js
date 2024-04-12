@@ -5,13 +5,13 @@ document.addEventListener('mousemove', function(e) {
 });
 
 document.addEventListener('mouseover', function(e) {
-    if (e.target.matches('a, button, input[type="submit"]')) { // Match clickable elements
+    if (e.target.matches('a, button, input[type="button"], input[type="submit"], label[for], select, .custom-link, .is-clickable')) { // Match clickable elements
         document.querySelector('.glow-effect').style.display = 'block';
     }
 });
 
 document.addEventListener('mouseout', function(e) {
-    if (e.target.matches('a, button, input[type="submit"]')) {
+    if (e.target.matches('a, button, input[type="button"], input[type="submit"], label[for], select, .custom-link, .is-clickable')) {
         document.querySelector('.glow-effect').style.display = 'none';
     }
 });
