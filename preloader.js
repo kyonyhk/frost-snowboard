@@ -3,13 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
   var loadingCounterWrap = document.querySelector('.loading_counter-wrap');
   var loadingTaglineWrap = document.querySelector('.loading_tagline-wrap');
   var app = document.querySelector('.app');
-
-  // Disable scrolling on the app when the preloader is active
-  if (app) {
-    app.style.overflow = 'hidden';
-  }
-
+  var preloaderSection = document.querySelector('.section.is-loading');
   var load = 0;
+  
+  // Initial scroll lock
+  app.style.overflow = 'hidden';
+
   var interval = setInterval(function() {
     load++;
     if (preloader) {
@@ -21,26 +20,32 @@ document.addEventListener('DOMContentLoaded', function() {
         preloader.style.opacity = '0';
         preloader.style.transition = 'opacity 1s ease-out';
         preloader.style.transitionTimingFunction = 'cubic-bezier(0.19, 1, 0.22, 1)';
-
+        
         setTimeout(function() {
           loadingCounterWrap.style.display = 'none';
           loadingTaglineWrap.style.display = 'block';
 
-          // Re-enable scrolling on the app when the preloader is done
-          if (app) {
-            app.style.overflow = '';
-          }
-
           // Ensure the changes have been rendered
           requestAnimationFrame(() => {
             animateTagline();
-            // Initialize hover effect after the tagline is displayed
             initializeHoverEffect();
           });
         }, 1000); // Matches the duration of the opacity transition
       }, 1000);
     }
   }, 20);
+
+  preloaderSection.addEventListener('transitionend', function(event) {
+    // Ensure we're listening for the end of the correct transition (e.g., opacity)
+    if (event.propertyName === 'opacity' && getComputedStyle(preloaderSection).opacity == '0') {
+      onHeroAnimationComplete();
+    }
+  });
+
+  function onHeroAnimationComplete() {
+    // Unlock scroll
+    app.style.overflow = '';
+  }
 
   function createCharacterSpans(textElement, text) {
     textElement.innerHTML = '';
@@ -54,21 +59,24 @@ document.addEventListener('DOMContentLoaded', function() {
   function animateTagline() {
     var tagline = document.querySelector('.s-s4.is-loading.is-tagline');
     tagline.style.opacity = 0.2;
-
+  
     createCharacterSpans(tagline, tagline.textContent);
-
+  
     Array.from(tagline.children).forEach((charSpan, index) => {
-      gsap.fromTo(charSpan, { opacity: 0 }, { 
-        opacity: 1, 
-        duration: 0.5, 
-        onStart: () => scrambleCharacter(charSpan, charSpan.textContent),
-        ease: "power4.out",
-        onComplete: () => {
-          if (index === tagline.children.length - 1) {
-            tagline.style.opacity = 1;
+      gsap.fromTo(charSpan, 
+        { opacity: 0 }, 
+        { 
+          opacity: 1, 
+          duration: 0.5, 
+          onStart: () => scrambleCharacter(charSpan, charSpan.textContent),
+          ease: "power4.out",
+          onComplete: () => {
+            if (index === tagline.children.length - 1) {
+              tagline.style.opacity = 1;
+            }
           }
         }
-      });
+      );
     });
   }
 
@@ -106,4 +114,5 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
   }
+
 });
