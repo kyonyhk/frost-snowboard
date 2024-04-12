@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout(function() {
         // Unlock scrolling by removing the class from the body
         document.body.classList.remove('no-scroll');
-      }, 2000); // Adjust this timeout to match the duration of your animation
+      }, 5550); // Adjust this timeout to match the duration of your animation
     });
   }
 
