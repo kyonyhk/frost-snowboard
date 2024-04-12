@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var preloader = document.querySelector('.s-s3.is-loading');
   var loadingCounterWrap = document.querySelector('.loading_counter-wrap');
   var loadingTaglineWrap = document.querySelector('.loading_tagline-wrap');
+  var button = document.querySelector('.loading_button-container');
   var preloaderSection = document.querySelector('.section.is-loading');
   var load = 0;
 
