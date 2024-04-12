@@ -87,24 +87,43 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 500);
   }
 
-  function initializeHoverEffect() {
+    function initializeHoverEffect() {
     const button = document.querySelector('.loading_button-container');
     const textElement = document.querySelector('.s-s4.is-loading.is-tagline');
     const originalText = "UNVEIL FROST";
     const alternateText = "CONQUER THE SEASON";
-
+  
     if (button && textElement) {
-      button.addEventListener('mouseover', function() {
-        textElement.style.opacity = 0.2;
-        const currentText = textElement.textContent;
+      button.addEventListener('mouseover', () => {
+        // When hovering over the button, change the text and apply effects to the tagline
+        const currentText = textElement.textContent.trim();
         const newText = currentText === originalText ? alternateText : originalText;
         createCharacterSpans(textElement, newText);
-
+  
+        // Apply the hover effect to the tagline, not the button
         Array.from(textElement.children).forEach((charSpan, index) => {
           scrambleCharacter(charSpan, newText[index]);
-          if (index === textElement.children.length - 1) {
-            textElement.style.opacity = 1;
-          }
+          gsap.to(charSpan, {
+            opacity: 0.2,
+            duration: 0.5,
+            repeat: 1,
+            yoyo: true,
+            onComplete: () => {
+              if (index === textElement.children.length - 1) {
+                // Once the last character's animation completes, set the text to its final value
+                createCharacterSpans(textElement, newText);
+              }
+            }
+          });
+        });
+      });
+  
+      button.addEventListener('mouseleave', () => {
+        // Reset the text and opacity when no longer hovering over the button
+        createCharacterSpans(textElement, originalText);
+        gsap.to(textElement.children, {
+          opacity: 1,
+          duration: 0.5
         });
       });
     }
