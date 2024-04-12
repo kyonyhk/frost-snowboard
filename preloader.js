@@ -3,6 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
   var loadingCounterWrap = document.querySelector('.loading_counter-wrap');
   var loadingTaglineWrap = document.querySelector('.loading_tagline-wrap');
   var app = document.querySelector('.app');
+
+  // Disable scrolling on the app when the preloader is active
+  if (app) {
+    app.style.overflow = 'hidden';
+  }
+
   var load = 0;
   var interval = setInterval(function() {
     load++;
@@ -15,11 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
         preloader.style.opacity = '0';
         preloader.style.transition = 'opacity 1s ease-out';
         preloader.style.transitionTimingFunction = 'cubic-bezier(0.19, 1, 0.22, 1)';
-        
+
         setTimeout(function() {
           loadingCounterWrap.style.display = 'none';
           loadingTaglineWrap.style.display = 'block';
-          app.style.overflow = '';
+
+          // Re-enable scrolling on the app when the preloader is done
+          if (app) {
+            app.style.overflow = '';
+          }
 
           // Ensure the changes have been rendered
           requestAnimationFrame(() => {
@@ -32,10 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }, 20);
 
-  app.style.overflow = 'hidden';
-
   function createCharacterSpans(textElement, text) {
-    textElement.innerHTML = ''; // Clear existing content
+    textElement.innerHTML = '';
     text.split('').forEach(char => {
       const span = document.createElement('span');
       span.textContent = char;
@@ -45,27 +53,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function animateTagline() {
     var tagline = document.querySelector('.s-s4.is-loading.is-tagline');
-    tagline.style.opacity = 0.2; // Reduce opacity for the entire tagline during the animation
-  
-    // Create spans for each character in the tagline
+    tagline.style.opacity = 0.2;
+
     createCharacterSpans(tagline, tagline.textContent);
-  
-    // Animate each character
+
     Array.from(tagline.children).forEach((charSpan, index) => {
-      gsap.fromTo(charSpan, 
-        { opacity: 0 }, 
-        { 
-          opacity: 1, 
-          duration: 0.5, 
-          onStart: () => scrambleCharacter(charSpan, charSpan.textContent),
-          ease: "power4.out",
-          onComplete: () => {
-            if (index === tagline.children.length - 1) {
-              tagline.style.opacity = 1; // Reset opacity once all characters are done animating
-            }
+      gsap.fromTo(charSpan, { opacity: 0 }, { 
+        opacity: 1, 
+        duration: 0.5, 
+        onStart: () => scrambleCharacter(charSpan, charSpan.textContent),
+        ease: "power4.out",
+        onComplete: () => {
+          if (index === tagline.children.length - 1) {
+            tagline.style.opacity = 1;
           }
         }
-      );
+      });
     });
   }
 
@@ -89,28 +92,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (button && textElement) {
       button.addEventListener('mouseover', function() {
-        textElement.style.opacity = 0.2; // Reduce opacity during hover effect
+        textElement.style.opacity = 0.2;
         const currentText = textElement.textContent;
         const newText = currentText === originalText ? alternateText : originalText;
-        createCharacterSpans(textElement, newText); // Update text with character spans
+        createCharacterSpans(textElement, newText);
 
-        // Apply scramble effect to each character
         Array.from(textElement.children).forEach((charSpan, index) => {
           scrambleCharacter(charSpan, newText[index]);
-          // Check if this is the last character
           if (index === textElement.children.length - 1) {
-            // After the last character's animation completes, reset the opacity
-            gsap.to(charSpan, {
-              opacity: 1, 
-              duration: 0.5,
-              onComplete: () => {
-                textElement.style.opacity = 1; // Reset opacity after all characters are done
-              }
-            });
+            textElement.style.opacity = 1;
           }
         });
       });
     }
   }
-
 });
