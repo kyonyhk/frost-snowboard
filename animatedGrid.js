@@ -59,7 +59,7 @@
   gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.create({
     trigger: canvas,
-    start: "top 70%",
+    start: "top 50%",
     end: "bottom bottom",
     scrub: true,
     markers: true,
@@ -71,7 +71,7 @@
     hLines.forEach((line, index) => {
       gsap.fromTo(line, { x: -canvas.width, opacity: 0 }, {
         x: 0,
-        opacity: 0.1,
+        opacity: 0.2,
         duration: 1,
         delay: index * 0.02,
         onUpdate: drawLines,
@@ -83,7 +83,7 @@
       vLines.forEach((line, index) => {
         gsap.fromTo(line, { y: canvas.height, opacity: 0 }, {
           y: -lineSpacing,
-          opacity: 0.1,
+          opacity: 0.2,
           duration: 1,
           delay: index * 0.02,
           onUpdate: drawLines,
