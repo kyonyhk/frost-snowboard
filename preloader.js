@@ -1,13 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+  document.body.classList.add('no-scroll');
   var preloader = document.querySelector('.s-s3.is-loading');
   var loadingCounterWrap = document.querySelector('.loading_counter-wrap');
   var loadingTaglineWrap = document.querySelector('.loading_tagline-wrap');
-  var app = document.querySelector('.app');
   var preloaderSection = document.querySelector('.section.is-loading');
   var load = 0;
-  
-  // Initial scroll lock
-  app.style.overflow = 'hidden';
 
   var interval = setInterval(function() {
     load++;
@@ -35,16 +32,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }, 20);
 
-  preloaderSection.addEventListener('transitionend', function(event) {
-    // Ensure we're listening for the end of the correct transition (e.g., opacity)
-    if (event.propertyName === 'opacity' && getComputedStyle(preloaderSection).opacity == '0') {
-      onHeroAnimationComplete();
-    }
-  });
-
-  function onHeroAnimationComplete() {
-    // Unlock scroll
-    app.style.overflow = '';
+    if (button) {
+    button.addEventListener('click', function() {
+      setTimeout(function() {
+        // Unlock scrolling by removing the class from the body
+        document.body.classList.remove('no-scroll');
+      }, 2000); // Adjust this timeout to match the duration of your animation
+    });
   }
 
   function createCharacterSpans(textElement, text) {
