@@ -74,57 +74,44 @@ document.addEventListener('DOMContentLoaded', function() {
       );
     });
   }
-
-  function scrambleCharacter(char, originalText) {
+  
+  function scrambleCharacter(char, index, newText, originalText, alternateText) {
     let possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let scrambleInterval = setInterval(() => {
       char.textContent = possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
     }, 50);
-
+  
     setTimeout(() => {
       clearInterval(scrambleInterval);
-      char.textContent = originalText;
+      // Decide the final text after scrambling: either from originalText or alternateText
+      const finalText = Math.random() > 0.5 ? originalText : alternateText;
+      char.textContent = finalText.charAt(index);
     }, 500);
   }
-
-    function initializeHoverEffect() {
+  
+  function initializeHoverEffect() {
     const button = document.querySelector('.loading_button-container');
     const textElement = document.querySelector('.s-s4.is-loading.is-tagline');
     const originalText = "UNVEIL FROST";
     const alternateText = "CONQUER THE SEASON";
   
     if (button && textElement) {
-      button.addEventListener('mouseover', () => {
-        // When hovering over the button, change the text and apply effects to the tagline
+      button.addEventListener('mouseover', function() {
+        textElement.style.opacity = 0.2;
         const currentText = textElement.textContent.trim();
         const newText = currentText === originalText ? alternateText : originalText;
         createCharacterSpans(textElement, newText);
   
-        // Apply the hover effect to the tagline, not the button
         Array.from(textElement.children).forEach((charSpan, index) => {
-          scrambleCharacter(charSpan, newText[index]);
-          gsap.to(charSpan, {
-            opacity: 0.2,
-            duration: 0.5,
-            repeat: 1,
-            yoyo: true,
-            onComplete: () => {
-              if (index === textElement.children.length - 1) {
-                // Once the last character's animation completes, set the text to its final value
-                createCharacterSpans(textElement, newText);
-              }
-            }
-          });
+          // Pass additional parameters to scrambleCharacter to determine the final text
+          scrambleCharacter(charSpan, index, newText, originalText, alternateText);
         });
       });
   
       button.addEventListener('mouseleave', () => {
-        // Reset the text and opacity when no longer hovering over the button
+        // Reset to original text when the mouse leaves the button
         createCharacterSpans(textElement, originalText);
-        gsap.to(textElement.children, {
-          opacity: 1,
-          duration: 0.5
-        });
+        gsap.to(textElement.children, { opacity: 1, duration: 0.5 });
       });
     }
   }
