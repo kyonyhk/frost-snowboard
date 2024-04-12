@@ -75,43 +75,46 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  function scrambleCharacter(char, index, newText, originalText, alternateText) {
+  function scrambleCharacter(char, originalText) {
     let possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let scrambleInterval = setInterval(() => {
       char.textContent = possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
     }, 50);
-  
+
     setTimeout(() => {
       clearInterval(scrambleInterval);
-      // Decide the final text after scrambling: either from originalText or alternateText
-      const finalText = Math.random() > 0.5 ? originalText : alternateText;
-      char.textContent = finalText.charAt(index);
+      char.textContent = originalText;
     }, 500);
   }
-  
+
   function initializeHoverEffect() {
     const button = document.querySelector('.loading_button-container');
     const textElement = document.querySelector('.s-s4.is-loading.is-tagline');
     const originalText = "UNVEIL FROST";
     const alternateText = "CONQUER THE SEASON";
-  
+
     if (button && textElement) {
       button.addEventListener('mouseover', function() {
-        textElement.style.opacity = 0.2;
-        const currentText = textElement.textContent.trim();
+        textElement.style.opacity = 0.2; // Reduce opacity during hover effect
+        const currentText = textElement.textContent;
         const newText = currentText === originalText ? alternateText : originalText;
-        createCharacterSpans(textElement, newText);
-  
+        createCharacterSpans(textElement, newText); // Update text with character spans
+
+        // Apply scramble effect to each character
         Array.from(textElement.children).forEach((charSpan, index) => {
-          // Pass additional parameters to scrambleCharacter to determine the final text
-          scrambleCharacter(charSpan, index, newText, originalText, alternateText);
+          scrambleCharacter(charSpan, newText[index]);
+          // Check if this is the last character
+          if (index === textElement.children.length - 1) {
+            // After the last character's animation completes, reset the opacity
+            gsap.to(charSpan, {
+              opacity: 1, 
+              duration: 0.5,
+              onComplete: () => {
+                textElement.style.opacity = 1; // Reset opacity after all characters are done
+              }
+            });
+          }
         });
-      });
-  
-      button.addEventListener('mouseleave', () => {
-        // Reset to original text when the mouse leaves the button
-        createCharacterSpans(textElement, originalText);
-        gsap.to(textElement.children, { opacity: 1, duration: 0.5 });
       });
     }
   }
