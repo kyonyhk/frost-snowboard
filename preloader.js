@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var preloader = document.querySelector('.s-s3.is-loading');
   var loadingCounterWrap = document.querySelector('.loading_counter-wrap');
   var loadingTaglineWrap = document.querySelector('.loading_tagline-wrap');
+  var body = document.body;
   var load = 0;
   var interval = setInterval(function() {
     load++;
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
           loadingCounterWrap.style.display = 'none';
           loadingTaglineWrap.style.display = 'block';
+          body.style.overflow = '';
 
           // Ensure the changes have been rendered
           requestAnimationFrame(() => {
@@ -29,6 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 1000);
     }
   }, 20);
+
+  body.style.overflow = 'hidden';
 
   function createCharacterSpans(textElement, text) {
     textElement.innerHTML = ''; // Clear existing content
