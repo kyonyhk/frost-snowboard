@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
   var loadingTaglineWrap = document.querySelector('.loading_tagline-wrap');
   var button = document.querySelector('.loading_button-container');
   var preloaderSection = document.querySelector('.section.is-loading');
-  var button = document.querySelector('.cta-button');
   var svgIcon = document.querySelector('.cta-icon img');
   var letterElements = document.querySelectorAll('.cta-text-container h6');
   var load = 0;
@@ -35,15 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 1000);
     }
   }, 20);
-
-    if (button) {
-    button.addEventListener('click', function() {
-      setTimeout(function() {
-        // Unlock scrolling by removing the class from the body
-        document.body.classList.remove('no-scroll');
-      }, 5550); // Adjust this timeout to match the duration of your animation
-    });
-  }
 
   function createCharacterSpans(textElement, text) {
     textElement.innerHTML = '';
@@ -122,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-    function animateButton() {
+  function animateButton() {
     // Start with the SVG icon animation
     gsap.fromTo(svgIcon, {
       opacity: 0,
@@ -147,4 +137,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  button.addEventListener('click', function() {
+    setTimeout(function() {
+      document.body.classList.remove('no-scroll');
+    }, 5550); // Adjust this timeout to match the duration of your animation
+
+    // Wait for 0.5 seconds after the Frost Unveil text to start button animation
+    setTimeout(animateButton, 500);
+  });
 });
