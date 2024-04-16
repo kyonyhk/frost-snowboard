@@ -5,8 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
   var loadingTaglineWrap = document.querySelector('.loading_tagline-wrap');
   var button = document.querySelector('.loading_button-container');
   var preloaderSection = document.querySelector('.section.is-loading');
-  var svgIcon = document.querySelector('.cta-icon img');
-  var letterElements = document.querySelectorAll('.cta-text-container h6');
   var load = 0;
 
   var interval = setInterval(function() {
@@ -34,6 +32,15 @@ document.addEventListener('DOMContentLoaded', function() {
       }, 1000);
     }
   }, 20);
+
+    if (button) {
+    button.addEventListener('click', function() {
+      setTimeout(function() {
+        // Unlock scrolling by removing the class from the body
+        document.body.classList.remove('no-scroll');
+      }, 5550); // Adjust this timeout to match the duration of your animation
+    });
+  }
 
   function createCharacterSpans(textElement, text) {
     textElement.innerHTML = '';
@@ -112,37 +119,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  function animateButton() {
-    // Start with the SVG icon animation
-    gsap.fromTo(svgIcon, {
-      opacity: 0,
-      x: '-500%'
-    }, {
-      opacity: 1,
-      x: '0%',
-      duration: 1.5,
-      ease: "power2.out"
-    });
-
-    // Animate each letter with a staggered effect
-    letterElements.forEach((el, index) => {
-      gsap.fromTo(el, {
-        x: '-100%'
-      }, {
-        x: '0%',
-        delay: 0.2 * index, // Delay each letter
-        duration: 1,
-        ease: "power2.out"
-      });
-    });
-  }
-
-  button.addEventListener('click', function() {
-    setTimeout(function() {
-      document.body.classList.remove('no-scroll');
-    }, 5550); // Adjust this timeout to match the duration of your animation
-
-    // Wait for 0.5 seconds after the Frost Unveil text to start button animation
-    setTimeout(animateButton, 500);
-  });
 });
