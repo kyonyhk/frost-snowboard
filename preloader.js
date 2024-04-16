@@ -28,9 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
           // Ensure the changes have been rendered
           requestAnimationFrame(() => {
-            animateTagline(() => {
-              animateButton();  
-            );
+            animateTagline();
             initializeHoverEffect();
           });
         }, 1000); // Matches the duration of the opacity transition
