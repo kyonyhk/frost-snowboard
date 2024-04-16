@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
   var loadingTaglineWrap = document.querySelector('.loading_tagline-wrap');
   var button = document.querySelector('.loading_button-container');
   var preloaderSection = document.querySelector('.section.is-loading');
+  var button = document.querySelector('.cta-button');
+  var svgIcon = document.querySelector('.cta-icon img');
+  var letterElements = document.querySelectorAll('.cta-text-container h6');
   var load = 0;
 
   var interval = setInterval(function() {
@@ -25,7 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
           // Ensure the changes have been rendered
           requestAnimationFrame(() => {
-            animateTagline();
+            animateTagline(() => {
+              animateButton();  
+            );
             initializeHoverEffect();
           });
         }, 1000); // Matches the duration of the opacity transition
@@ -117,6 +122,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
     }
+  }
+
+    function animateButton() {
+    // Start with the SVG icon animation
+    gsap.fromTo(svgIcon, {
+      opacity: 0,
+      x: '-500%'
+    }, {
+      opacity: 1,
+      x: '0%',
+      duration: 1.5,
+      ease: "power2.out"
+    });
+
+    // Animate each letter with a staggered effect
+    letterElements.forEach((el, index) => {
+      gsap.fromTo(el, {
+        x: '-100%'
+      }, {
+        x: '0%',
+        delay: 0.2 * index, // Delay each letter
+        duration: 1,
+        ease: "power2.out"
+      });
+    });
   }
 
 });
