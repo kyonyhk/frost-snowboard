@@ -4,20 +4,34 @@ document.addEventListener('DOMContentLoaded', function() {
         history.scrollRestoration = 'manual';
     }
 
-    // Set a history state if not already set
-    if (!history.state) {
-        history.replaceState({ fromSubdomain: false }, '', location.href);
+    var path = window.location.pathname;
+    var scrollKey = 'scrollPosition-' + path;
+    var preloaderShownKey = 'preloaderShown-' + path;
+
+    // Handle returning to the page
+    if (sessionStorage.getItem(preloaderShownKey)) {
+        var savedPosition = parseInt(sessionStorage.getItem(scrollKey), 10);
+        if (!isNaN(savedPosition) && savedPosition > 0) {
+            window.scrollTo(0, savedPosition);
+        }
+        document.body.classList.add('no-preloader');
     }
+
+    // Save scroll position on navigate away
+    document.querySelectorAll("a").forEach(function(link) {
+        link.addEventListener('click', function() {
+            sessionStorage.setItem(scrollKey, window.scrollY || window.pageYOffset);
+        });
+    });
 
     var enterButton = document.querySelector('.enter-button');
     if (enterButton) {
         enterButton.addEventListener('click', function() {
             // Delay scrolling to saved position until after animations
             setTimeout(() => {
-                let savedPosition = parseInt(sessionStorage.getItem('scrollPosition'), 10);
+                let savedPosition = parseInt(sessionStorage.getItem(scrollKey), 10);
                 if (!isNaN(savedPosition) && savedPosition > 0) {
                     window.scrollTo(0, savedPosition);
-                    console.log('Scrolling to saved position:', savedPosition);
                 }
             }, 5000); // Delay set to match the hero animation duration
         });
@@ -25,7 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('beforeunload', function() {
         // Save the current scroll position to sessionStorage
-        sessionStorage.setItem('scrollPosition', window.scrollY || window.pageYOffset);
+        sessionStorage.setItem(scrollKey, window.scrollY || window.pageYOffset);
+        sessionStorage.setItem(preloaderShownKey, 'true');
         // Update the history state to mark navigation to a subdomain
         history.replaceState({ fromSubdomain: true }, '', location.href);
     });
@@ -33,16 +48,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // When loading from history navigation
     window.addEventListener('popstate', function(event) {
         if (event.state && event.state.fromSubdomain) {
-            let savedPosition = parseInt(sessionStorage.getItem('scrollPosition'), 10);
+            let savedPosition = parseInt(sessionStorage.getItem(scrollKey), 10);
             if (!isNaN(savedPosition) && savedPosition > 0) {
                 window.scrollTo(0, savedPosition);
-                console.log('Back navigation, scrolling to saved position:', savedPosition);
             }
         } else {
             // On direct entry or refresh, reset the scroll position
             window.scrollTo(0, 0);
-            sessionStorage.removeItem('scrollPosition'); // Clear the saved position
-            console.log('Direct entry or refresh, resetting position');
+            sessionStorage.removeItem(scrollKey); // Clear the saved position
         }
     });
 });
