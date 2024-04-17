@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.scrollTo(0, savedPosition);
                     console.log('Scrolling to saved position:', savedPosition);
                 }
-            }, 5550); // Delay set for the hero animation duration
+            }, 5000); // Delay set for the hero animation duration
         });
     }
 
