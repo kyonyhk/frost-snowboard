@@ -7,42 +7,39 @@ document.addEventListener('DOMContentLoaded', function() {
   var preloaderSection = document.querySelector('.section.is-loading');
   var load = 0;
 
-  if (!sessionStorage.getItem('preloaderShown')) {
-        var interval = setInterval(function() {
-            load++;
-            if (preloader) {
-                preloader.textContent = load + '%';
-            }
-            if (load >= 100) {
-                clearInterval(interval);
-                setTimeout(function() {
-                    preloader.style.opacity = '0';
-                    preloader.style.transition = 'opacity 1s ease-out';
-                    preloader.style.transitionTimingFunction = 'cubic-bezier(0.19, 1, 0.22, 1)';
-                    
-                    setTimeout(function() {
-                        loadingCounterWrap.style.display = 'none';
-                        loadingTaglineWrap.style.display = 'block';
-
-                        // Ensure the changes have been rendered
-                        requestAnimationFrame(() => {
-                            animateTagline();
-                            initializeHoverEffect();
-                        });
-                    }, 1000); // Matches the duration of the opacity transition
-                }, 1000);
-            }
-        }, 20);
-        sessionStorage.setItem('preloaderShown', 'true');
-    } else {
-        // Skip preloader animations if already shown
-        preloader.style.display = 'none';
-        document.body.classList.remove('no-scroll');  // Ensure the page is scrollable immediately
-        loadingCounterWrap.style.display = 'none';
-        loadingTaglineWrap.style.display = 'block';
-        animateTagline();
-        initializeHoverEffect();
+   function hidePreloaderElements() {
+      preloader.style.display = 'none';
+      loadingCounterWrap.style.display = 'none';
+      loadingTaglineWrap.style.display = 'block';
+      preloaderSection.style.display = 'none'; // Hide the entire preloader section
+      document.body.classList.remove('no-scroll');
+      animateTagline();
+      initializeHoverEffect();
     }
+
+  if (!sessionStorage.getItem('preloaderShown')) {
+    var interval = setInterval(function() {
+      load++;
+      if (preloader) {
+        preloader.textContent = load + '%';
+      }
+      if (load >= 100) {
+        clearInterval(interval);
+        setTimeout(function() {
+          preloader.style.opacity = '0';
+          preloader.style.transition = 'opacity 1s ease-out';
+          preloader.style.transitionTimingFunction = 'cubic-bezier(0.19, 1, 0.22, 1)';
+          setTimeout(function() {
+            hidePreloaderElements();
+          }, 1000); // Matches the duration of the opacity transition
+        }, 1000);
+      }
+    }, 20);
+    sessionStorage.setItem('preloaderShown', 'true');
+  } else {
+    // Skip preloader animations if already shown
+    hidePreloaderElements();
+  }
 
     if (button) {
     button.addEventListener('click', function() {
