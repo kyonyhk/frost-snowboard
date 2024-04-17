@@ -4,49 +4,42 @@ document.addEventListener('DOMContentLoaded', function() {
   var loadingCounterWrap = document.querySelector('.loading_counter-wrap');
   var loadingTaglineWrap = document.querySelector('.loading_tagline-wrap');
   var button = document.querySelector('.loading_button-container');
+  var preloaderSection = document.querySelector('.section.is-loading');
   var load = 0;
-  var heroAnimationDuration = 5550;  // Duration of the hero animation
 
-  // Check if preloader should be skipped
-  if (document.body.classList.contains('no-preloader')) {
-      preloader.style.display = 'none';
-      document.body.classList.remove('no-scroll');
-  } else {
-      // Normal preloader logic
-      var interval = setInterval(function() {
-          load++;
-          if (preloader) {
-              preloader.textContent = load + '%';
-          }
-          if (load >= 100) {
-              clearInterval(interval);
-              setTimeout(function() {
-                  preloader.style.opacity = '0';
-                  preloader.style.transition = 'opacity 1s ease-out';
-                  preloader.style.transitionTimingFunction = 'cubic-bezier(0.19, 1, 0.22, 1)';
+  var interval = setInterval(function() {
+    load++;
+    if (preloader) {
+      preloader.textContent = load + '%';
+    }
+    if (load >= 100) {
+      clearInterval(interval);
+      setTimeout(function() {
+        preloader.style.opacity = '0';
+        preloader.style.transition = 'opacity 1s ease-out';
+        preloader.style.transitionTimingFunction = 'cubic-bezier(0.19, 1, 0.22, 1)';
+        
+        setTimeout(function() {
+          loadingCounterWrap.style.display = 'none';
+          loadingTaglineWrap.style.display = 'block';
 
-                  setTimeout(function() {
-                      loadingCounterWrap.style.display = 'none';
-                      loadingTaglineWrap.style.display = 'block';
+          // Ensure the changes have been rendered
+          requestAnimationFrame(() => {
+            animateTagline();
+            initializeHoverEffect();
+          });
+        }, 1000); // Matches the duration of the opacity transition
+      }, 1000);
+    }
+  }, 20);
 
-                      // Ensure the changes have been rendered
-                      requestAnimationFrame(() => {
-                          animateTagline();
-                          initializeHoverEffect();
-                      });
-                  }, 1000); // Matches the duration of the opacity transition
-              }, 1000);
-          }
-      }, 20);
-  }
-
-  if (button) {
-      button.addEventListener('click', function() {
-          setTimeout(function() {
-              // Unlock scrolling by removing the class from the body
-              document.body.classList.remove('no-scroll');
-          }, heroAnimationDuration); // Adjust this timeout to match the duration of your animation
-      });
+    if (button) {
+    button.addEventListener('click', function() {
+      setTimeout(function() {
+        // Unlock scrolling by removing the class from the body
+        document.body.classList.remove('no-scroll');
+      }, 5000); // Adjust this timeout to match the duration of your animation
+    });
   }
 
   function createCharacterSpans(textElement, text) {
