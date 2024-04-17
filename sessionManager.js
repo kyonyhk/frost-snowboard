@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+  console.log("Script loaded")
+  
   const savedPosition = sessionStorage.getItem('scrollPosition');
   if (savedPosition) {
     console.log('Scrolling to saved position:', savedPosition);
