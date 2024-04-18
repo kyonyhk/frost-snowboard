@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var svgElement = document.querySelector('.cp-main_svg-wrap svg');
-  console.log("SVG Element:", svgElement); // Check if the SVG element is being selected
+  var svgElements = document.querySelectorAll('.cp-main_svg'); // Select all SVG elements
+  console.log("SVG Elements:", svgElements); // Check if the SVG elements are being selected
 
-  if (svgElement) {
-    var currentUrl = window.location.href;
-    console.log("Current URL:", currentUrl); // Log the current URL
+  var currentUrl = window.location.href;
+  console.log("Current URL:", currentUrl); // Log the current URL
 
-    var paths = svgElement.querySelectorAll('path'); // Select all path elements within the SVG
+  svgElements.forEach(function(svg) {
+    var paths = svg.querySelectorAll('path'); // Select all path elements within each SVG
     if (currentUrl.includes('ember-collection')) {
       paths.forEach(path => path.style.fill = '#D97848');
       console.log("Color set to #D97848 for all paths");
@@ -17,7 +17,5 @@ document.addEventListener('DOMContentLoaded', function() {
       paths.forEach(path => path.style.fill = '#6BE688');
       console.log("Color set to #6BE688 for all paths");
     }
-  } else {
-    console.log("SVG element not found");
-  }
+  });
 });
