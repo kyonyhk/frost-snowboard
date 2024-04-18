@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var svgElement = document.querySelector('.cp-main_svg');
+  var svgElement = document.querySelector('.cp-main_svg-wrap svg');
 
   console.log("SVG Element:", svgElement); // Check if the SVG element is being selected
 
