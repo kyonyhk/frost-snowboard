@@ -90,14 +90,21 @@ document.addEventListener('DOMContentLoaded', function() {
   function initializeHoverEffect() {
     const button = document.querySelector('.loading_button-container');
     const textElement = document.querySelector('.s-s4.is-loading.is-tagline');
-    const originalText = "UNVEIL FROST";
-    const alternateText = "CONQUER THE SEASON";
+    const phrases = [
+      "UNVEIL FROST",
+      "CONQUER THE SEASON",
+      "EMBRACE THE CHILL",
+      "RIDE THE STORM",
+      "MASTER THE PEAK"
+    ];
+    let currentIndex = 0;
+    
 
     if (button && textElement) {
       button.addEventListener('mouseover', function() {
         textElement.style.opacity = 0.2; // Reduce opacity during hover effect
-        const currentText = textElement.textContent;
-        const newText = currentText === originalText ? alternateText : originalText;
+        currentIndex = (currentIndex + 1) % phrases.length // Cycle to the next phrase
+        const newText = phrases[currentIndex];
         createCharacterSpans(textElement, newText); // Update text with character spans
 
         // Apply scramble effect to each character
