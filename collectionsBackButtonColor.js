@@ -25,4 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
     changeColor(backButtonSvg, '#6BE688');
     console.log("Color set to Apex theme");
   } else {
- 
+    console.log("No matching URL pattern found. No color change applied.");
+  }
+});
