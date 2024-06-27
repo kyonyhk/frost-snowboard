@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var backButtonSvg = document.querySelector('.frost-tech-back_link .cta-svg');
+  var backButtonSvg = document.querySelector('.collections-back_link .cta-svg');
   console.log("Back Button SVG:", backButtonSvg);
 
   if (!backButtonSvg) {
