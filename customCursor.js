@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
       requestAnimationFrame(() => {
         cursorWrapper.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
         cursor.style.transform = `translate(-50%, -50%)`;
-        innerCursor.style.left = '50%';
-        innerCursor.style.top = '50%';
+        innerCursor.style.left = `${cursor.offsetWidth / 2}px`;
+        innerCursor.style.top = `${cursor.offsetHeight / 2}px`;
         innerCursor.style.transform = 'translate(-50%, -50%)';
       });
   });
