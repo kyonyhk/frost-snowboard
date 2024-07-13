@@ -1,14 +1,23 @@
-  html, body, * {
-  	cursor: none !important;
-  }
-  
-  .section.is-loading {
-  	cursor: none !important;
-  }
-  
-  body {
-  	cursor: none;
-  }
+html, body, * {
+  cursor: none !important;
+}
+
+.section.is-loading {
+  cursor: none !important;
+}
+
+body {
+  cursor: none;
+}
+
+.default-cursor {
+  width: 8px;
+  height: 8px;
+  background-color: #A1FCCF; /* Use the color you prefer */
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(45deg);
+  pointer-events: none;
+}
   
 .cursor-wrapper {
   position: fixed;
