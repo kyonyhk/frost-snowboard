@@ -27,7 +27,7 @@ body {
   background-color: #A1FCCF; /* Use the color you prefer */
   position: absolute;
   transform: translate(-50%, -50%) rotate(45deg);
-  transition: all 0.2s cubic-bezier(0.87, 0, 0.13, 1), background-color 0.2s cubic-bezier(0.87, 0, 0.13, 1);
+  transition: background-color 0.2s cubic-bezier(0.87, 0, 0.13, 1);
   pointer-events: none;
   top: 0;
   left: 0;
