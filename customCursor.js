@@ -10,11 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let mouseX = 0;
   let mouseY = 0;
-  let cursorX = 0;
-  let cursorY = 0;
   let currentX = 0;
   let currentY = 0;
-  const easing = 0.08; // Adjust this value to change the smoothness (lower = smoother)
+  const easing = 0.1; // Adjust this value to change the smoothness (lower = smoother)
 
   function easeOutExpo(t) {
     return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
@@ -29,14 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     currentX += dx * easing;
     currentY += dy * easing;
 
-    // Apply easing function
-    let easedX = easeOutExpo(Math.abs(dx) / 100) * Math.sign(dx);
-    let easedY = easeOutExpo(Math.abs(dy) / 100) * Math.sign(dy);
-
-    cursorX += easedX;
-    cursorY += easedY;
-
-    cursorWrapper.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+    cursorWrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
     cursor.style.transform = `translate(-50%, -50%) rotate(45deg)`;
 
     // Inner cursor positioning
