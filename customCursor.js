@@ -8,17 +8,34 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  let mouseX = 0;
+  let mouseY = 0;
+  let cursorX = 0;
+  let cursorY = 0;
+  const lagFactor = 0.15; // Adjust this value to change the amount of lag (0.1 to 0.2 is usually good)
+
+  function updateCursorPosition() {
+    cursorX += (mouseX - cursorX) * lagFactor;
+    cursorY += (mouseY - cursorY) * lagFactor;
+
+    cursorWrapper.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+    cursor.style.transform = `translate(-50%, -50%)`;
+
+    // Inner cursor positioning
+    innerCursor.style.left = '0px';
+    innerCursor.style.top = '0px';
+    innerCursor.style.transform = 'translate(-50%, -50%) rotate(45deg)';
+
+    requestAnimationFrame(updateCursorPosition);
+  }
+
   document.addEventListener("mousemove", (e) => {
-      requestAnimationFrame(() => {
-        cursorWrapper.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-        cursor.style.transform = `translate(-50%, -50%)`;
-        
-        // Use fixed values based on your cursor size
-        innerCursor.style.left = '0px';  // Half of the cursor width (24px / 2)
-        innerCursor.style.top = '0px';   // Half of the cursor height (24px / 2)
-        innerCursor.style.transform = 'translate(-50%, -50%) rotate(45deg)';
-      });
+    mouseX = e.clientX;
+    mouseY = e.clientY;
   });
+
+  updateCursorPosition();
+
 
   const hoverElements = document.querySelectorAll("a, button, [data-cursor='hover'], .loading_button-container");
 
