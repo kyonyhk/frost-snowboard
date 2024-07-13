@@ -12,19 +12,37 @@ document.addEventListener("DOMContentLoaded", () => {
   let mouseY = 0;
   let cursorX = 0;
   let cursorY = 0;
-  const lagFactor = 0.15; // Adjust this value to change the amount of lag (0.1 to 0.2 is usually good)
+  let currentX = 0;
+  let currentY = 0;
+  const easing = 0.08; // Adjust this value to change the smoothness (lower = smoother)
+
+  function easeOutExpo(t) {
+    return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+  }
 
   function updateCursorPosition() {
-    cursorX += (mouseX - cursorX) * lagFactor;
-    cursorY += (mouseY - cursorY) * lagFactor;
+    // Calculate the distance to move
+    let dx = mouseX - currentX;
+    let dy = mouseY - currentY;
+
+    // Apply easing
+    currentX += dx * easing;
+    currentY += dy * easing;
+
+    // Apply easing function
+    let easedX = easeOutExpo(Math.abs(dx) / 100) * Math.sign(dx);
+    let easedY = easeOutExpo(Math.abs(dy) / 100) * Math.sign(dy);
+
+    cursorX += easedX;
+    cursorY += easedY;
 
     cursorWrapper.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-    cursor.style.transform = `translate(-50%, -50%)`;
+    cursor.style.transform = `translate(-50%, -50%) rotate(45deg)`;
 
     // Inner cursor positioning
     innerCursor.style.left = '0px';
     innerCursor.style.top = '0px';
-    innerCursor.style.transform = 'translate(-50%, -50%) rotate(45deg)';
+    innerCursor.style.transform = 'translate(-50%, -50%)';
 
     requestAnimationFrame(updateCursorPosition);
   }
