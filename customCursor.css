@@ -9,6 +9,10 @@ html, body, * {
 body {
   cursor: none;
 }
+
+.cursor-wrapper, .cursor, .inner-cursor, .default-cursor {
+  display: none; /* Hide all cursor elements by default */
+}
   
 .cursor-wrapper {
   position: fixed;
