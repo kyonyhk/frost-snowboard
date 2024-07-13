@@ -1,17 +1,34 @@
-document.addEventListener('mousemove', function(e) {
-    var glow = document.querySelector('.glow-effect');
-    glow.style.left = e.pageX + 'px';
-    glow.style.top = e.pageY + 'px';
-});
+document.addEventListener("DOMContentLoaded", () => {
+  const cursorWrapper = document.querySelector(".cursor-wrapper");
+  const cursor = document.querySelector(".cursor");
+  const innerCursor = document.querySelector(".inner-cursor");
+  
+  if (!innerCursor) {
+    console.error("Inner cursor element not found");
+    return;
+  }
 
-document.addEventListener('mouseover', function(e) {
-    if (e.target.matches('a, button, input[type="button"], input[type="submit"], label[for], select, .custom-link, .is-clickable')) { // Match clickable elements
-        document.querySelector('.glow-effect').style.display = 'block';
-    }
-});
+  document.addEventListener("mousemove", (e) => {
+      requestAnimationFrame(() => {
+        cursorWrapper.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        cursor.style.transform = `translate(-50%, -50%)`;
+        innerCursor.style.left = '50%';
+        innerCursor.style.top = '50%';
+        innerCursor.style.transform = 'translate(-50%, -50%)';
+      });
+  });
 
-document.addEventListener('mouseout', function(e) {
-    if (e.target.matches('a, button, input[type="button"], input[type="submit"], label[for], select, .custom-link, .is-clickable')) {
-        document.querySelector('.glow-effect').style.display = 'none';
-    }
+  const hoverElements = document.querySelectorAll("a, button, [data-cursor='hover'], .loading_button-container");
+
+  hoverElements.forEach((element) => {
+    element.addEventListener("mouseenter", () => {
+      cursor.classList.add("hover");
+      innerCursor.classList.add("hover");
+    });
+
+    element.addEventListener("mouseleave", () => {
+      cursor.classList.remove("hover");
+      innerCursor.classList.remove("hover");
+    });
+  });
 });
