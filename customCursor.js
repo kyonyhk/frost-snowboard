@@ -64,16 +64,30 @@ document.addEventListener("DOMContentLoaded", () => {
   const emberElement = document.querySelector('.collections-main_heading.link.is-clickable.is-ember');
   const nebulaElement = document.querySelector('.collections-main_heading.link.is-clickable.is-nebula');
 
-  function setCursorColor(color) {
-    cursor.style.borderColor = color;
-    innerCursor.style.backgroundColor = color;
-    defaultCursor.style.backgroundColor = color;
+  // Helper function to convert hex to RGBA
+  function hexToRGBA(hex, opacity) {
+      let r = parseInt(hex.slice(1, 3), 16);
+      let g = parseInt(hex.slice(3, 5), 16);
+      let b = parseInt(hex.slice(5, 7), 16);
+  
+      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
-
+  
+  function setCursorColor(hexColor) {
+      const borderColor = hexColor; // Full opacity for border
+      const backgroundColor = hexToRGBA(hexColor, 0.2); // 20% opacity for cursor background
+  
+      cursor.style.borderColor = borderColor;
+      cursor.style.backgroundColor = backgroundColor;
+      innerCursor.style.backgroundColor = hexColor; // Full opacity for inner cursor
+      defaultCursor.style.backgroundColor = hexColor; // Full opacity for default cursor
+  }
+  
   function resetCursorColor() {
-    cursor.style.borderColor = '';
-    innerCursor.style.backgroundColor = '';
-    defaultCursor.style.backgroundColor = '';
+      cursor.style.borderColor = '';
+      cursor.style.backgroundColor = '';
+      innerCursor.style.backgroundColor = '';
+      defaultCursor.style.backgroundColor = '';
   }
 
   hoverElements.forEach((element) => {
