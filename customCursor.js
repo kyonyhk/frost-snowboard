@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Hide custom cursor on touch devices
   if ('ontouchstart' in window || navigator.maxTouchPoints) {
     cursorWrapper.style.display = 'none';
+    cursor.style.display = 'none';
+    innerCursor.style.display = 'none';
+    defaultCursor.style.display = 'none';
     return;
   }
 
