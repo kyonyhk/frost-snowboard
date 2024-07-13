@@ -13,12 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
         cursorWrapper.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
         cursor.style.transform = `translate(-50%, -50%)`;
         
-        // Adjust these offset values as needed
-        const offsetX = 0;
-        const offsetY = 0;
-        
-        innerCursor.style.left = `calc(50% + ${offsetX}px)`;
-        innerCursor.style.top = `calc(50% + ${offsetY}px)`;
+        // Use fixed values based on your cursor size
+        innerCursor.style.left = '12px';  // Half of the cursor width (24px / 2)
+        innerCursor.style.top = '12px';   // Half of the cursor height (24px / 2)
         innerCursor.style.transform = 'translate(-50%, -50%)';
       });
   });
