@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let mouseY = 0;
   let currentX = 0;
   let currentY = 0;
-  const easing = 0.1; // Adjust this value to change the smoothness (lower = smoother)
+  const easing = 0.05; // Adjust this value to change the smoothness (lower = smoother)
 
   function easeOutExpo(t) {
     return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
