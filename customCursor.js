@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Inner cursor positioning
     innerCursor.style.left = '0px';
     innerCursor.style.top = '0px';
-    innerCursor.style.transform = 'translate(-50%, -50%)';
+    innerCursor.style.transform = 'translate(-50%, -50%) rotate(45deg)';
 
     requestAnimationFrame(updateCursorPosition);
   }
