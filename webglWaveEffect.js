@@ -36,13 +36,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const maxTilt = 30; // Define the maxTilt value
 
-  window.addEventListener('deviceorientation', (event) => {
-    if (event.gamma !== null && event.beta !== null) {
-      console.log('Device Orientation Event:', event);
-      mouse.x = event.gamma / maxTilt;
-      mouse.y = -(event.beta / maxTilt);
-    }
-  });
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    DeviceOrientationEvent.requestPermission().then(permissionState => {
+      if (permissionState === 'granted') {
+        window.addEventListener('deviceorientation', (event) => {
+          if (event.gamma !== null && event.beta !== null) {
+            console.log('Device Orientation Event:', event);
+            mouse.x = event.gamma / maxTilt;
+            mouse.y = -(event.beta / maxTilt);
+          }
+        });
+      }
+    }).catch(console.error);
+  } else {
+    // Handle regular non-iOS 13+ devices
+    window.addEventListener('deviceorientation', (event) => {
+      if (event.gamma !== null && event.beta !== null) {
+        console.log('Device Orientation Event:', event);
+        mouse.x = event.gamma / maxTilt;
+        mouse.y = -(event.beta / maxTilt);
+      }
+    });
+  }
+
 
   var animationId = animate();
 
