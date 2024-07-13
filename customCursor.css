@@ -9,18 +9,6 @@ html, body, * {
 body {
   cursor: none;
 }
-
-.default-cursor {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background-color: #A1FCCF; /* Use the color you prefer */
-  position: absolute;
-  transform: translate(-50%, -50%) rotate(45deg);
-  pointer-events: none;
-  top: 0;
-  left: 0;
-}
   
 .cursor-wrapper {
   position: fixed;
@@ -32,6 +20,19 @@ body {
   will-change: transform;
 }
 
+.default-cursor {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #A1FCCF; /* Use the color you prefer */
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(45deg);
+  transition: all 0.2s cubic-bezier(0.87, 0, 0.13, 1), background-color 0.2s cubic-bezier(0.87, 0, 0.13, 1);
+  pointer-events: none;
+  top: 0;
+  left: 0;
+}
+
 .cursor {
   width: 24px;
   height: 24px;
@@ -41,7 +42,7 @@ body {
   left: 0;
   position: absolute;
   transform: translate(-50%, -50%);
-  transition: all 0.2s cubic-bezier(0.87, 0, 0.13, 1);
+  transition: all 0.2s cubic-bezier(0.87, 0, 0.13, 1), background-color 0.2s cubic-bezier(0.87, 0, 0.13, 1);
 }
 
 .inner-cursor {
@@ -54,7 +55,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  transition: all 0.2s cubic-bezier(0.87, 0, 0.13, 1);
+  transition: all 0.2s cubic-bezier(0.87, 0, 0.13, 1), background-color 0.2s cubic-bezier(0.87, 0, 0.13, 1);
 }
 
 .cursor.hover {
