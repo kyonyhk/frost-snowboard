@@ -42,13 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  let animationId = animate();
+  let animationId;
 
   function animate() {
     animationId = requestAnimationFrame(animate);
     updateParticles(particleSystem, raycaster, mouse, camera);
     renderer.render(scene, camera);
   }
+
+  animationId = animate(); 
 
   ScrollTrigger.create({
     trigger: '.section.is-collections-main',
