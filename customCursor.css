@@ -11,8 +11,9 @@ body {
 }
 
 .default-cursor {
-  width: 8px;
-  height: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
   background-color: #A1FCCF; /* Use the color you prefer */
   position: absolute;
   transform: translate(-50%, -50%) rotate(45deg);
