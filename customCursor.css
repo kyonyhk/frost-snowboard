@@ -50,6 +50,9 @@
   height: 40px;
   border-color: #6BE688;
   border-width: 2px;
+  background-color: rgba(107, 230, 136, 0.2);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .inner-cursor.hover {
