@@ -12,8 +12,13 @@ document.addEventListener("DOMContentLoaded", () => {
       requestAnimationFrame(() => {
         cursorWrapper.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
         cursor.style.transform = `translate(-50%, -50%)`;
-        innerCursor.style.left = `${cursor.offsetWidth / 2}px`;
-        innerCursor.style.top = `${cursor.offsetHeight / 2}px`;
+        
+        // Adjust these offset values as needed
+        const offsetX = 0;
+        const offsetY = 0;
+        
+        innerCursor.style.left = `calc(50% + ${offsetX}px)`;
+        innerCursor.style.top = `calc(50% + ${offsetY}px)`;
         innerCursor.style.transform = 'translate(-50%, -50%)';
       });
   });
