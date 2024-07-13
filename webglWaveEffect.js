@@ -34,8 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
   });
 
+  const maxTilt = 30; // Define the maxTilt value
+
   window.addEventListener('deviceorientation', (event) => {
     if (event.gamma !== null && event.beta !== null) {
+      console.log('Device Orientation Event:', event);
       mouse.x = event.gamma / maxTilt;
       mouse.y = -(event.beta / maxTilt);
     }
