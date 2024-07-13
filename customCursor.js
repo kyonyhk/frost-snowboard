@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cursorWrapper = document.querySelector(".cursor-wrapper");
   const cursor = document.querySelector(".cursor");
   const innerCursor = document.querySelector(".inner-cursor");
+  const defaultCursor = document.querySelector(".default-cursor")
   
   if (!innerCursor) {
     console.error("Inner cursor element not found");
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cursorWrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
     cursor.style.transform = `translate(-50%, -50%) rotate(45deg)`;
+    defaultCursor.style.transform = `translate(${dx}px, ${dy}px) rotate(45deg)`;
 
     // Inner cursor positioning
     innerCursor.style.left = '0px';
@@ -52,11 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
     element.addEventListener("mouseenter", () => {
       cursor.classList.add("hover");
       innerCursor.classList.add("hover");
+      defaultCursor.style.opacity = "0";
     });
 
     element.addEventListener("mouseleave", () => {
       cursor.classList.remove("hover");
       innerCursor.classList.remove("hover");
+      defaultCursor.style.opacity = "1";
     });
   });
 });
