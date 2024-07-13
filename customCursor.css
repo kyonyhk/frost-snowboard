@@ -48,15 +48,15 @@
 .cursor.hover {
   width: 40px;
   height: 40px;
-  border-color: #6BE688;
+  border-color: #3F9854;
   border-width: 2px;
-  background-color: rgba(107, 230, 136, 0.2);
+  background: rgba(63, 152, 84, 0.20);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
 
 .inner-cursor.hover {
-  background-color: #6BE688;
+  background-color: #3F9854;
   width: 8px;
   height: 8px;
   border-radius: 2px;
