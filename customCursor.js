@@ -9,6 +9,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  // Hide custom cursor on touch devices
+  if ('ontouchstart' in window || navigator.maxTouchPoints) {
+    cursorWrapper.style.display = 'none';
+    return;
+  }
+
   // Mouse follow
   let mouseX = 0;
   let mouseY = 0;
