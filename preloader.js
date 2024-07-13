@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+  document.body.style.cursor = 'none';
+  document.querySelector('.cursor-wrapper').style.display = 'block';
+  
   document.body.classList.add('no-scroll');
   var preloader = document.querySelector('.s-s3.is-loading');
   var loadingCounterWrap = document.querySelector('.loading_counter-wrap');
