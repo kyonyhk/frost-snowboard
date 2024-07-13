@@ -9,13 +9,15 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Hide custom cursor on touch devices
   if ('ontouchstart' in window || navigator.maxTouchPoints) {
-    cursorWrapper.style.display = 'none';
-    cursor.style.display = 'none';
-    innerCursor.style.display = 'none';
-    defaultCursor.style.display = 'none';
+    // Early exit if a touch device is detected
     return;
+  } else {
+    // Show cursors only for non-touch devices
+    cursorWrapper.style.display = 'block';
+    cursor.style.display = 'block';
+    innerCursor.style.display = 'block';
+    defaultCursor.style.display = 'block';
   }
 
   // Mouse follow
