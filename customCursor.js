@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cursorWrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
     cursor.style.transform = `translate(-50%, -50%) rotate(45deg)`;
-    defaultCursor.style.transform = `translate(${dx}px, ${dy}px) rotate(45deg)`;
+    defaultCursor.style.transform = `translate(${dx}px, ${dy}px) translate(-50%, -50%) rotate(45deg)`;
 
     // Inner cursor positioning
     innerCursor.style.left = '0px';
