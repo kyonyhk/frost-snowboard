@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Use fixed values based on your cursor size
         innerCursor.style.left = '0px';  // Half of the cursor width (24px / 2)
         innerCursor.style.top = '0px';   // Half of the cursor height (24px / 2)
-        innerCursor.style.transform = 'translate(-50%, -50%)';
+        innerCursor.style.transform = 'translate(-50%, -50%) rotate(45deg)';
       });
   });
 
