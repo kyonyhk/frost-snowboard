@@ -1,30 +1,22 @@
-document.addEventListener('DOMContentLoaded', function() {
-  var backButtonSvg = document.querySelector('.collections-back_link .cta-svg');
-  console.log("Back Button SVG:", backButtonSvg);
-
-  if (!backButtonSvg) {
-    console.error("SVG element not found. Please check the class names and structure.");
-    return;
-  }
-
+document.addEventListener("DOMContentLoaded", function() {
   var currentUrl = window.location.href;
-  console.log("Current URL:", currentUrl);
+  var targetTexts = document.querySelectorAll('.collections-back_wrap .h-h6.is-cta.is-collections-back');
+  var targetSVG = document.querySelector('.collections-back_wrap .cta-svg');
 
-  function changeColor(element, color) {
-    element.style.fill = color;
-    console.log(`Changed color of ${element} to ${color}`);
+  // Function to apply styles
+  function applyStyles(color, opacity) {
+    targetSVG.style.fill = color; // Change the fill color of the SVG
+    targetTexts.forEach(function(element) {
+      element.style.color = `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(color.slice(3, 5), 16)}, ${parseInt(color.slice(5, 7), 16)}, ${opacity})`; // Change text fill color with opacity
+      element.style.webkitTextStroke = `1px ${color}`; // Stroke color with full opacity
+    });
   }
 
-  if (currentUrl.includes('ember-collection')) {
-    changeColor(backButtonSvg, '#D97848');
-    console.log("Color set to Ember theme");
+  if (currentUrl.includes('apex-collection')) {
+    applyStyles('#A1FCCF', 0.2);
+  } else if (currentUrl.includes('ember-collection')) {
+    applyStyles('#FDFDCE', 0.2);
   } else if (currentUrl.includes('nebula-collection')) {
-    changeColor(backButtonSvg, '#580DEB');
-    console.log("Color set to Nebula theme");
-  } else if (currentUrl.includes('apex-collection')) {
-    changeColor(backButtonSvg, '#6BE688');
-    console.log("Color set to Apex theme");
-  } else {
-    console.log("No matching URL pattern found. No color change applied.");
+    applyStyles('#877FCB', 0.2);
   }
 });
