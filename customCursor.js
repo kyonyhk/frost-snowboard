@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  // Mouse follow
   let mouseX = 0;
   let mouseY = 0;
   let currentX = 0;
@@ -47,8 +48,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateCursorPosition();
 
-
+  // Hover effects
   const hoverElements = document.querySelectorAll("a, button, [data-cursor='hover'], .loading_button-container");
+  const emberElement = document.querySelector('.collections-main_heading.link.is-clickable.is-ember');
+  const nebulaElement = document.querySelector('.collections-main_heading.link.is-clickable.is-nebula');
+
+  function setCursorColor(color) {
+    cursor.style.borderColor = color;
+    innerCursor.style.backgroundColor = color;
+    defaultCursor.style.backgroundColor = color;
+  }
+
+  function resetCursorColor() {
+    cursor.style.borderColor = '';
+    innerCursor.style.backgroundColor = '';
+    defaultCursor.style.backgroundColor = '';
+  }
 
   hoverElements.forEach((element) => {
     element.addEventListener("mouseenter", () => {
@@ -61,6 +76,19 @@ document.addEventListener("DOMContentLoaded", () => {
       cursor.classList.remove("hover");
       innerCursor.classList.remove("hover");
       defaultCursor.style.opacity = "1";
-    });
+      resetCursorColor();
+    });    
   });
+
+  if (emberElement) {
+    emberElement.addEventListener("mouseenter", () => {
+      setCursorColor("#FDFDCE");
+    });
+  }
+
+  if (nebulaElement) {
+    nebulaElement.addEventListener("mouseenter", () => {
+      setCursorColor("#877FCB");
+    });
+  }
 });
