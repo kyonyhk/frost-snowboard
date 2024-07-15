@@ -36,9 +36,12 @@ class Sketch {
     }
 
     render() {
-        console.log("Rendering scene");
-        requestAnimationFrame(this.render.bind(this));
-        this.renderer.render(this.scene, this.camera);
+        console.log('Rendering scene');
+        if (this.uniforms.texture1.value && this.uniforms.texture2.value) {
+            this.renderer.render(this.scene, this.camera);
+        } else {
+            console.log('Rendering skipped due to missing textures');
+        }
     }
 
     loadTexture(url, callback) {
@@ -49,13 +52,21 @@ class Sketch {
     }
 
     setTexture1(texture) {
-        console.log("Setting texture1");
+        if (!texture) {
+            console.error('Texture1 is null');
+            return;
+        }
         this.uniforms.texture1.value = texture;
+        console.log('Texture1 set successfully');
     }
-
+    
     setTexture2(texture) {
-        console.log("Setting texture2");
+        if (!texture) {
+            console.error('Texture2 is null');
+            return;
+        }
         this.uniforms.texture2.value = texture;
+        console.log('Texture2 set successfully');
     }
 
     startTransition() {
