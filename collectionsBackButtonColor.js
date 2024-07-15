@@ -19,10 +19,10 @@ document.addEventListener("DOMContentLoaded", function() {
   function handleHover(color) {
     if (backWrap) {
       backWrap.addEventListener('mouseenter', function() {
-        applyStyles(color, 1); // Full opacity on hover
+        applyStyles(color, 0.2); // 20% opacity on hover
       });
       backWrap.addEventListener('mouseleave', function() {
-        applyStyles(color, 0.2); // 20% opacity on mouse leave
+        applyStyles(color, 0); // 0% opacity on mouse leave
       });
     }
   }
