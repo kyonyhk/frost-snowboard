@@ -9,7 +9,7 @@ class Sketch {
             intensity: opts.uniforms.intensity,
             texture1: { type: "t", value: null },
             texture2: { type: "t", value: null },
-            displacement: { type: "t", value: new THREE.TextureLoader().load('path/to/displacement.jpg') },
+            displacement: { type: "t", value: new THREE.TextureLoader().load('https://uploads-ssl.webflow.com/65de4d4aa58a7df7f5ea205b/6694cc523ddbd2f97e5e4386_disp1.webp') },
             resolution: { type: "v4", value: new THREE.Vector4() }
         };
         this.renderer = new THREE.WebGLRenderer();
