@@ -148,7 +148,7 @@ function initThreeJS() {
     originalImg.style.display = 'none';
 
     // Set up event listeners for marquee images
-    setupMarqueeImageListeners();
+    setupEventListeners();
 
     //Handle window resize
     window.addEventListener('resize', onWindowResize);
