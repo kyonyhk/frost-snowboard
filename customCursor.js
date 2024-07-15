@@ -55,17 +55,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let isClicking = false;
 
-  document.addEventListener('mousedown', () => {
+  function handleMouseDown(e) {
     isClicking = true;
     cursor.classList.add('clicking');
     innerCursor.classList.add('clicking');
-  }) 
+    console.log('Mouse down'); // Debugging line
+  }
 
-  document.addEventListener('mousedown', () => {
+  function handleMouseUp(e) {
     isClicking = false;
     cursor.classList.remove('clicking');
     innerCursor.classList.remove('clicking');
-  }) 
+    console.log('Mouse up'); // Debugging line
+  }
+
+  // Attach event listeners to the document
+  document.addEventListener('mousedown', handleMouseDown, true);
+  document.addEventListener('mouseup', handleMouseUp, true);
 
   let isHovering = false;
 
