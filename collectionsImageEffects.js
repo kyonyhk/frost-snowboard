@@ -6,12 +6,15 @@ let transitionProgress = 0;
 let currentTexture, nextTexture;
 
 function initThreeJS() {
+    const container = document.querySelector('.cp_main-image-container');
+    const originalImg = container.querySelector('img');
+    const originalMainImageSrc = originalImg.src
+    
     scene = new THREE.Scene();
     camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     
-    renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer = new THREE.WebGLRenderer({ alpha: true, canvas: document.getElementById('main-image-canvas') });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.querySelector('.cp_main-image-container').appendChild(renderer.domElement);
 
     // Create hover transition material (Wave effect)
     hoverTransitionMaterial = new THREE.ShaderMaterial({
@@ -130,6 +133,31 @@ function initThreeJS() {
         clickTransitionMaterial.uniforms.texture2.value = texture;
         render();
     });
+
+    // Hide the original image
+    originalImg.style.display = 'none';
+
+    // Set up event listeners for marquee images
+    setupMarqueeImageListeners();
+
+    //Handle window resize
+    window.addEventListener('resize', onWindowResize);
+}
+
+function setupMarqueeImageListeners() {
+    const marqueeImages = document.querySelectorAll('.cp_infinite-marquee-image-wrap img');
+    marqueeImages.forEach(img => {
+        img.addEventListener('mouseenter', () => startTransition(img.src, true));
+        img.addEventListener('mouseleave', () => startTransition(currentTexture.image.src, true));
+        img.addEventListener('click', () => startTransition(img.src, false));
+    });
+}
+
+function onWindowResize() {
+    const container = document.querySelector('.cp_main-image-container');
+    camera.aspect = container.offsetWidth / container.offsetHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.offsetWidth, container.offsetHeight);
 }
 
 function loadTexture(url, callback) {
@@ -173,4 +201,5 @@ function render() {
     renderer.render(scene, camera);
 }
 
-// The rest of the code (event listeners, etc.) remains the same as in the previous example
+// Initialize everything when the DOM is ready
+document.addEventListener('DOMContentLoaded', initThreeJS);
