@@ -1,8 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded and parsed");
     const mainImageContainer = document.querySelector('.cp_main-image-container');
     const marqueeImages = document.querySelectorAll('.cp_infinite-marquee-image-wrap img');
     const mainImage = mainImageContainer.querySelector('img');
     const canvas = document.getElementById('main-image-canvas');
+
+    console.log("Main image source:", mainImage.src);
 
     // Initialize Sketch with the main image as the first texture
     let sketch = new Sketch({
@@ -48,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load initial texture
     sketch.loadTexture(mainImage.src, function(texture) {
+        console.log ("Initial texture set");
         sketch.setTexture1(texture);
         sketch.setTexture2(texture);  // Set both textures to the main image initially
     });
@@ -55,12 +59,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listeners for marquee images
     marqueeImages.forEach(img => {
         img.addEventListener('mouseenter', function() {
+            console.log("Mouse entered on image:", img.src);
             sketch.loadTexture(img.src, function(texture) {
                 sketch.setTexture2(texture);
                 sketch.startTransition();  // Method to start the transition, ensure you handle it in your Sketch class
             });
         });
         img.addEventListener('mouseleave', function() {
+            console.log("Mouse left image, resetting to main iamge");
             sketch.loadTexture(mainImage.src, function(texture) {
                 sketch.setTexture2(texture);
                 sketch.startTransition();  // Transition back to the main image
