@@ -7,15 +7,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Function to adjust SVG size
   function adjustSVGSize() {
-    if (svg) {
-      if (window.innerWidth <= 478) {
+    var svg = document.querySelector('.collections-back_wrap svg');
+    var path = svg ? svg.querySelector('path') : null;
+  
+    if (svg && path) {
+      if (window.innerWidth <= 767) {
         svg.setAttribute('width', '16');
         svg.setAttribute('height', '16');
-        svg.setAttribute('viewBox', '0 0 16 16');
+        // Scale the path to fit the smaller size
+        path.setAttribute('transform', 'scale(0.6667)');
+        // Adjust stroke-width to maintain visual thickness
+        path.style.strokeWidth = '1.5px';
       } else {
         svg.setAttribute('width', '24');
         svg.setAttribute('height', '24');
-        svg.setAttribute('viewBox', '0 0 24 24');
+        // Remove scaling for larger size
+        path.removeAttribute('transform');
+        // Reset stroke-width
+        path.style.strokeWidth = '1px';
       }
     }
   }
