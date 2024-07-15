@@ -14,6 +14,8 @@ function initThreeJS() {
         console.error('Three.js is not loaded');
         return;
     }
+    console.log('Initializing Three.js');
+    
     const container = document.querySelector('.cp_main-image-container');
     const originalImg = container.querySelector('img');
     const originalMainImageSrc = originalImg.src
@@ -210,13 +212,13 @@ function render() {
 }
 
 // Initialize everything when the DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof THREE === 'undefined') {
-        console.error('Three.js is still not loaded');
-        return;
-    } else {
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM COntent Loaded')
+    if (typeof THREE !== 'undefined') {
         console.log('Three.js is available');
         initThreeJS();
+    } else {
+        console.error('Three.js is still not loaded');
     }
 });
 
