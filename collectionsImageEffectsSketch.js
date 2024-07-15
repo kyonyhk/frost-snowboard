@@ -61,15 +61,21 @@ class Sketch {
     startTransition() {
         console.log("Starting transition");
         this.uniforms.progress.value = 0;
+        this.isAnimating = true;
         this.animate();
     }
 
     animate() {
-        console.log("Animating transition");
-        this.uniforms.progress.value += 0.01; // Adjust speed as needed
-        if (this.uniforms.progress.value >= 1) {
-            this.uniforms.progress.value = 1;
+        if (this.isAnimating) {
+            this.uniforms.progress.value += 0.01; // Adjust speed as needed
+
+            if (this.uniforms.progress.value >= 1) {
+                this.uniforms.progress.value = 1;
+                this.isAnimating = false; // Stop the animation
+            }
+
+            requestAnimationFrame(this.animate.bind(this));
+            this.render(); // Ensure rendering is called within the animation loop
         }
-        requestAnimationFrame(this.animate.bind(this));
     }
 }
