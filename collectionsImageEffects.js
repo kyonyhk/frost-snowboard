@@ -21,7 +21,7 @@ function initThreeJS() {
         uniforms: {
             texture1: { value: null },
             texture2: { value: null },
-            disp: { value: new THREE.TextureLoader().load('path/to/displacement-image.jpg') },
+            disp: { value: new THREE.TextureLoader().load('https://uploads-ssl.webflow.com/65de4d4aa58a7df7f5ea205b/6694cc523ddbd2f97e5e4386_disp1.webp') },
             intensity: { value: 0.15 },
             progress: { value: 0 },
             time: { value: 0 }
