@@ -1,5 +1,6 @@
 class Sketch {
     constructor(opts) {
+        console.log("Sketch constructor started");
         this.scene = new THREE.Scene();
         this.vertex = `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
         this.fragment = opts.fragment;
@@ -18,9 +19,11 @@ class Sketch {
         document.body.appendChild(this.renderer.domElement);
 
         this.initObjects();
+        console.log("Sketch constructor completed");
     }
 
     initObjects() {
+        console.log("Initializing objects in scene");
         this.material = new THREE.ShaderMaterial({
             vertexShader: this.vertex,
             fragmentShader: this.fragment,
@@ -33,30 +36,36 @@ class Sketch {
     }
 
     render() {
+        console.log("Rendering scene");
         requestAnimationFrame(this.render.bind(this));
         this.renderer.render(this.scene, this.camera);
     }
 
     loadTexture(url, callback) {
+        console.log("Loading texture:", url);
         new THREE.TextureLoader().load(url, texture => {
             callback(texture);
         });
     }
 
     setTexture1(texture) {
+        console.log("Setting texture1");
         this.uniforms.texture1.value = texture;
     }
 
     setTexture2(texture) {
+        console.log("Setting texture2");
         this.uniforms.texture2.value = texture;
     }
 
     startTransition() {
+        console.log("Starting transition");
         this.uniforms.progress.value = 0;
         this.animate();
     }
 
     animate() {
+        console.log("Animating transition");
         this.uniforms.progress.value += 0.01; // Adjust speed as needed
         if (this.uniforms.progress.value >= 1) {
             this.uniforms.progress.value = 1;
