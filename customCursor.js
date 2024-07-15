@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     isClicking = true;
     cursor.classList.add('clicking');
     innerCursor.classList.add('clicking');
+    innerCursor.style.transform = 'translate(-50%, -50%) rotate(225deg)';
     console.log('Mouse down'); // Debugging line
   }
 
@@ -66,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     isClicking = false;
     cursor.classList.remove('clicking');
     innerCursor.classList.remove('clicking');
+    innerCursor.style.transform = 'translate(-50%, -50%) rotate(45deg)';
     console.log('Mouse up'); // Debugging line
   }
 
