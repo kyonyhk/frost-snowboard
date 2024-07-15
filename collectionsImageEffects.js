@@ -154,13 +154,22 @@ function initThreeJS() {
     window.addEventListener('resize', onWindowResize);
 }
 
-function setupMarqueeImageListeners() {
+function setupEventListeners() {
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const marqueeImages = document.querySelectorAll('.cp_infinite-marquee-image-wrap img');
-    marqueeImages.forEach(img => {
-        img.addEventListener('mouseenter', () => startTransition(img.src, true));
-        img.addEventListener('mouseleave', () => startTransition(currentTexture.image.src, true));
-        img.addEventListener('click', () => startTransition(img.src, false));
-    });
+
+    if (isTouchDevice) {
+        console.log('Setting up for touch device');
+        marqueeImages.forEach(img => {
+            img.addEventListener('click', () => startTransition(img.src, false));  // Use click for touch devices
+        });
+    } else {
+        console.log('Setting up for non-touch device');
+        marqueeImages.forEach(img => {
+            img.addEventListener('mouseenter', () => startTransition(img.src, true));  // Use hover for non-touch
+            img.addEventListener('mouseleave', () => startTransition(currentTexture.image.src, true));
+        });
+    }
 }
 
 function onWindowResize() {
