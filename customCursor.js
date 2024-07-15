@@ -53,6 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
     resetCursorColor();
   }
 
+  let isHovering = false;
+
   function setHoverEffects() {
     const hoverElements = document.querySelectorAll(
       "a, button, [data-cursor='hover'], .loading_button-container"
@@ -69,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
         cursor.classList.add('hover');
         innerCursor.classList.add('hover');
         defaultCursor.style.opacity = '0';
+
+        isHovering = true;
 
         if (emberElement) {
           emberElement.addEventListener('mouseenter', () => setCursorColor('#FDFDCE'));
@@ -88,14 +92,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateCursorPosition() {
-    let dx = mouseX - currentX;
-    let dy = mouseY - currentY;
-    currentX += dx * easing;
-    currentY += dy * easing;
-
-    cursorWrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
+    if (isHovering) {
+      // Immediate positioning when hovering
+      cursorWrapper.style.transform = `translate(${}px, ${}px)`;
+    } else {
+      //Smooth positioning when not hovering
+      let dx = mouseX - currentX;
+      let dy = mouseY - currentY;
+      currentX += dx * easing;
+      currentY += dy * easing;
+  
+      cursorWrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
+    }
+    
     cursor.style.transform = `translate(-50%, -50%) rotate(45deg)`;
+
+    //Always update default cursor position immediately
     defaultCursor.style.transform = `translate(${dx}px, ${dy}px) translate(-50%, -50%) rotate(45deg)`;
+    
     innerCursor.style.left = '0px';
     innerCursor.style.top = '0px';
     innerCursor.style.transform = 'translate(-50%, -50%) rotate(45deg)';
@@ -113,6 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
+    if (isHovering) {
+      currentX = mouseX;
+      currentY = mouseY;
+    }
   });
 
   // Call functions in the correct order
