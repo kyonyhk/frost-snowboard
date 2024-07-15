@@ -59,16 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateCursorPosition();
 
-  // URL color logic
-  const currentUrl = window.location.href;
-
-  // Set cursor color based on URL
-  if (currentUrl.includes("ember")) {
-    setCursorColor("#FDFDCE");
-  } else if (currentUrl.includes("nebula")) {
-    setCursorColor("#877FCB");
-  }
-
   // Hover effects
   const hoverElements = document.querySelectorAll("a, button, [data-cursor='hover'], .loading_button-container");
   const emberElement = document.querySelector('.collections-main_heading.link.is-clickable.is-ember');
@@ -94,10 +84,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   function resetCursorColor() {
-      cursor.style.borderColor = '';
-      cursor.style.backgroundColor = '';
-      innerCursor.style.backgroundColor = '';
-      defaultCursor.style.backgroundColor = '';
+      // Check URL and set color accordingly
+      const currentUrl = window.location.href;
+      if (currentUrl.includes("ember")) {
+          setCursorColor("#FDFDCE");
+      } else if (currentUrl.includes("nebula")) {
+          setCursorColor("#877FCB");
+      } else {
+          // Reset to default if no specific URL segment is found
+          cursor.style.borderColor = ''; // Default border color
+          cursor.style.backgroundColor = ''; // Default background color
+          innerCursor.style.backgroundColor = ''; // Default inner cursor color
+          defaultCursor.style.backgroundColor = ''; // Default default cursor color
+      }
   }
 
   hoverElements.forEach((element) => {
