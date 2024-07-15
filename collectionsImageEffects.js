@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log("Main image source:", mainImage.src);
 
+    mainImage.style.display = 'none';
+
     // Initialize Sketch with the main image as the first texture
     let sketch = new Sketch({
         debug: true,
