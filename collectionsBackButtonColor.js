@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function handleHover(color) {
     if (backWrap) {
       backWrap.addEventListener('mouseenter', function() {
-        applyStyles(color, 0.2); // 20% opacity on hover
+        applyStyles(color, 0.5); // 20% opacity on hover
       });
       backWrap.addEventListener('mouseleave', function() {
         applyStyles(color, 0); // 0% opacity on mouse leave
