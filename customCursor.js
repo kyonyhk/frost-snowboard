@@ -57,6 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const hoverElements = document.querySelectorAll(
       "a, button, [data-cursor='hover'], .loading_button-container"
     );
+    const emberElement = document.querySelector(
+      '.collections-main_heading.link.is-clickable.is-ember'
+    );
+    const nebulaElement = document.querySelector(
+      '.collections-main_heading.link.is-clickable.is-nebula'
+    );
 
     hoverElements.forEach((element) => {
       element.addEventListener('mouseenter', () => {
@@ -64,10 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
         innerCursor.classList.add('hover');
         defaultCursor.style.opacity = '0';
 
-        if (element.classList.contains('is-ember')) {
-          setCursorColor('#FDFDCE');
-        } else if (element.classList.contains('is-nebula')) {
-          setCursorColor('#877FCB');
+        if (emberElement) {
+          emberElement.addEventListener('mouseenter', () => setCursorColor('#FDFDCE'));
+        }
+        if (nebulaElement) {
+          nebulaElement.addEventListener('mouseenter', () => setCursorColor('#877FCB'));
         }
       });
 
