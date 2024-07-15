@@ -2,12 +2,12 @@ document.addEventListener("DOMContentLoaded", function() {
   var currentUrl = window.location.href;
   var backWrap = document.querySelector('.collections-back_wrap');
   var targetTexts = document.querySelectorAll('.collections-back_wrap .h-h6.is-cta.is-collections-back');
-  var targetSVG = document.querySelector('.collections-back_wrap .cta-svg');
+  var targetSVG = document.querySelector('.collections-back_wrap svg path');
 
   // Function to apply styles
   function applyStyles(color, opacity) {
     if (targetSVG) {
-      targetSVG.style.fill = color; // Change the fill color of the SVG
+      targetSVG.style.stroke = color; // Change the stroke color of the SVG
     }
     targetTexts.forEach(function(element) {
       element.style.color = `rgba(${parseInt(color.slice(1, 3), 16)}, ${parseInt(color.slice(3, 5), 16)}, ${parseInt(color.slice(5, 7), 16)}, ${opacity})`; // Change text fill color with opacity
