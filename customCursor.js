@@ -59,6 +59,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateCursorPosition();
 
+  // URL color logic
+  const currentUrl = window.location.href;
+
+  // Set cursor color based on URL
+  if (currentUrl.includes("ember")) {
+    setCursorColor("#FDFDCE");
+  } else if (currentUrl.includes("nebula")) {
+    setCursorColor("#877FCB");
+  }
+
   // Hover effects
   const hoverElements = document.querySelectorAll("a, button, [data-cursor='hover'], .loading_button-container");
   const emberElement = document.querySelector('.collections-main_heading.link.is-clickable.is-ember');
