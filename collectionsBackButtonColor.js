@@ -11,9 +11,11 @@ document.addEventListener("DOMContentLoaded", function() {
       if (window.innerWidth <= 478) {
         svg.setAttribute('width', '16');
         svg.setAttribute('height', '16');
+        svg.setAttribute('viewBox', '0 0 16 16');
       } else {
         svg.setAttribute('width', '24');
         svg.setAttribute('height', '24');
+        svg.setAttribute('viewBox', '0 0 24 24');
       }
     }
   }
