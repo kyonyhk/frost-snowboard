@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let mouseY = 0;
   let currentX = 0;
   let currentY = 0;
-  const easing = 0.1;
+  const easing = 0.125;
 
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
