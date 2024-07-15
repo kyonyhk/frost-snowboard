@@ -110,6 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
         cursor.classList.add('hover');
         innerCursor.classList.add('hover');
         defaultCursor.style.opacity = '0';
+
+        // Check if the hovered element is ember or nebula
+        if (element.classList.contains('is-ember')) {
+          setCursorColor('#FDFDCE');
+        } else if (element.classList.contains('is-nebula')) {
+          setCursorColor('#877FCB');
+        }
       });
 
       element.addEventListener('mouseleave', () => {
@@ -135,18 +142,5 @@ document.addEventListener('DOMContentLoaded', () => {
       innerCursor.style.backgroundColor = ''; // Default inner cursor color
       defaultCursor.style.backgroundColor = ''; // Default default cursor color
     }
-    initializeCursorColor();
-  }
-
-  if (emberElement) {
-    emberElement.addEventListener('mouseenter', () => {
-      setCursorColor('#FDFDCE');
-    });
-  }
-
-  if (nebulaElement) {
-    nebulaElement.addEventListener('mouseenter', () => {
-      setCursorColor('#877FCB');
-    });
   }
 });
