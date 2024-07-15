@@ -1,3 +1,6 @@
+console.log('Script started');
+console.log('THREE object:', typeof THREE !== 'undefined' ? 'defined' : 'undefined');
+
 let scene, camera, renderer;
 let currentMesh;
 let hoverTransitionMaterial, clickTransitionMaterial;
@@ -6,6 +9,11 @@ let transitionProgress = 0;
 let currentTexture, nextTexture;
 
 function initThreeJS() {
+    console.log('Initializing Three.js');
+    if (typeof THREE === 'undefined') {
+        console.error('Three.js is not loaded');
+        return;
+    }
     const container = document.querySelector('.cp_main-image-container');
     const originalImg = container.querySelector('img');
     const originalMainImageSrc = originalImg.src
@@ -202,4 +210,9 @@ function render() {
 }
 
 // Initialize everything when the DOM is ready
-document.addEventListener('DOMContentLoaded', initThreeJS);
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Content loaded');
+    initThreeJS();
+});
+
+console.log('Script ended');
