@@ -59,7 +59,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  transition: all 0.2s cubic-bezier(0.87, 0, 0.13, 1), background-color 0.2s cubic-bezier(0.87, 0, 0.13, 1);
+  transition: all 0.2s cubic-bezier(0.87, 0, 0.13, 1), background-color 0.2s cubic-bezier(0.87, 0, 0.13, 1), transform 0.2s cubic-bezier(0.87, 0, 0.13, 1);
 }
 
 .cursor.hover {
@@ -95,5 +95,5 @@ body {
   height: 8px;
   border-radius: 50%;
   opacity: 1;
-  transform: translate(-50%, -50%) rotate(360deg);
+  transform: rotate(225deg);
 }
