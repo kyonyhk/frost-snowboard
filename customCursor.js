@@ -116,4 +116,12 @@ document.addEventListener("DOMContentLoaded", () => {
       setCursorColor("#877FCB");
     });
   }
+
+  if (window.location.href.includes('ember-collection') {
+    setCursorColor("#FDFDCE");
+  })
+
+  if (window.location.href.includes('nebula-collection') {
+    setCursorColor("#877FCB");
+  })
 });
