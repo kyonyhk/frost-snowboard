@@ -3,6 +3,24 @@ document.addEventListener("DOMContentLoaded", function() {
   var backWrap = document.querySelector('.collections-back_wrap');
   var targetTexts = document.querySelectorAll('.collections-back_wrap .h-h6.is-cta.is-collections-back');
   var targetSVG = document.querySelector('.collections-back_wrap svg path');
+  var svg = document.querySelector('.collections-back_wrap svg');
+
+  // Function to adjust SVG size
+  function adjustSVGSize() {
+    if (svg) {
+      if (window.innerWidth <= 478) {
+        svg.setAttribute('width', '16');
+        svg.setAttribute('height', '16');
+      } else {
+        svg.setAttribute('width', '24');
+        svg.setAttribute('height', '24');
+      }
+    }
+  }
+
+  // Call adjustSVGSize initially and on window resize
+  adjustSVGSize();
+  window.addEventListener('resize', adjustSVGSize);
 
   // Function to apply styles
   function applyStyles(color, opacity) {
@@ -19,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function handleHover(color) {
     if (backWrap) {
       backWrap.addEventListener('mouseenter', function() {
-        applyStyles(color, 0.5); // 20% opacity on hover
+        applyStyles(color, 0.5); // 50% opacity on hover
       });
       backWrap.addEventListener('mouseleave', function() {
         applyStyles(color, 0); // 0% opacity on mouse leave
@@ -37,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   if (color) {
-    applyStyles(color, 0.2); // Initial state with 20% opacity
+    applyStyles(color, 0); // Initial state with 0% opacity
     handleHover(color); // Set up hover effect
   }
 });
