@@ -210,9 +210,14 @@ function render() {
 }
 
 // Initialize everything when the DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM Content loaded');
-    initThreeJS();
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof THREE === 'undefined') {
+        console.error('Three.js is still not loaded');
+        return;
+    } else {
+        console.log('Three.js is available');
+        initThreeJS();
+    }
 });
 
 console.log('Script ended');
