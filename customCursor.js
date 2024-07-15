@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const cursorWrapper = document.querySelector(".cursor-wrapper");
-  const cursor = document.querySelector(".cursor");
-  const innerCursor = document.querySelector(".inner-cursor");
-  const defaultCursor = document.querySelector(".default-cursor")
-  
+document.addEventListener('DOMContentLoaded', () => {
+  const cursorWrapper = document.querySelector('.cursor-wrapper');
+  const cursor = document.querySelector('.cursor');
+  const innerCursor = document.querySelector('.inner-cursor');
+  const defaultCursor = document.querySelector('.default-cursor');
+
   if (!innerCursor) {
-    console.error("Inner cursor element not found");
+    console.error('Inner cursor element not found');
     return;
   }
 
@@ -19,6 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
     innerCursor.style.display = 'block';
     defaultCursor.style.display = 'block';
   }
+
+  //Initialize cursor style based on URL
+  initializeCursorColor();
 
   // Mouse movement
   let mouseX = 0;
@@ -52,77 +55,98 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(updateCursorPosition);
   }
 
-  document.addEventListener("mousemove", (e) => {
+  document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
   });
 
   updateCursorPosition();
 
+  // Hover effects and color resets
+  setHoverEffects();
+
   // Hover effects
-  const hoverElements = document.querySelectorAll("a, button, [data-cursor='hover'], .loading_button-container");
-  const emberElement = document.querySelector('.collections-main_heading.link.is-clickable.is-ember');
-  const nebulaElement = document.querySelector('.collections-main_heading.link.is-clickable.is-nebula');
+  const hoverElements = document.querySelectorAll(
+    "a, button, [data-cursor='hover'], .loading_button-container"
+  );
+  const emberElement = document.querySelector(
+    '.collections-main_heading.link.is-clickable.is-ember'
+  );
+  const nebulaElement = document.querySelector(
+    '.collections-main_heading.link.is-clickable.is-nebula'
+  );
 
   // Helper function to convert hex to RGBA
   function hexToRGBA(hex, opacity) {
-      let r = parseInt(hex.slice(1, 3), 16);
-      let g = parseInt(hex.slice(3, 5), 16);
-      let b = parseInt(hex.slice(5, 7), 16);
-  
-      return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+    let r = parseInt(hex.slice(1, 3), 16);
+    let g = parseInt(hex.slice(3, 5), 16);
+    let b = parseInt(hex.slice(5, 7), 16);
+
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
-  
+
   function setCursorColor(hexColor) {
-      const borderColor = hexColor; // Full opacity for border
-      const backgroundColor = hexToRGBA(hexColor, 0.2); // 20% opacity for cursor background
-  
-      cursor.style.borderColor = borderColor;
-      cursor.style.backgroundColor = backgroundColor;
-      innerCursor.style.backgroundColor = hexColor; // Full opacity for inner cursor
-      defaultCursor.style.backgroundColor = hexColor; // Full opacity for default cursor
-  }
-  
-  function resetCursorColor() {
-      // Check URL and set color accordingly
-      const currentUrl = window.location.href;
-      if (currentUrl.includes("ember")) {
-          setCursorColor("#FDFDCE");
-      } else if (currentUrl.includes("nebula")) {
-          setCursorColor("#877FCB");
-      } else {
-          // Reset to default if no specific URL segment is found
-          cursor.style.borderColor = ''; // Default border color
-          cursor.style.backgroundColor = ''; // Default background color
-          innerCursor.style.backgroundColor = ''; // Default inner cursor color
-          defaultCursor.style.backgroundColor = ''; // Default default cursor color
-      }
+    const borderColor = hexColor; // Full opacity for border
+    const backgroundColor = hexToRGBA(hexColor, 0.2); // 20% opacity for cursor background
+
+    cursor.style.borderColor = borderColor;
+    cursor.style.backgroundColor = backgroundColor;
+    innerCursor.style.backgroundColor = hexColor; // Full opacity for inner cursor
+    defaultCursor.style.backgroundColor = hexColor; // Full opacity for default cursor
   }
 
-  hoverElements.forEach((element) => {
-    element.addEventListener("mouseenter", () => {
-      cursor.classList.add("hover");
-      innerCursor.classList.add("hover");
-      defaultCursor.style.opacity = "0";
+  function initializeCursorColor() {
+    const currentUrl = window.location.href;
+    if (currentUrl.includes('ember')) {
+      setCursorColor('#FDFDCE');
+    } else if (currentUrl.includes('nebula')) {
+      setCursorColor('#877FCB');
+    }
+  }
+
+  function setHoverEffects() {
+    hoverElements.forEach((element) => {
+      element.addEventListener('mouseenter', () => {
+        cursor.classList.add('hover');
+        innerCursor.classList.add('hover');
+        defaultCursor.style.opacity = '0';
+      });
+
+      element.addEventListener('mouseleave', () => {
+        cursor.classList.remove('hover');
+        innerCursor.classList.remove('hover');
+        defaultCursor.style.opacity = '1';
+        resetCursorColor();
+      });
     });
+  }
 
-    element.addEventListener("mouseleave", () => {
-      cursor.classList.remove("hover");
-      innerCursor.classList.remove("hover");
-      defaultCursor.style.opacity = "1";
-      resetCursorColor();
-    });    
-  });
+  function resetCursorColor() {
+    // Check URL and set color accordingly
+    const currentUrl = window.location.href;
+    if (currentUrl.includes('ember')) {
+      setCursorColor('#FDFDCE');
+    } else if (currentUrl.includes('nebula')) {
+      setCursorColor('#877FCB');
+    } else {
+      // Reset to default if no specific URL segment is found
+      cursor.style.borderColor = ''; // Default border color
+      cursor.style.backgroundColor = ''; // Default background color
+      innerCursor.style.backgroundColor = ''; // Default inner cursor color
+      defaultCursor.style.backgroundColor = ''; // Default default cursor color
+    }
+    initializeCursorColor();
+  }
 
   if (emberElement) {
-    emberElement.addEventListener("mouseenter", () => {
-      setCursorColor("#FDFDCE");
+    emberElement.addEventListener('mouseenter', () => {
+      setCursorColor('#FDFDCE');
     });
   }
 
   if (nebulaElement) {
-    nebulaElement.addEventListener("mouseenter", () => {
-      setCursorColor("#877FCB");
+    nebulaElement.addEventListener('mouseenter', () => {
+      setCursorColor('#877FCB');
     });
   }
 });
