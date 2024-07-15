@@ -51,6 +51,18 @@ document.addEventListener('DOMContentLoaded', function() {
         `
     });
 
+    function setCanvasSize() {
+        const rect = mainImageContainer.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        sketch.renderer.setSize(rect.width, rect.height);
+        sketch.camera.aspect = rect.width / rect.height;
+        sketch.camera.updateProjectionMatrix();
+    }
+
+    setCanvasSize(); // Set initial size
+    window.addEventListener('resize', setCanvasSize); // Update size on resize
+
     // Load initial texture
     sketch.loadTexture(mainImage.src, function(texture) {
         console.log ("Initial texture set");
