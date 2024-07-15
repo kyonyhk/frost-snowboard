@@ -40,14 +40,19 @@ document.addEventListener("DOMContentLoaded", () => {
     currentX += dx * easing;
     currentY += dy * easing;
 
+    // Update cursor wrapper position (smooth movement)
     cursorWrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
-    cursor.style.transform = `translate(-50%, -50%) rotate(45deg)`;
-    defaultCursor.style.transform = `translate(${dx}px, ${dy}px) translate(-50%, -50%) rotate(45deg)`;
 
-    // Inner cursor positioning
-    innerCursor.style.left = '0px';
-    innerCursor.style.top = '0px';
-    innerCursor.style.transform = 'translate(-50%, -50%) rotate(45deg)';
+    // Update default cursor position (immediate)
+    defaultCursor.style.transform = `translate(${mouseX - currentX}px, ${mouseY - currentY}px) translate(-50%, -50%) rotate(45deg)`;
+
+    //Update hover state position (immediate)
+    hoverX = mouseX - currentX;
+    hoverY = mouseY - currentY;
+
+    // Update hover elements position
+    cursor.style.transform = `translate(${hoverX}px, ${hoverY}px) translate(-50%, -50%) rotate(45deg)`;
+    innerCursor.style.transform = `translate(${hoverX}px, ${hoverY}px) translate(-50%, -50%) rotate(45deg)`;
 
     requestAnimationFrame(updateCursorPosition);
   }
@@ -55,6 +60,14 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
+
+    // Immediately update hover position
+    hoverX = mouseX - currentX;
+    hoverY = mouseY - currentY;
+
+    // Immediately update hover elements
+    cursor.style.transform = `translate(${hoverX}px, ${hoverY}px) translate(-50%, -50%) rotate(45deg)`;
+    innerCursor.style.transform = `translate(${hoverX}px, ${hoverY}px) translate(-50%, -50%) rotate(45deg)`;
   });
 
   updateCursorPosition();
@@ -95,6 +108,10 @@ document.addEventListener("DOMContentLoaded", () => {
       cursor.classList.add("hover");
       innerCursor.classList.add("hover");
       defaultCursor.style.opacity = "0";
+
+      // Ensure immediate position on hover
+      cursor.style.transition = 'none';
+      innerCursor.style.transition = 'none';
     });
 
     element.addEventListener("mouseleave", () => {
@@ -102,6 +119,10 @@ document.addEventListener("DOMContentLoaded", () => {
       innerCursor.classList.remove("hover");
       defaultCursor.style.opacity = "1";
       resetCursorColor();
+
+      // Restore transitions after leaving hover state
+      cursor.style.transition = '';
+      innerCursor.style.transition = '';
     });    
   });
 
