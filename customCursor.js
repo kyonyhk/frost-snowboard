@@ -86,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cursor.classList.remove('hover');
         innerCursor.classList.remove('hover');
         defaultCursor.style.opacity = '1';
+        isHovering = false;
         resetCursorColor();
       });
     });
@@ -94,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateCursorPosition() {
     if (isHovering) {
       // Immediate positioning when hovering
-      cursorWrapper.style.transform = `translate(${}px, ${}px)`;
+      cursorWrapper.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
     } else {
       //Smooth positioning when not hovering
       let dx = mouseX - currentX;
@@ -108,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cursor.style.transform = `translate(-50%, -50%) rotate(45deg)`;
 
     //Always update default cursor position immediately
-    defaultCursor.style.transform = `translate(${dx}px, ${dy}px) translate(-50%, -50%) rotate(45deg)`;
+    defaultCursor.style.transform = `translate(${mouseX - currentX}px, ${mouseY - currentY}px) translate(-50%, -50%) rotate(45deg)`;
     
     innerCursor.style.left = '0px';
     innerCursor.style.top = '0px';
