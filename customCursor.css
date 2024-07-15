@@ -80,3 +80,20 @@ body {
   opacity: 1;
   transform: rotate(45deg);
 }
+
+.cursor.clicking {
+  width: 48px;
+  height: 48px;
+  border-color: #A1FCCF;
+  border-width: 2px;
+  background: rgba(161, 252, 207, 0.40);
+}
+
+.inner-cursor.clicking {
+  background-color: #A1FCCF;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(360deg);
+}
