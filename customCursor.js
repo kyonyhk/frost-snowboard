@@ -41,8 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
     currentY += dy * easing;
 
     cursorWrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
-    defaultCursor.style.transform = `translate(-50%, -50%) rotate(45deg)`;
-    cursor.style.transform = `translate(${dx}px, ${dy}px) translate(-50%, -50%) rotate(45deg)`;
+    cursor.style.transform = `translate(-50%, -50%) rotate(45deg)`;
+    defaultCursor.style.transform = `translate(${dx}px, ${dy}px) translate(-50%, -50%) rotate(45deg)`;
 
     // Inner cursor positioning
     innerCursor.style.left = '0px';
