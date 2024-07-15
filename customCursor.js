@@ -53,6 +53,20 @@ document.addEventListener('DOMContentLoaded', () => {
     resetCursorColor();
   }
 
+  let isClicking = false;
+
+  document.addEventListener('mousedown', () => {
+    isClicking = true;
+    cursor.classList.add('clicking');
+    innerCursor.classList.add('clicking');
+  }) 
+
+  document.addEventListener('mousedown', () => {
+    isClicking = false;
+    cursor.classList.remove('clicking');
+    innerCursor.classList.remove('clicking');
+  }) 
+
   let isHovering = false;
 
   function setHoverEffects() {
@@ -93,11 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateCursorPosition() {
-    if (isHovering) {
-      // Immediate positioning when hovering
+    if (isHovering || isClicking) {
+      // Immediate positioning when hovering or clicking
       cursorWrapper.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
     } else {
-      //Smooth positioning when not hovering
+      //Smooth positioning when not hovering or clicking
       let dx = mouseX - currentX;
       let dy = mouseY - currentY;
       currentX += dx * easing;
