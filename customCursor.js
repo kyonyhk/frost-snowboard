@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     defaultCursor.style.display = 'block';
   }
 
-  // Mouse follow
+  // Mouse movement
   let mouseX = 0;
   let mouseY = 0;
   let currentX = 0;
@@ -41,8 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
     currentY += dy * easing;
 
     cursorWrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
-    cursor.style.transform = `translate(-50%, -50%) rotate(45deg)`;
-    defaultCursor.style.transform = `translate(${dx}px, ${dy}px) translate(-50%, -50%) rotate(45deg)`;
+    defaultCursor.style.transform = `translate(-50%, -50%) rotate(45deg)`;
+    cursor.style.transform = `translate(${dx}px, ${dy}px) translate(-50%, -50%) rotate(45deg)`;
 
     // Inner cursor positioning
     innerCursor.style.left = '0px';
