@@ -31,20 +31,25 @@ class Sketch {
 
     initObjects() {
         console.log("Initializing objects in scene");
-        this.material = new THREE.ShaderMaterial({
-            vertexShader: this.vertex,
-            fragmentShader: this.fragment,
-            uniforms: this.uniforms
-        });
-        this.geometry = new THREE.PlaneGeometry(2, 2);
+        // this.material = new THREE.ShaderMaterial({
+        //     vertexShader: this.vertex,
+        //     fragmentShader: this.fragment,
+        //     uniforms: this.uniforms
+        // });
+        // this.geometry = new THREE.PlaneGeometry(2, 2);
+        this.geometry = new THREE.BoxGeometry(1, 1, 1);
+        this.material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         this.plane = new THREE.Mesh(this.geometry, this.material);
         this.scene.add(this.plane);
+        this.camera.position.z = 5; 
         this.render();
     }
 
     render() {
         console.log('Rendering scene');
         if (this.uniforms.texture1.value && this.uniforms.texture2.value) {
+            this.renderer.setClearColor(0xff0000, 1); // Set to red for visibility during debugging
+            this.camera.lookAt(this.plane.position); // Ensure camera is looking at the plane
             this.renderer.render(this.scene, this.camera);
         } else {
             console.log('Rendering skipped due to missing textures');
