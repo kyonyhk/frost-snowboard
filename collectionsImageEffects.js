@@ -46,10 +46,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 vec2 distortedPosition2 = newUV + getRotM(angle2) * dispVec * intensity * (1.0 - progress);
                 vec4 t2 = texture2D(texture2, distortedPosition2);
 
-                gl_FragColor = mix(t1, t2, progress);
+                // Debug by visualizing the UV coordinates
+                gl_FragColor = vec4(newUV, 0.0, 1.0); // This will color the mesh based on UV coordinates
             }
         `
     });
+
+    // gl_FragColor = mix(t1, t2, progress);
 
     function setCanvasSize() {
         const rect = mainImageContainer.getBoundingClientRect();
