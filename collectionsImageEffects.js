@@ -58,6 +58,13 @@ document.addEventListener('DOMContentLoaded', function() {
         sketch.renderer.setSize(rect.width, rect.height);
         sketch.camera.aspect = rect.width / rect.height;
         sketch.camera.updateProjectionMatrix();
+
+        // Update resolution uniform based on new dimensions
+        sketch.uniforms.resolution.value.x = rect.width;
+        sketch.uniforms.resolution.value.y = rect.height;
+        sketch.uniforms.resolution.value.z = 1 / rect.width;
+        sketch.uniforms.resolution.value.w = 1 / rect.height;
+        sketch.render(); // Ensure that the scene is re-rendered with new settings
     }
 
     setCanvasSize(); // Set initial size
