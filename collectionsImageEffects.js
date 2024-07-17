@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log ("Initial texture set");
         sketch.setTexture1(texture);
         sketch.setTexture2(texture);  // Set both textures to the main image initially
+        sketch.render();
     });
 
     // Event listeners for marquee images
