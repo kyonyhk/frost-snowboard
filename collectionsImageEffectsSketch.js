@@ -59,7 +59,12 @@ class Sketch {
     loadTexture(url, callback) {
         console.log("Loading texture:", url);
         new THREE.TextureLoader().load(url, texture => {
-            callback(texture);
+            if (texture) {
+                console.log("Texture loaded successfully:", url);
+                callback(texture);
+            } else {
+                console.log("Failed to load texture:", url);
+            }
         });
     }
 
@@ -70,6 +75,7 @@ class Sketch {
         }
         this.uniforms.texture1.value = texture;
         console.log('Texture1 set successfully');
+        this.checkTexturesAndRender();
     }
     
     setTexture2(texture) {
@@ -79,6 +85,14 @@ class Sketch {
         }
         this.uniforms.texture2.value = texture;
         console.log('Texture2 set successfully');
+        this.checkTexturesAndRender();
+    }
+    
+    checkTexturesAndRender() {
+        if (this.uniforms.texture1.value && this.uniforms.texture2.value) {
+            console.log('Both textures set, attempting to render');
+            this.render();
+        }
     }
 
     startTransition() {
