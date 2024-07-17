@@ -20,7 +20,10 @@ class Sketch {
 
         // Set styles to ensure the canvas is visible
         this.renderer.domElement.style.position = 'absolute';
+        this.renderer.domElement.style.left = '0';
         this.renderer.domElement.style.top = '0';
+        this.renderer.domElement.style.width = '100%';
+        this.renderer.domElement.style.height = '100%';
         this.renderer.domElement.style.zIndex = '1000'; // high z-index to ensure it's on top
         
         document.body.appendChild(this.renderer.domElement);
@@ -31,16 +34,15 @@ class Sketch {
 
     initObjects() {
         console.log("Initializing objects in scene");
-        // this.material = new THREE.ShaderMaterial({
-        //     vertexShader: this.vertex,
-        //     fragmentShader: this.fragment,
-        //     uniforms: this.uniforms
-        // });
-        // this.geometry = new THREE.PlaneGeometry(2, 2);
-        this.geometry = new THREE.BoxGeometry(1, 1, 1);
-        this.material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        this.material = new THREE.ShaderMaterial({
+            vertexShader: this.vertex,
+            fragmentShader: this.fragment,
+            uniforms: this.uniforms
+        });
+        this.geometry = new THREE.PlaneGeometry(2, 2);
         this.plane = new THREE.Mesh(this.geometry, this.material);
-        this.scene.add(this.plane);
+        this.scene.add(this.plane); // Center the plane
+        
         this.camera.position.z = 5; 
         this.render();
     }
