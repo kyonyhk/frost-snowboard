@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         fragment: `
             void main() {
-                gl_FragColor = vec4(newUV, 0.0, 1.0); // This will color the mesh based on UV coordinates
+                gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); // Render everything red
             }
         `
     });
