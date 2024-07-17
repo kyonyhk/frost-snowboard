@@ -20,13 +20,13 @@ class Sketch {
         this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // Ensure the camera is looking at the origin
         this.renderer.setSize(window.innerWidth, window.innerHeight);
 
-        // Set styles to ensure the canvas is visible
-        this.renderer.domElement.style.position = 'absolute';
-        this.renderer.domElement.style.left = '0';
-        this.renderer.domElement.style.top = '0';
-        this.renderer.domElement.style.width = '100%';
-        this.renderer.domElement.style.height = '100%';
-        this.renderer.domElement.style.zIndex = '1000'; // high z-index to ensure it's on top
+        // // Set styles to ensure the canvas is visible
+        // this.renderer.domElement.style.position = 'absolute';
+        // this.renderer.domElement.style.left = '0';
+        // this.renderer.domElement.style.top = '0';
+        // this.renderer.domElement.style.width = '100%';
+        // this.renderer.domElement.style.height = '100%';
+        // this.renderer.domElement.style.zIndex = '1000'; // high z-index to ensure it's on top
         
         document.body.appendChild(this.renderer.domElement);
 
