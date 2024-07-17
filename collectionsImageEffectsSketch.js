@@ -36,7 +36,7 @@ class Sketch {
     }
 
     initObjects() {
-        console.log("Initializing objects in scene");
+        console.log("sInitializing objects in scene");
         this.material = new THREE.ShaderMaterial({
             vertexShader: this.vertex,
             fragmentShader: this.fragment,
@@ -56,7 +56,7 @@ class Sketch {
             this.renderer.setClearColor(0x000000, 0); // Set to red for visibility during debugging
             this.renderer.render(this.scene, this.camera);
         } else {
-            console.log('Rendering skipped due to missing textures');
+            console.log('Rendering skipped due to missing textures', this.uniforms.texture1.value, this.uniforms.texture2.value);
         }
     }
 
@@ -77,6 +77,7 @@ class Sketch {
             console.error('Texture1 is null');
             return;
         }
+        console.log('Setting texture1', texture)
         this.uniforms.texture1.value = texture;
         console.log('Texture1 set successfully');
         this.checkTexturesAndRender();
@@ -87,12 +88,14 @@ class Sketch {
             console.error('Texture2 is null');
             return;
         }
+        console.log('Setting texture2', texture)
         this.uniforms.texture2.value = texture;
         console.log('Texture2 set successfully');
         this.checkTexturesAndRender();
     }
     
     checkTexturesAndRender() {
+        console.log('Checking textures', this.uniforms.texture1.value, this.uniforms.texture2.value)
         if (this.uniforms.texture1.value && this.uniforms.texture2.value) {
             console.log('Both textures set, attempting to render');
             this.render();
