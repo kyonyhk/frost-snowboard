@@ -31,6 +31,7 @@ class Sketch {
         document.body.appendChild(this.renderer.domElement);
 
         this.initObjects();
+        this.updateResolution();
         console.log("Sketch constructor completed");
     }
 
@@ -128,4 +129,6 @@ class Sketch {
             this.render(); // Ensure rendering is called within the animation loop
         }
     }
+
+    window.addEventListener('resize', () => sketch.updateResolution());
 }
