@@ -21,12 +21,12 @@ class Sketch {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
 
         // // Set styles to ensure the canvas is visible
-        // this.renderer.domElement.style.position = 'absolute';
+        this.renderer.domElement.style.position = 'relative';
         // this.renderer.domElement.style.left = '0';
         // this.renderer.domElement.style.top = '0';
         // this.renderer.domElement.style.width = '100%';
         // this.renderer.domElement.style.height = '100%';
-        // this.renderer.domElement.style.zIndex = '1000'; // high z-index to ensure it's on top
+        this.renderer.domElement.style.zIndex = '1000'; // high z-index to ensure it's on top
         
         document.body.appendChild(this.renderer.domElement);
 
