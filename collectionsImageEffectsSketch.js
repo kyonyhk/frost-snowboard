@@ -130,5 +130,3 @@ class Sketch {
         }
     }
 }
-
-window.addEventListener('resize', () => sketch.updateResolution());
