@@ -16,6 +16,8 @@ class Sketch {
         this.renderer = new THREE.WebGLRenderer({ alpha: true }); // ensure renderer has a transparent background
         this.renderer.setClearColor(0x000000, 0); // clear color set to black but fully transparent
         this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.001, 1000);
+        this.camera.position.set(0, 0, 5);
+        this.camera.lookAt(new THREE.Vector3(0, 0, 0)); // Ensure the camera is looking at the origin
         this.renderer.setSize(window.innerWidth, window.innerHeight);
 
         // Set styles to ensure the canvas is visible
