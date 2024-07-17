@@ -43,15 +43,14 @@ class Sketch {
         this.plane = new THREE.Mesh(this.geometry, this.material);
         this.scene.add(this.plane); // Center the plane
         
-        this.camera.position.z = 5; 
         this.render();
     }
 
     render() {
         console.log('Rendering scene');
         if (this.uniforms.texture1.value && this.uniforms.texture2.value) {
-            this.renderer.setClearColor(0xff0000, 1); // Set to red for visibility during debugging
-            this.camera.lookAt(this.plane.position); // Ensure camera is looking at the plane
+            this.renderer.clear();
+            this.renderer.setClearColor(0x000000, 0); // Set to red for visibility during debugging
             this.renderer.render(this.scene, this.camera);
         } else {
             console.log('Rendering skipped due to missing textures');
