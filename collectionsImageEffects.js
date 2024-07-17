@@ -73,6 +73,12 @@ document.addEventListener('DOMContentLoaded', function() {
     setCanvasSize(); // Set initial size
     window.addEventListener('resize', setCanvasSize); // Update size on resize
 
+    // Initialize and update the resolution at setup
+    sketch.updateResolution();
+
+    // Update resolution on resize
+    window.addEventListener('resize', () => sketch.updateResolution());
+
     // Load initial texture
     sketch.loadTexture(mainImage.src, function(texture) {
         console.log ("Initial texture set");
