@@ -129,6 +129,6 @@ class Sketch {
             this.render(); // Ensure rendering is called within the animation loop
         }
     }
-
-    window.addEventListener('resize', () => sketch.updateResolution());
 }
+
+window.addEventListener('resize', () => sketch.updateResolution());
