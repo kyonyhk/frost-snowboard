@@ -13,7 +13,7 @@ class Sketch {
             displacement: { type: "t", value: new THREE.TextureLoader().load('https://uploads-ssl.webflow.com/65de4d4aa58a7df7f5ea205b/6694cc523ddbd2f97e5e4386_disp1.webp') },
             resolution: { type: "v4", value: new THREE.Vector4() }
         };
-        this.renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('main-image-canvas'), alpha: true }); // ensure renderer has a transparent background
+        this.renderer = new THREE.WebGLRenderer({ alpha: true }); // ensure renderer has a transparent background
         this.renderer.setClearColor(0x000000, 0); // clear color set to black but fully transparent
         this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.001, 1000);
         this.camera.position.set(0, 0, 5);
