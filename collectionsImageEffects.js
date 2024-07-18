@@ -59,7 +59,7 @@ class Sketch {
 
   initiate(cb) {
     let that = this;
-    if (this.images.length > 0) {
+    if (this.images) {
         // Assuming there's always at least one image in the array
         let url = this.images[0];
         new THREE.TextureLoader().load(url, (texture) => {
