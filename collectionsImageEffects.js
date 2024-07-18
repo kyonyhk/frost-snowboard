@@ -255,6 +255,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const imageSrc = mainImage.src;
       canvasContainer.setAttribute('data-images', JSON.stringify([imageSrc]));
       console.log('Set data-images:', canvasContainer.getAttribute('data-images'));
+
+      const dispUrl = 'https://uploads-ssl.webflow.com/65de4d4aa58a7df7f5ea205b/6694cc523ddbd2f97e5e4386_disp1.webp';
+      canvasContainer.setAttribute('data-disp', dispUrl);
+      console.log('Set data-disp:', canvasContainer.getAttribute('data-disp'));
   }
   let sketch = new Sketch({
     debug: true,
