@@ -101,10 +101,12 @@ class Sketch {
   // }
 
   setupInteractionEvents() {
-    let lastHoveredTexture = this.textures[0]; // Start with the initial texture
+    let lastHoveredIndex = 0; // Track the last hovered index for smoother transitions
 
     this.marqueeImages.forEach((img, index) => {
-        let nextTexture = this.textures[index % this.textures.length];
+        // Calculate the correct index for textures array
+        let correctIndex = (index % this.textures.length) + 1; // Assuming first texture is always the main image
+        let nextTexture = this.textures[correctIndex];
 
         if ('ontouchstart' in window) {
             // Mobile touch interaction
@@ -125,7 +127,7 @@ class Sketch {
         } else {
             // Desktop hover interaction
             img.addEventListener('mouseenter', () => {
-                lastHoveredTexture = nextTexture; // Update last hovered texture
+                lastHoveredIndex = correctIndex; // Update last hovered index
                 this.material.uniforms.texture2.value = nextTexture;
                 gsap.to(this.material.uniforms.progress, {
                     value: 1,
@@ -139,15 +141,16 @@ class Sketch {
             });
 
             img.addEventListener('mouseleave', () => {
+                let lastTexture = this.textures[lastHoveredIndex];
                 // Transition smoothly to lastHoveredTexture instead of resetting
-                if (this.material.uniforms.texture2.value !== lastHoveredTexture) {
-                    this.material.uniforms.texture2.value = lastHoveredTexture;
+                if (this.material.uniforms.texture2.value !== lastTexture) {
+                    this.material.uniforms.texture2.value = lastTexture;
                     gsap.to(this.material.uniforms.progress, {
                         value: 1,
                         duration: 1,
                         ease: 'power2.inOut',
                         onComplete: () => {
-                            this.material.uniforms.texture1.value = lastHoveredTexture;
+                            this.material.uniforms.texture1.value = lastTexture;
                             this.material.uniforms.progress.value = 0; // Reset progress after transition
                         }
                     });
@@ -156,6 +159,7 @@ class Sketch {
         }
     });
   }
+
 
 
   
