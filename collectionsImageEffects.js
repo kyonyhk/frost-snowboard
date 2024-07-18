@@ -181,7 +181,7 @@ class Sketch {
         texture2: { type: 'f', value: this.textures[1] },
         displacement: {
           type: 'f',
-          value: new THREE.TextureLoader().load('img/disp1.jpg'),
+          value: new THREE.TextureLoader().load('https://uploads-ssl.webflow.com/65de4d4aa58a7df7f5ea205b/6694cc523ddbd2f97e5e4386_disp1.webp'),
         },
         resolution: { type: 'v4', value: new THREE.Vector4() },
       },
