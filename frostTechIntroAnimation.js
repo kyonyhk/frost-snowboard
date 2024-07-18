@@ -57,33 +57,33 @@ document.addEventListener('DOMContentLoaded', function() {
     scale: 1.0,
     duration: 0.5
   }, "-=0.5") // Overlap with the end of techParagraphs animation
-  .from(techHeaders, {
+  .to(techHeaders, {
     autoAlpha: 1,
     y: '0%',
     stagger: 0.2,
     duration: 0.5
   }, "-=0.5") // Starts simultaneously with techBorderDivs
-  .from(quakeshiftHeading, {
+  .to(quakeshiftHeading, {
     autoAlpha: 1,
     y: '0%',
     duration: 0.5
   })
-  .from(quakeshiftNumber, {
+  .to(quakeshiftNumber, {
     autoAlpha: 1,
     x: '0%',
     duration: 0.5
   }, "<")
-  .from(quakeshiftParagraph, {
+  .to(quakeshiftParagraph, {
     autoAlpha: 1,
     y: '0%',
     duration: 0.5
   }, "<")
-  .from(thermofluxHeading, {
+  .to(thermofluxHeading, {
     autoAlpha: 1,
     y: '0%',
     duration: 0.5
   }, ">")
-  .from(thermofluxNumber, {
+  .to(thermofluxNumber, {
     autoAlpha: 1,
     x: '0%',
     duration: 0.5
@@ -93,12 +93,12 @@ document.addEventListener('DOMContentLoaded', function() {
     y: '0%',
     duration: 0.5
   }, ">")
-  .from(flexiweaveNumber, {
+  .to(flexiweaveNumber, {
     autoAlpha: 1,
     x: '0%',
     duration: 0.5
   }, "<")
-  .from([counterFirstDigit, counterSecondDigit], {
+  .to([counterFirstDigit, counterSecondDigit], {
     autoAlpha: 1,
     y: '0%',
     stagger: 0.2,
