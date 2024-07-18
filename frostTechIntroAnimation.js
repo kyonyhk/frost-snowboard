@@ -23,13 +23,14 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   gsap.set(techParagraphs, { y: '100%' });
   gsap.set(techBorderDiv, { scale: 1.1, opacity: 0 });
-  gsap.set(techHeader, { y: '100%' });
+  gsap.set(techHeaders, { y: '100%' });
   gsap.set(quakeshiftHeading, { y: '100%' });
   gsap.set(quakeshiftNumber, { x: '-100%' });
   gsap.set(quakeshiftParagraph, { y: '100%' }); 
   gsap.set(thermofluxHeading, { y: '100%' });
   gsap.set(thermofluxNumber, { x: '-100%' });
   gsap.set(flexiweaveHeading, { y: '100%' });
+  gsap.set(flexiweaveNumber, { x: '-100%' });
   gsap.set(counterFirstDigit, { y: '100%' });
   gsap.set(counterSecondDigit, { y: '100%' });
   
