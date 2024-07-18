@@ -25,7 +25,7 @@ class Sketch {
     this.container = document.getElementById('main-image-canvas');
     this.images = JSON.parse(this.container.getAttribute('data-images'));
     this.marqueeImages = document.querySelectorAll(
-      '.cp_infinite-marquee-image-wrap img'
+      '.cp_infinite-marquee-container img'
     );
 
     this.width = this.container.offsetWidth;
