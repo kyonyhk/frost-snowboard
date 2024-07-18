@@ -288,6 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const mainImage = document.querySelector('.cp_main-image-container img');
 
   console.log('Main Image src:', mainImage ? mainImage.src : 'No image found');
+  
 
   
   if (mainImage && canvasContainer) {
@@ -300,6 +301,11 @@ document.addEventListener('DOMContentLoaded', function() {
       canvasContainer.setAttribute('data-disp', dispUrl);
       console.log('Set data-disp:', canvasContainer.getAttribute('data-disp'));
   }
+
+  if (mainImage) {
+      mainImage.style.display = 'none';
+  }
+  
   let sketch = new Sketch({
     debug: true,
     uniforms: {
