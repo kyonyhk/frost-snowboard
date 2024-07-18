@@ -102,33 +102,47 @@ class Sketch {
 
   setupHoverEvents() {
     this.marqueeImages.forEach((img, index) => {
-        // Desktop hover
-        img.addEventListener('mouseenter', () => {
-            this.applyTexture(index);
-        });
-        img.addEventListener('mouseleave', () => {
-            gsap.to(this.material.uniforms.progress, {
-                value: 0,
-                duration: 1,
-                ease: 'power4.inOut',
+        // Determine if the device supports touch events
+        if ('ontouchstart' in window) {
+            // Mobile touch interaction
+            img.addEventListener('click', () => {
+                let nextTexture = this.textures[index % this.textures.length];
+                if (this.material.uniforms.texture2.value !== nextTexture) {
+                    this.material.uniforms.texture2.value = nextTexture;
+                    gsap.to(this.material.uniforms.progress, {
+                        value: 1,
+                        duration: 1,
+                        ease: 'power2.inOut',
+                        onComplete: () => {
+                            this.material.uniforms.texture1.value = nextTexture;
+                            this.material.uniforms.progress.value = 0;
+                        }
+                    });
+                }
             });
-        });
+        } else {
+            // Desktop hover interaction
+            img.addEventListener('mouseenter', () => {
+                let nextTexture = this.textures[index % this.textures.length];
+                this.material.uniforms.texture2.value = nextTexture;
+                gsap.to(this.material.uniforms.progress, {
+                    value: 1,
+                    duration: 1,
+                    ease: 'power2.inOut',
+                });
+            });
 
-        // Mobile tap
-        img.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Prevent the window from scrolling.
-            this.applyTexture(index);
-        }, {passive: false});
-        img.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            gsap.to(this.material.uniforms.progress, {
-                value: 0,
-                duration: 1,
-                ease: 'power4.inOut',
+            img.addEventListener('mouseleave', () => {
+                gsap.to(this.material.uniforms.progress, {
+                    value: 0,
+                    duration: 1,
+                    ease: 'power2.inOut',
+                });
             });
-        }, {passive: false});
+        }
     });
   }
+
   
   applyTexture(index) {
       // Assuming the first texture is always the main image and should be skipped for hover effects
