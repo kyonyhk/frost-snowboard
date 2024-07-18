@@ -102,25 +102,28 @@ class Sketch {
 
   setupHoverEvents() {
     this.marqueeImages.forEach((img, index) => {
-      img.addEventListener('mouseenter', () => {
-        let nextTexture = this.textures[index % this.textures.length]; // Safe way to loop through textures
-        this.material.uniforms.texture2.value = nextTexture;
-        gsap.to(this.material.uniforms.progress, {
-          value: 1,
-          duration: 1,
-          ease: 'power2.inOut',
+        img.addEventListener('mouseenter', () => {
+            // Assuming the first texture is always the main image and should be skipped for hover effects
+            let textureIndex = index + 1; // +1 if the first texture is not part of marqueeImages
+            let nextTexture = this.textures[textureIndex % this.textures.length]; // Adjusted index
+            this.material.uniforms.texture2.value = nextTexture;
+            gsap.to(this.material.uniforms.progress, {
+                value: 1,
+                duration: 1,
+                ease: 'power2.inOut',
+            });
         });
-      });
 
-      img.addEventListener('mouseleave', () => {
-        gsap.to(this.material.uniforms.progress, {
-          value: 0,
-          duration: 1,
-          ease: 'power2.inOut',
+        img.addEventListener('mouseleave', () => {
+            gsap.to(this.material.uniforms.progress, {
+                value: 0,
+                duration: 1,
+                ease: 'power2.inOut',
+            });
         });
-      });
     });
   }
+
 
   // settings() {
   //   let that = this;
