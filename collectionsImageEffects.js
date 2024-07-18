@@ -59,12 +59,14 @@ class Sketch {
 
   initiate(cb) {
     let that = this;
-    if (this.images) {
+    if (this.images && this.images.length > 0) {
         // Assuming there's always at least one image in the array
         let url = this.images[0];
         new THREE.TextureLoader().load(url, (texture) => {
             that.textures[0] = texture;
             cb();
+        }, undefined, function(err) {
+          console.error("Error loading images:", err);
         });
     } else {
         console.error("No images found to load.");
@@ -244,11 +246,15 @@ class Sketch {
 document.addEventListener('DOMContentLoaded', function() {
   const canvasContainer = document.getElementById('main-image-canvas');
   const mainImage = document.querySelector('.cp_main-image-container img');
+
+  console.log('Main Image src:', mainImage ? mainImage.src : 'No image found');
+
   
   if (mainImage && canvasContainer) {
       // Set the data-images attribute dynamically based on the img src
       const imageSrc = mainImage.src;
       canvasContainer.setAttribute('data-images', JSON.stringify([imageSrc]));
+      console.log('Set data-images:', canvasContainer.getAttribute('data-images'));
   }
   let sketch = new Sketch({
     debug: true,
