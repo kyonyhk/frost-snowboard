@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const flexiweaveParagraph = document.querySelector('.paragraph.p-p2.is-tech.is-flexiweave');
   const counterFirstDigit = document.querySelector('.tech_counter-digit-wrap.is-first-digit');
   const counterSecondDigit = document.querySelector('.tech_counter-digit-wrap.is-second-digit');
+  const quakeshiftImage = document.querySelector('.img.is-tech-image.is-quakeshift');
+  const thermofluxImage = document.querySelector('.img.is-tech-image.is-thermoflux');
+  const flexiweaveImage = document.querySelector('.img.is-tech-image.is-flexiweave');
 
   // Initial positions for intro animation
   // gsap.set(terminalIcon, {
@@ -103,5 +106,11 @@ document.addEventListener('DOMContentLoaded', function() {
     y: '0%',
     stagger: 0.2,
     duration: 0.5
-  });
+  })
+  .to(quakeshiftImage, {
+    autoAlpha: 1,
+    scale: 1,
+    opacity: 1,
+    duration: 1,
+  }, "<");
 });
