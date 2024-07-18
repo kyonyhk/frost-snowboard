@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
     autoAlpha: 1,
     y: '0%',
     duration: 0.5
-  }, ">")
+  }, ">-0.3")
   .to(flexiweaveNumber, {
     autoAlpha: 1,
     x: '0%',
