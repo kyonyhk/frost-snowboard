@@ -53,7 +53,7 @@ class Sketch {
       this.resize();
       // this.clickEvent();
       this.play();
-      this.setupHoverEvents();
+      this.setupInteractionEvents();
     });
   }
 
@@ -100,13 +100,15 @@ class Sketch {
   //   });
   // }
 
-  setupHoverEvents() {
+  setupInteractionEvents() {
+    let lastHoveredTexture = this.textures[0]; // Start with the initial texture
+
     this.marqueeImages.forEach((img, index) => {
-        // Determine if the device supports touch events
+        let nextTexture = this.textures[index % this.textures.length];
+
         if ('ontouchstart' in window) {
             // Mobile touch interaction
             img.addEventListener('click', () => {
-                let nextTexture = this.textures[index % this.textures.length];
                 if (this.material.uniforms.texture2.value !== nextTexture) {
                     this.material.uniforms.texture2.value = nextTexture;
                     gsap.to(this.material.uniforms.progress, {
@@ -115,7 +117,7 @@ class Sketch {
                         ease: 'power2.inOut',
                         onComplete: () => {
                             this.material.uniforms.texture1.value = nextTexture;
-                            this.material.uniforms.progress.value = 0;
+                            this.material.uniforms.progress.value = 0; // Reset progress after transition
                         }
                     });
                 }
@@ -123,25 +125,38 @@ class Sketch {
         } else {
             // Desktop hover interaction
             img.addEventListener('mouseenter', () => {
-                let nextTexture = this.textures[index % this.textures.length];
+                lastHoveredTexture = nextTexture; // Update last hovered texture
                 this.material.uniforms.texture2.value = nextTexture;
                 gsap.to(this.material.uniforms.progress, {
                     value: 1,
                     duration: 1,
                     ease: 'power2.inOut',
+                    onComplete: () => {
+                        this.material.uniforms.texture1.value = nextTexture;
+                        this.material.uniforms.progress.value = 0; // Reset progress after transition
+                    }
                 });
             });
 
             img.addEventListener('mouseleave', () => {
-                gsap.to(this.material.uniforms.progress, {
-                    value: 0,
-                    duration: 1,
-                    ease: 'power2.inOut',
-                });
+                // Transition smoothly to lastHoveredTexture instead of resetting
+                if (this.material.uniforms.texture2.value !== lastHoveredTexture) {
+                    this.material.uniforms.texture2.value = lastHoveredTexture;
+                    gsap.to(this.material.uniforms.progress, {
+                        value: 1,
+                        duration: 1,
+                        ease: 'power2.inOut',
+                        onComplete: () => {
+                            this.material.uniforms.texture1.value = lastHoveredTexture;
+                            this.material.uniforms.progress.value = 0; // Reset progress after transition
+                        }
+                    });
+                }
             });
         }
     });
   }
+
 
   
   applyTexture(index) {
