@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   gsap.set(techParagraphs, { y: '100%' });
   gsap.set(techBorderDiv, { scale: 1.1, opacity: 0 });
-  gasp.set(techHeader, { y: '100%' });
+  gsap.set(techHeader, { y: '100%' });
   gsap.set(quakeshiftHeading, { y: '100%' });
   gsap.set(quakeshiftNumber, { x: '-100%' });
   gsap.set(quakeshiftParagraph, { y: '100%' }); 
