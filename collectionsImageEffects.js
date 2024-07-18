@@ -59,19 +59,25 @@ class Sketch {
 
   initiate(cb) {
     let that = this;
+    let loadCount = 0;
+  
     if (this.images && this.images.length > 0) {
-        // Assuming there's always at least one image in the array
-        let url = this.images[0];
+      this.images.forEach((url, index) => {
         new THREE.TextureLoader().load(url, (texture) => {
-            that.textures[0] = texture;
-            cb();
+          that.textures[index] = texture;
+          loadCount++;
+          if (loadCount === that.images.length) {
+            cb(); // Callback only when all textures are loaded
+          }
         }, undefined, function(err) {
-          console.error("Error loading images:", err);
+          console.error("Error loading image at index " + index + ": ", err);
         });
+      });
     } else {
-        console.error("No images found to load.");
+      console.error("No images found to load.");
     }
   }
+
 
 
   // clickEvent() {
@@ -83,15 +89,17 @@ class Sketch {
   setupHoverEvents() {
     this.marqueeImages.forEach((img, index) => {
       img.addEventListener('mouseenter', () => {
-        let nextTexture = this.textures[index % this.textures.length]; // Safe way to loop through textures
-        this.material.uniforms.texture2.value = nextTexture;
-        gsap.to(this.material.uniforms.progress, {
-          value: 1,
-          duration: 1,
-          ease: 'power2.inOut',
-        });
+        if (index < this.textures.length) {
+          let nextTexture = this.textures[index];
+          this.material.uniforms.texture2.value = nextTexture;
+          gsap.to(this.material.uniforms.progress, {
+            value: 1,
+            duration: 1,
+            ease: 'power2.inOut',
+          });
+        }
       });
-
+  
       img.addEventListener('mouseleave', () => {
         gsap.to(this.material.uniforms.progress, {
           value: 0,
