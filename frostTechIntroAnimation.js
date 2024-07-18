@@ -3,17 +3,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const terminalIcons = document.querySelectorAll('.terminal-icon');
   const techBorderDivs = document.querySelectorAll('.tech_border-div');
   const techHeaders = document.querySelectorAll('.h-h5.is-tech');
-  const quakeshiftHeading = document.querySelector('.h-h6.is-tech.is-active.is-quakeshift')
-  const quakeshiftNumber = document.querySelector('.h-h4.is-tech.is-quakeshift')
-  const quakeshiftParagraph = document.querySelector('.paragraph.p-p2.is-tech.is-quakeshift')
-  const thermofluxHeading = document.querySelector('.h-h6.is-tech.is-active.is-thermoflux')
-  const thermofluxNumber = document.querySelector('.h-h4.is-tech.is-thermoflux')
-  const thermofluxParagraph = document.querySelector('.paragraph.p-p2.is-tech.is-thermoflux')
-  const flexiweaveHeading = document.querySelector('.h-h6.is-tech.is-active.is-flexiweave')
-  const flexiweaveNumber = document.querySelector('.h-h4.is-tech.is-flexiweave')
-  const flexiweaveParagraph = document.querySelector('.paragraph.p-p2.is-tech.is-flexiweave')
-  const counterFirstDigit = document.querySelector('.tech_counter-digit-wrap.is-first-digit')
-  const counterSecondDigit = document.querySelector('.tech_counter-digit-wrap.is-second-digit')
+  const quakeshiftHeading = document.querySelector('.h-h6.is-tech.is-active.is-quakeshift');
+  const quakeshiftNumber = document.querySelector('.s-s4.is-tech.is-quakeshift'); // Corrected the selector to use class for h4 equivalent
+  const quakeshiftParagraph = document.querySelector('.paragraph.p-p2.is-tech.is-quakeshift');
+  const thermofluxHeading = document.querySelector('.h-h6.is-tech.is-active.is-thermoflux');
+  const thermofluxNumber = document.querySelector('.s-s4.is-tech.is-thermoflux'); // Corrected the selector to use class for h4 equivalent
+  const thermofluxParagraph = document.querySelector('.paragraph.p-p2.is-tech.is-thermoflux');
+  const flexiweaveHeading = document.querySelector('.h-h6.is-tech.is-active.is-flexiweave');
+  const flexiweaveNumber = document.querySelector('.s-s4.is-tech.is-flexiweave'); // Corrected the selector to use class for h4 equivalent
+  const flexiweaveParagraph = document.querySelector('.paragraph.p-p2.is-tech.is-flexiweave');
+  const counterFirstDigit = document.querySelector('.tech_counter-digit-wrap.is-first-digit');
+  const counterSecondDigit = document.querySelector('.tech_counter-digit-wrap.is-second-digit');
 
   const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
@@ -33,27 +33,24 @@ document.addEventListener('DOMContentLoaded', function() {
     opacity: 0,
     scale: 1.1,
     duration: 0.5
-  }, "+=0") // Starts right after the techParagraphs animations complete
-  .from(techHeaders[0], {
+  }, "+=0.5") // Starts right after the techParagraphs animations complete
+  .from(techHeaders, {
     y: '100%',
+    stagger: 0.2,
     duration: 0.5
-  }, "+=0.2") // Starts 0.2 seconds after the techBorderDivs animation begins
-  .from(techHeaders[1], {
-    y: '100%',
-    duration: 0.5
-  }, "+=0.2"); // Starts 0.2 seconds after the first header animation
+  }, "+=0.2") // Sequential delay between the headers animations
   .from(quakeshiftHeading, {
     y: '100%',
     duration: 0.5
-  }, ">")
+  })
   .from(quakeshiftNumber, {
     x: '-100%',
     duration: 0.5
-  }, "<")
-  .from(quakeshiftNumber, {
+  }, "<") // Start animation at the same time as the previous
+  .from(quakeshiftParagraph, {
     y: '100%',
     duration: 0.5
-  }, "<")
+  }, "<") // Start animation at the same time as the previous
   .from(thermofluxHeading, {
     y: '100%',
     duration: 0.5
@@ -70,12 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
     x: '-100%',
     duration: 0.5
   }, "<")
-  .from(counterFirstDigit, {
+  .from([counterFirstDigit, counterSecondDigit], {
     y: '100%',
+    stagger: 0.2,
     duration: 0.5
-  })
-  .from(counterSecondDigit, {
-    y: '100%',
-    duration: 0.5
-  })
+  });
 });
