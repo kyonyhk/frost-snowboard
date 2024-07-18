@@ -241,8 +241,6 @@ class Sketch {
   }
 }
 
-export { Sketch };
-
 document.addEventListener('DOMContentLoaded', function() {
   const canvasContainer = document.getElementById('main-image-canvas');
   const mainImage = document.querySelector('.cp_main-image-container img');
