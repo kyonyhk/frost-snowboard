@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     autoAlpha: 0,
     stagger: 0.2, // Stagger of 0.2 seconds between the start of each element's animation
     duration: 0.5,
-  }, "+=0.1") // Adding a slight delay before starting the paragraphs animation
+  }, "-=0.5") // Start immediately after terminalIcons with no delay
   .from(techBorderDivs, {
     opacity: 0,
     scale: 1.1,
