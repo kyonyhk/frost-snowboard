@@ -59,25 +59,39 @@ class Sketch {
 
   initiate(cb) {
     let that = this;
-    let loadCount = 0;
-  
-    if (this.images && this.images.length > 0) {
-      this.images.forEach((url, index) => {
-        new THREE.TextureLoader().load(url, (texture) => {
-          that.textures[index] = texture;
-          loadCount++;
-          if (loadCount === that.images.length) {
-            cb(); // Callback only when all textures are loaded
-          }
-        }, undefined, function(err) {
-          console.error("Error loading image at index " + index + ": ", err);
+    let imageSources = [...this.images]; // Start with main images
+
+    // Add marquee images to the loading list
+    this.marqueeImages.forEach(img => {
+        imageSources.push(img.src);
+    });
+
+    let loadedCount = 0;
+    this.textures = new Array(imageSources.length); // Predefine the array size
+
+    // Function to check if all textures are loaded
+    const checkAllLoaded = () => {
+        if (loadedCount === imageSources.length) {
+            cb(); // All textures loaded, execute callback
+        }
+    };
+
+    if (imageSources.length > 0) {
+        imageSources.forEach((src, index) => {
+            new THREE.TextureLoader().load(src, texture => {
+                that.textures[index] = texture; // Store texture in corresponding position
+                loadedCount++;
+                checkAllLoaded();
+            }, undefined, err => {
+                console.error(`Error loading image at ${src}:`, err);
+                loadedCount++;
+                checkAllLoaded();
+            });
         });
-      });
     } else {
-      console.error("No images found to load.");
+        console.error("No images found to load.");
     }
   }
-
 
 
   // clickEvent() {
@@ -89,17 +103,15 @@ class Sketch {
   setupHoverEvents() {
     this.marqueeImages.forEach((img, index) => {
       img.addEventListener('mouseenter', () => {
-        if (index < this.textures.length) {
-          let nextTexture = this.textures[index];
-          this.material.uniforms.texture2.value = nextTexture;
-          gsap.to(this.material.uniforms.progress, {
-            value: 1,
-            duration: 1,
-            ease: 'power2.inOut',
-          });
-        }
+        let nextTexture = this.textures[index % this.textures.length]; // Safe way to loop through textures
+        this.material.uniforms.texture2.value = nextTexture;
+        gsap.to(this.material.uniforms.progress, {
+          value: 1,
+          duration: 1,
+          ease: 'power2.inOut',
+        });
       });
-  
+
       img.addEventListener('mouseleave', () => {
         gsap.to(this.material.uniforms.progress, {
           value: 0,
