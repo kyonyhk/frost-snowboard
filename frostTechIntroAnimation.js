@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const counterSecondDigit = document.querySelector('.tech_counter-digit-wrap.is-second-digit');
 
   // Initial positions for intro animation
-  gsap.set(termainalIcon, {
+  gsap.set(terminalIcon, {
     opacity: 0,
     rotate: '0deg',
     x: '-300%',
