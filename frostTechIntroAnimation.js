@@ -112,5 +112,5 @@ document.addEventListener('DOMContentLoaded', function() {
     scale: 1,
     opacity: 1,
     duration: 1,
-  }, "<");
+  }, ">-0.5");
 });
