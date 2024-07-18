@@ -58,19 +58,19 @@ class Sketch {
   }
 
   initiate(cb) {
-    const promises = [];
     let that = this;
-    this.images.forEach((url, i) => {
-      let promise = new Promise((resolve) => {
-        that.textures[i] = new THREE.TextureLoader().load(url, resolve);
-      });
-      promises.push(promise);
-    });
-
-    Promise.all(promises).then(() => {
-      cb();
-    });
+    if (this.images.length > 0) {
+        // Assuming there's always at least one image in the array
+        let url = this.images[0];
+        new THREE.TextureLoader().load(url, (texture) => {
+            that.textures[0] = texture;
+            cb();
+        });
+    } else {
+        console.error("No images found to load.");
+    }
   }
+
 
   // clickEvent() {
   //   this.clicker.addEventListener('click', () => {
