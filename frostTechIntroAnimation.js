@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     rotate: '0deg',
     x: '-300%',
   });
-  gasp.set(techParagraphs, { y: '100%' });
+  gsap.set(techParagraphs, { y: '100%' });
   gsap.set(techBorderDiv, { scale: 1.1, opacity: 0 });
   gasp.set(techHeader, { y: '100%' });
   gsap.set(quakeshiftHeading, { y: '100%' });
