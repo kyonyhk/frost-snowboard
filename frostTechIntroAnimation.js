@@ -16,24 +16,24 @@ document.addEventListener('DOMContentLoaded', function() {
   const counterSecondDigit = document.querySelector('.tech_counter-digit-wrap.is-second-digit');
 
   // Initial positions for intro animation
-  gsap.set(terminalIcon, {
-    autoAlpha: 0,
-    opacity: 0,
-    rotate: '0deg',
-    x: '-300%',
-  });
-  gsap.set(techParagraphs, { autoAlpha: 0, y: '100%' });
-  gsap.set(techBorderDiv, { autoAlpha: 0, scale: 1.1, opacity: 0 });
-  gsap.set(techHeaders, { autoAlpha: 0, y: '100%' });
-  gsap.set(quakeshiftHeading, { autoAlpha: 0, y: '100%' });
-  gsap.set(quakeshiftNumber, { autoAlpha: 0, x: '-100%' });
-  gsap.set(quakeshiftParagraph, { autoAlpha: 0, y: '100%' }); 
-  gsap.set(thermofluxHeading, { autoAlpha: 0, y: '100%' });
-  gsap.set(thermofluxNumber, { autoAlpha: 0, x: '-100%' });
-  gsap.set(flexiweaveHeading, { autoAlpha: 0, y: '100%' });
-  gsap.set(flexiweaveNumber, { autoAlpha: 0, x: '-100%' });
-  gsap.set(counterFirstDigit, { autoAlpha: 0, y: '100%' });
-  gsap.set(counterSecondDigit, { autoAlpha: 0, y: '100%' });
+  // gsap.set(terminalIcon, {
+  //   autoAlpha: 0,
+  //   opacity: 0,
+  //   rotate: '0deg',
+  //   x: '-300%',
+  // });
+  // gsap.set(techParagraphs, { autoAlpha: 0, y: '100%' });
+  // gsap.set(techBorderDiv, { autoAlpha: 0, scale: 1.1, opacity: 0 });
+  // gsap.set(techHeaders, { autoAlpha: 0, y: '100%' });
+  // gsap.set(quakeshiftHeading, { autoAlpha: 0, y: '100%' });
+  // gsap.set(quakeshiftNumber, { autoAlpha: 0, x: '-100%' });
+  // gsap.set(quakeshiftParagraph, { autoAlpha: 0, y: '100%' }); 
+  // gsap.set(thermofluxHeading, { autoAlpha: 0, y: '100%' });
+  // gsap.set(thermofluxNumber, { autoAlpha: 0, x: '-100%' });
+  // gsap.set(flexiweaveHeading, { autoAlpha: 0, y: '100%' });
+  // gsap.set(flexiweaveNumber, { autoAlpha: 0, x: '-100%' });
+  // gsap.set(counterFirstDigit, { autoAlpha: 0, y: '100%' });
+  // gsap.set(counterSecondDigit, { autoAlpha: 0, y: '100%' });
   
   const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
     x: '0%',
     duration: 0.5
   }, "<")
-  .from(flexiweaveHeading, {
+  .to(flexiweaveHeading, {
     autoAlpha: 1,
     y: '0%',
     duration: 0.5
