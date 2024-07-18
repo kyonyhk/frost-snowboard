@@ -16,29 +16,29 @@ document.addEventListener('DOMContentLoaded', function() {
   const counterSecondDigit = document.querySelector('.tech_counter-digit-wrap.is-second-digit');
 
   // Initial positions for intro animation
-  gsap.set(terminalIcon, {
-    opacity: 0,
-    rotate: '0deg',
-    x: '-300%',
-  });
-  gsap.set(techParagraphs, { y: '100%' });
-  gsap.set(techBorderDiv, { scale: 1.1, opacity: 0 });
-  gsap.set(techHeaders, { y: '100%' });
-  gsap.set(quakeshiftHeading, { y: '100%' });
-  gsap.set(quakeshiftNumber, { x: '-100%' });
-  gsap.set(quakeshiftParagraph, { y: '100%' }); 
-  gsap.set(thermofluxHeading, { y: '100%' });
-  gsap.set(thermofluxNumber, { x: '-100%' });
-  gsap.set(flexiweaveHeading, { y: '100%' });
-  gsap.set(flexiweaveNumber, { x: '-100%' });
-  gsap.set(counterFirstDigit, { y: '100%' });
-  gsap.set(counterSecondDigit, { y: '100%' });
+  // gsap.set(terminalIcon, {
+  //   opacity: 0,
+  //   rotate: '0deg',
+  //   x: '-300%',
+  // });
+  // gsap.set(techParagraphs, { y: '100%' });
+  // gsap.set(techBorderDiv, { scale: 1.1, opacity: 0 });
+  // gsap.set(techHeaders, { y: '100%' });
+  // gsap.set(quakeshiftHeading, { y: '100%' });
+  // gsap.set(quakeshiftNumber, { x: '-100%' });
+  // gsap.set(quakeshiftParagraph, { y: '100%' }); 
+  // gsap.set(thermofluxHeading, { y: '100%' });
+  // gsap.set(thermofluxNumber, { x: '-100%' });
+  // gsap.set(flexiweaveHeading, { y: '100%' });
+  // gsap.set(flexiweaveNumber, { x: '-100%' });
+  // gsap.set(counterFirstDigit, { y: '100%' });
+  // gsap.set(counterSecondDigit, { y: '100%' });
   
   const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
   // Animate terminal icons
   tl.to(terminalIcon, {
-    opacity: 1,
+    opacity: 0.5,
     rotate: '45deg',
     x: '0%', // Moving from -300% on the x-axis
     duration: 0.5
