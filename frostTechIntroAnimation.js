@@ -16,77 +16,90 @@ document.addEventListener('DOMContentLoaded', function() {
   const counterSecondDigit = document.querySelector('.tech_counter-digit-wrap.is-second-digit');
 
   // Initial positions for intro animation
-  // gsap.set(terminalIcon, {
-  //   opacity: 0,
-  //   rotate: '0deg',
-  //   x: '-300%',
-  // });
-  // gsap.set(techParagraphs, { y: '100%' });
-  // gsap.set(techBorderDiv, { scale: 1.1, opacity: 0 });
-  // gsap.set(techHeaders, { y: '100%' });
-  // gsap.set(quakeshiftHeading, { y: '100%' });
-  // gsap.set(quakeshiftNumber, { x: '-100%' });
-  // gsap.set(quakeshiftParagraph, { y: '100%' }); 
-  // gsap.set(thermofluxHeading, { y: '100%' });
-  // gsap.set(thermofluxNumber, { x: '-100%' });
-  // gsap.set(flexiweaveHeading, { y: '100%' });
-  // gsap.set(flexiweaveNumber, { x: '-100%' });
-  // gsap.set(counterFirstDigit, { y: '100%' });
-  // gsap.set(counterSecondDigit, { y: '100%' });
+  gsap.set(terminalIcon, {
+    autoAlpha: 0,
+    opacity: 0,
+    rotate: '0deg',
+    x: '-300%',
+  });
+  gsap.set(techParagraphs, { autoAlpha: 0, y: '100%' });
+  gsap.set(techBorderDiv, { autoAlpha: 0, scale: 1.1, opacity: 0 });
+  gsap.set(techHeaders, { autoAlpha: 0, y: '100%' });
+  gsap.set(quakeshiftHeading, { autoAlpha: 0, y: '100%' });
+  gsap.set(quakeshiftNumber, { autoAlpha: 0, x: '-100%' });
+  gsap.set(quakeshiftParagraph, { autoAlpha: 0, y: '100%' }); 
+  gsap.set(thermofluxHeading, { autoAlpha: 0, y: '100%' });
+  gsap.set(thermofluxNumber, { autoAlpha: 0, x: '-100%' });
+  gsap.set(flexiweaveHeading, { autoAlpha: 0, y: '100%' });
+  gsap.set(flexiweaveNumber, { autoAlpha: 0, x: '-100%' });
+  gsap.set(counterFirstDigit, { autoAlpha: 0, y: '100%' });
+  gsap.set(counterSecondDigit, { autoAlpha: 0, y: '100%' });
   
   const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
   // Animate terminal icons
   tl.to(terminalIcon, {
+    autoAlpha: 1, 
     opacity: 0.5,
     rotate: '45deg',
     x: '0%', // Moving from -300% on the x-axis
     duration: 0.5
   })
   .to(techParagraphs, {
+    autoAlpha: 1,
     y: '0%', // Starts the animation from 100% below their original position
     stagger: 0.2, // Stagger of 0.2 seconds between the start of each element's animation
     duration: 0.5,
   }, "-=0.5") // Start immediately after terminalIcons with no delay
   .to(techBorderDiv, {
+    autoAlpha: 1,
     opacity: 1,
     scale: 1.0,
     duration: 0.5
   }, "-=0.5") // Overlap with the end of techParagraphs animation
   .from(techHeaders, {
+    autoAlpha: 1,
     y: '0%',
     stagger: 0.2,
     duration: 0.5
   }, "-=0.5") // Starts simultaneously with techBorderDivs
   .from(quakeshiftHeading, {
+    autoAlpha: 1,
     y: '0%',
     duration: 0.5
   })
   .from(quakeshiftNumber, {
+    autoAlpha: 1,
     x: '0%',
     duration: 0.5
   }, "<")
   .from(quakeshiftParagraph, {
+    autoAlpha: 1,
     y: '0%',
     duration: 0.5
   }, "<")
   .from(thermofluxHeading, {
+    autoAlpha: 1,
     y: '0%',
     duration: 0.5
   }, ">")
   .from(thermofluxNumber, {
+    autoAlpha: 1,
     x: '0%',
     duration: 0.5
   }, "<")
   .from(flexiweaveHeading, {
+    autoAlpha: 1,
     y: '0%',
     duration: 0.5
   }, ">")
   .from(flexiweaveNumber, {
+    autoAlpha: 1,
     x: '0%',
     duration: 0.5
   }, "<")
   .from([counterFirstDigit, counterSecondDigit], {
+    autoAlpha: 1,
     y: '0%',
     stagger: 0.2,
     duration: 0.5
