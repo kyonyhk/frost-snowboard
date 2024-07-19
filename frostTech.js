@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const techParagraphs = document.querySelectorAll('.paragraph.is-terminal.is-tech');
-  const terminalIcons = document.querySelectorAll('.terminal-icon'); // Corrected from terminalIcon to terminalIcons
-  const techBorderDivs = document.querySelectorAll('.tech_border-div'); // Corrected from techBorderDiv to techBorderDivs
+  const terminalIcons = document.querySelectorAll('.terminal-icon');
+  const techBorderDivs = document.querySelectorAll('.tech_border-div');
   const techHeaders = document.querySelectorAll('.h-h5.is-tech');
   const quakeshiftHeading = document.querySelector('.h-h6.is-tech.is-active.is-quakeshift');
   const quakeshiftNumber = document.querySelector('.s-s4.is-tech.is-quakeshift');
@@ -20,6 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const flexiweaveImage = document.querySelector('.img.is-tech-image.is-flexiweave');
 
   const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+  // Ensure elements are hidden before starting the animation
+  gsap.set([techParagraphs, terminalIcons, techBorderDivs, techHeaders, quakeshiftHeading, quakeshiftNumber, quakeshiftParagraph], { opacity: 0, visibility: 'hidden' });
 
   tl.to(terminalIcons, {
     autoAlpha: 1,
