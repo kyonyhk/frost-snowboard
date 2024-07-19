@@ -1,7 +1,42 @@
+function setTheme(theme) {
+  const root = document.documentElement;
+
+  if (theme === 'quakeshift') {
+    root.style.setProperty('--primary-color', '#6BE688');
+    root.style.setProperty('--secondary-color', '#A1FCCF');
+  } else if (theme === 'thermoflux') {
+    root.style.setProperty('--primary-color', '#D97848');
+    root.style.setProperty('--secondary-color', '#FDFDCE');
+  } else if (theme === 'flexiweave') {
+    root.style.setProperty('--primary-color', '#580DEB');
+    root.style.setProperty('--secondary-color', '#877FCB');
+  }
+
+  // Update specific elements
+  const techParagraphs = document.querySelectorAll('.paragraph.is-terminal.is-tech');
+  const terminalIcons = document.querySelectorAll('.terminal-icon');
+  const techBorderDivs = document.querySelectorAll('.tech_border-div');
+
+  techParagraphs.forEach(paragraph => {
+    const opacity = getComputedStyle(paragraph).opacity;
+    paragraph.style.color = `rgba(var(--primary-color), ${opacity})`;
+  });
+
+  terminalIcons.forEach(icon => {
+    const opacity = getComputedStyle(icon).opacity;
+    icon.style.backgroundColor = `rgba(var(--primary-color), ${opacity})`;
+  });
+
+  techBorderDivs.forEach(border => {
+    const opacity = getComputedStyle(border).opacity;
+    border.style.borderColor = `rgba(var(--primary-color), ${opacity})`;
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   const techParagraphs = document.querySelectorAll('.paragraph.is-terminal.is-tech');
-  const terminalIcons = document.querySelectorAll('.terminal-icon'); // Corrected from terminalIcon to terminalIcons
-  const techBorderDivs = document.querySelectorAll('.tech_border-div'); // Corrected from techBorderDiv to techBorderDivs
+  const terminalIcons = document.querySelectorAll('.terminal-icon');
+  const techBorderDivs = document.querySelectorAll('.tech_border-div');
   const techHeaders = document.querySelectorAll('.h-h5.is-tech');
   const quakeshiftHeading = document.querySelector('.h-h6.is-tech.is-active.is-quakeshift');
   const quakeshiftNumber = document.querySelector('.s-s4.is-tech.is-quakeshift');
@@ -102,5 +137,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Set quakeshift as active after intro animations
   tl.add(() => {
     document.querySelector('.global-terminal.is-tech.is-quakeshift').classList.add('is-active');
+    setTheme('quakeshift'); // Set initial theme
   }, 'quakeshiftActive');
+
+  // Add event listeners for switching themes
+  document.querySelector('.tech_description-container.is-quakeshift').addEventListener('click', () => setTheme('quakeshift'));
+  document.querySelector('.tech_description-container.is-thermoflux').addEventListener('click', () => setTheme('thermoflux'));
+  document.querySelector('.tech_description-container.is-flexiweave').addEventListener('click', () => setTheme('flexiweave'));
 });
