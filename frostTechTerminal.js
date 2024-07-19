@@ -1,70 +1,50 @@
-function switchTerminalState(newState) {
-    const allTerminals = document.querySelectorAll('.global-terminal');
-    const currentActive = document.querySelector('.global-terminal.is-active');
-    const newActive = document.querySelector(`.global-terminal.is-tech.is-${newState}`);
+document.addEventListener('DOMContentLoaded', function() {
+  const terminalContainers = document.querySelectorAll('.global-terminal');
+  const techOptions = document.querySelectorAll('.tech_description-header-wrap');
 
-    // Animate out the current active terminal
-    if (currentActive) {
-        const paragraphs = currentActive.querySelectorAll('.paragraph.is-terminal.is-tech');
-        const icon = currentActive.querySelector('.terminal-icon');
+  techOptions.forEach(option => option.addEventListener('click', function() {
+    // Find currently active terminal
+    const activeTerminal = document.querySelector('.global-terminal.is-active');
+    const targetClass = this.parentElement.classList[1]; // Assuming the second class denotes the tech type
+    const targetTerminal = document.querySelector(`.global-terminal.is-tech.${targetClass}`);
 
-        gsap.to(paragraphs, {
-            y: '-100%',
-            duration: 0.3,
-            ease: "power4.out",
-            onComplete: () => {
-                currentActive.style.display = 'none'; // Hide the terminal after animation
-                currentActive.classList.remove('is-active');
-            }
-        });
-
-        gsap.to(icon, {
-            rotate: '+=90deg', // Assuming the starting rotate is 45deg
-            opacity: 0,
-            duration: 0.3,
-            ease: "power4.out"
-        });
+    // Exit animation for currently active terminal
+    if (activeTerminal) {
+      gsap.to(activeTerminal.querySelectorAll('.paragraph.is-terminal.is-tech'), {
+        y: '-100%', // Slides up
+        duration: 0.3,
+        ease: 'power4.out',
+        onComplete: () => {
+          activeTerminal.style.display = 'none';
+          activeTerminal.classList.remove('is-active');
+        }
+      });
+      gsap.to(activeTerminal.querySelector('.terminal-icon'), {
+        rotate: '90deg', // Additional rotation from its initial 45deg
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power4.out'
+      });
     }
 
-    // Prepare and animate in the new active terminal
-    newActive.style.display = 'flex'; // Ensure it's visible before animation starts
-    newActive.classList.add('is-active');
-
-    // Reset styles for entrance animation
-    const newParagraphs = newActive.querySelectorAll('.paragraph.is-terminal.is-tech');
-    const newIcon = newActive.querySelector('.terminal-icon');
-
-    gsap.set(newParagraphs, {
-        y: '100%', // Start below their original position
-        clearProps: 'all'
-    });
-
-    gsap.set(newIcon, {
-        rotate: '45deg',
-        opacity: 1,
-        clearProps: 'all'
-    });
-
-    // Animate them into view with initial intro animation settings
-    gsap.to(newParagraphs, {
-        y: '0%',
-        duration: 0.5,
-        ease: "power4.out",
-        stagger: 0.1
-    });
-
-    gsap.to(newIcon, {
-        rotate: '45deg',
-        opacity: 1,
-        duration: 0.5,
-        ease: "power4.out"
-    });
-}
-
-// Example usage, bind this to your state change triggers
-document.querySelectorAll('.tech_description-header-wrap').forEach(header => {
-    header.addEventListener('click', function() {
-        const newState = this.closest('.tech_description-container').classList[1].split('-')[1]; // Extracts 'quakeshift', 'thermoflux', or 'flexiweave'
-        switchTerminalState(newState);
-    });
+    // Set display to flex before starting entrance animation
+    if (targetTerminal) {
+      targetTerminal.style.display = 'flex';
+      setTimeout(() => { // Ensure the display is set before animation starts
+        gsap.from(targetTerminal.querySelectorAll('.paragraph.is-terminal.is-tech'), {
+          y: '100%', // Starting state for entrance
+          duration: 0.5, // Match the intro animation duration
+          ease: 'power4.out',
+          stagger: 0.1
+        });
+        gsap.from(targetTerminal.querySelector('.terminal-icon'), {
+          rotate: '0deg', // Start from no rotation
+          opacity: 0,
+          duration: 0.5,
+          ease: 'power4.out'
+        });
+        targetTerminal.classList.add('is-active');
+      }, 20);
+    }
+  }));
 });
