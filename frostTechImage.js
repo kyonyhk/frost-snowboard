@@ -2,6 +2,8 @@ function switchImageState(newState) {
     const allImages = document.querySelectorAll('.img.is-tech-image');
     const currentActiveImage = document.querySelector('.img.is-tech-image.is-active');
     const newActiveImage = document.querySelector(`.img.is-tech-image.is-${newState}`);
+    const currentActiveImageWrap = document.querySelector('.tech_image-wrap.is-active')
+    const newActiveImageWrap = document.querySelector(`.tech_image-wrap.is-${newState}`)
 
     // Animate out the current active image
     if (currentActiveImage) {
@@ -13,6 +15,8 @@ function switchImageState(newState) {
             ease: "power4.out",
             onComplete: () => {
                 currentActiveImage.classList.remove('is-active');
+                currentActiveImageWrap.classList.remove('is-active');
+                currentActiveImageWrap.style.display = 'none';
             }
         });
     }
@@ -29,6 +33,8 @@ function switchImageState(newState) {
         ease: "power4.out",
         onStart: () => {
             newActiveImage.classList.add('is-active');
+            newActiveImageWrap.classList.add('is-active');
+            newActiveImageWrap.style.display = 'block';
         }
     });
 }
