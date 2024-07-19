@@ -42,5 +42,5 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Initialize with the default state
-  updateCounter('quakeshift');
+  // updateCounter('quakeshift');
 });
