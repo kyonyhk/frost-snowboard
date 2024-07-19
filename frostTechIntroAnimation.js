@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
     y: '0%',
     duration: 0.5
   }, "<")
+    .addLabel('quakeshiftActive) // Label the point where quakeshift becomes active
   .to(thermofluxHeading, {
     autoAlpha: 1,
     y: '0%',
@@ -113,4 +114,9 @@ document.addEventListener('DOMContentLoaded', function() {
     opacity: 1,
     duration: 1,
   }, ">-0.5");
+
+  // Set quakeshift as active after intro animations
+  tl.add(() => {
+    quakeshiftTerminal.classList.add('is-active');
+  }, 'quakeshiftActive');
 });
