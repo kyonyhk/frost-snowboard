@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
     gsap.set(digits.flexiweave, { y: `${(2 - currentIndex) * 100}%` });
 
     // Animate the digits to the new positions
-    gsap.to(digits.quakeshift, { y: `${(0 - newIndex) * 100}%`, duration: 0.5, ease: "elastic.inOut(1, 0.3)" });
-    gsap.to(digits.thermoflux, { y: `${(1 - newIndex) * 100}%`, duration: 0.5, ease: "elastic.inOut(1, 0.3)" });
-    gsap.to(digits.flexiweave, { y: `${(2 - newIndex) * 100}%`, duration: 0.5, ease: "elastic.inOut(1, 0.3)" });
+    gsap.to(digits.quakeshift, { y: `${(0 - newIndex) * 100}%`, duration: 0.5, ease: 'power4.inOut' });
+    gsap.to(digits.thermoflux, { y: `${(1 - newIndex) * 100}%`, duration: 0.5, ease: 'power4.inOut' });
+    gsap.to(digits.flexiweave, { y: `${(2 - newIndex) * 100}%`, duration: 0.5, ease: 'power4.inOut' });
 
     currentCategory = newCategory;
   }
