@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const flexiweaveHeading = document.querySelector('.h-h6.is-tech.is-active.is-flexiweave');
   const flexiweaveNumber = document.querySelector('.s-s4.is-tech.is-flexiweave');
   const flexiweaveParagraph = document.querySelector('.paragraph.p-p2.is-tech.is-flexiweave');
-  const counterFirstDigit = document.querySelector('.tech_counter-digit-wrap.is-first-digit');
-  const counterSecondDigit = document.querySelector('.tech_counter-digit-wrap.is-second-digit');
+  const counterFirstDigit = document.querySelector('.h-h3.is-tech-counter.is-first-digit');
+  const counterSecondDigit = document.querySelector('.h-h3.is-tech-counter.is-second-digit.is-quakeshift');
   const quakeshiftImageWrap = document.querySelector('.tech_image-wrap.is-quakeshift');
   const quakeshiftImage = document.querySelector('.img.is-tech-image.is-quakeshift');
   const thermofluxImage = document.querySelector('.img.is-tech-image.is-thermoflux');
