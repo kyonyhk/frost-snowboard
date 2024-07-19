@@ -37,7 +37,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function resetCursorColor() {
     const currentUrl = window.location.href;
-    if (currentUrl.includes('ember')) {
+    const flexiweaveActive = document.querySelector('.tech_description-container.is-flexiweave.is-active');
+    const thermofluxActive = document.querySelector('.tech_description-container.is-thermoflux.is-active');
+    const quakeshiftActive = document.querySelector('.tech_description-container.is-quakeshift.is-active');
+
+    if (flexiweaveActive) {
+      setCursorColor('#877FCB');
+    } else if (thermofluxActive) {
+      setCursorColor('#FDFDCE');
+    } else if (quakeshiftActive) {
+      setCursorColor('#6BE688'); // Default green color
+    } else if (currentUrl.includes('ember')) {
       setCursorColor('#FDFDCE');
     } else if (currentUrl.includes('nebula')) {
       setCursorColor('#877FCB');
@@ -160,4 +170,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initializeCursorColor();
   setHoverEffects();
   updateCursorPosition();
+
+  // Update the cursor color when a category is selected on the Frost Tech page
+  const techOptions = document.querySelectorAll('.tech_description-header-wrap');
+  techOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      setTimeout(resetCursorColor, 10); // Slight delay to ensure the class change is detected
+    });
+  });
 });
