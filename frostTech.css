@@ -1,0 +1,29 @@
+/* Ensure all elements are hidden by default */
+.tech_description-container .tech_description-header-wrap,
+.tech_description-container .tech_description-p-wrap,
+.global-terminal.is-tech,
+.terminal-icon,
+.paragraph.is-terminal.is-tech,
+.tech_border-div,
+.h-h5.is-tech,
+.h-h6.is-tech,
+.s-s4.is-tech,
+.img.is-tech-image {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Ensure the active section is visible */
+.tech_description-container.is-active .tech_description-header-wrap,
+.tech_description-container.is-active .tech_description-p-wrap,
+.global-terminal.is-tech.is-active,
+.terminal-icon.is-active,
+.paragraph.is-terminal.is-tech.is-active,
+.tech_border-div.is-active,
+.h-h5.is-tech.is-active,
+.h-h6.is-tech.is-active,
+.s-s4.is-tech.is-active,
+.img.is-tech-image.is-active {
+  opacity: 1;
+  visibility: visible;
+}
