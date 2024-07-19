@@ -20,6 +20,8 @@ function updateDescriptionSection(newState) {
           pWrap.style.display = 'none'; // Hide the element after animation
         }
       });
+      // Remove is-active class from inactive containers
+      container.classList.remove('is-active');
     }
   });
 
@@ -40,6 +42,9 @@ function updateDescriptionSection(newState) {
     duration: 0.5,
     clearProps: 'height' // Clear the inline height property after animation to handle dynamic content changes
   });
+
+  // Add is-active class to the new active container
+  newActiveContainer.classList.add('is-active');
 }
 
 // Example usage:
@@ -53,5 +58,5 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Initialize with the default state
-  // updateDescriptionSection('quakeshift');
+  // updateDescriptionSection('quakeshift'); // Ensure to add the is-active class initially
 });
