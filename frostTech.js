@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const thermofluxImage = document.querySelector('.img.is-tech-image.is-thermoflux');
   const flexiweaveImage = document.querySelector('.img.is-tech-image.is-flexiweave');
 
+  // Check if the elements are correctly selected
+  console.log(counterFirstDigit, counterSecondDigit);
+
   const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
   // Ensure elements are hidden before starting the animation
