@@ -92,6 +92,9 @@ document.addEventListener('DOMContentLoaded', function() {
     scale: 1,
     opacity: 1,
     duration: 1,
+    onStart: () => {
+      quakeshiftImage.classList.add('is-active');
+    }
   }, ">-0.5");
 
   // Set quakeshift as active after intro animations
