@@ -4,7 +4,7 @@ function switchImageState(newState) {
     const newActiveImage = document.querySelector(`.img.is-tech-image.is-${newState}`);
 
     // Animate out the current active image
-    if (currentActiveImageWrap) {
+    if (currentActiveImage) {
         const currentImage = currentActiveImage;
         gsap.to(currentImage, {
             scale: 0.8,
@@ -20,7 +20,7 @@ function switchImageState(newState) {
 
     // Animate in the new active image
     const newImage = newActiveImage;
-    newActiveImageWrap.style.display = 'block'; // Ensure it's visible before animation starts
+    newActiveImage.style.display = 'block'; // Ensure it's visible before animation starts
     gsap.fromTo(newImage, {
         scale: 0.8,
         opacity: 0
