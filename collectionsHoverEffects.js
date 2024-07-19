@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.to(emberH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.out" });
     gsap.to(nebulaH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.out" });
     gsap.to(collectionsSubheading, { color: secondaryGreen100, duration: 0.5, ease: "power4.out" });
-    gsap.to(collectionsDiamondIcon, { stroke: primaryGreen100, boxShadow:`0 0 10px ${primaryGreen100}`, duration: 0.5, ease: "power4.out" });
+    gsap.to(collectionsDiamondIcon, { borderColor: primaryGreen100, boxShadow:`0 0 10px ${primaryGreen100}`, duration: 0.5, ease: "power4.out" });
   });
 
   apexElement.addEventListener('mouseleave', () => {
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.to(emberH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.out" });
     gsap.to(nebulaH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.out" });
     gsap.to(collectionsSubheading, { color: secondaryGreen100, duration: 0.5, ease: "power4.out" });
-    gsap.to(collectionsDiamondIcon, { stroke: primaryGreen100, boxShadow:`0 0 10px ${primaryGreen100}`, duration: 0.5, ease: "power4.out" });
+    gsap.to(collectionsDiamondIcon, { borderColor: primaryGreen100, boxShadow:`0 0 10px ${primaryGreen100}`, duration: 0.5, ease: "power4.out" });
   });
 
   // Ember hover effects
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.to(emberH5, { color: secondaryYellow100, '-webkit-text-stroke': `1px ${secondaryYellow50}`, duration: 0.5, ease: "power4.out" });
     gsap.to(nebulaH5, { color: secondaryYellow10, '-webkit-text-stroke': `1px ${secondaryYellow50}`, duration: 0.5, ease: "power4.out" });
     gsap.to(collectionsSubheading, { color: secondaryYellow100, duration: 0.5, ease: "power4.out" });
-    gsap.to(collectionsDiamondIcon, { stroke: primaryYellow100, boxShadow:`0 0 10px ${primaryYellow100}`, duration: 0.5, ease: "power4.out" });
+    gsap.to(collectionsDiamondIcon, { borderColor: primaryYellow100, boxShadow:`0 0 10px ${primaryYellow100}`, duration: 0.5, ease: "power4.out" });
   });
 
   emberElement.addEventListener('mouseleave', () => {
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.to(emberH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.out" });
     gsap.to(nebulaH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.out" });
     gsap.to(collectionsSubheading, { color: secondaryGreen100, duration: 0.5, ease: "power4.out" });
-    gsap.to(collectionsDiamondIcon, { stroke: primaryGreen100, boxShadow:`0 0 10px ${primaryGreen100}`, duration: 0.5, ease: "power4.out" });
+    gsap.to(collectionsDiamondIcon, { borderColor: primaryGreen100, boxShadow:`0 0 10px ${primaryGreen100}`, duration: 0.5, ease: "power4.out" });
   });
 
   // Nebula hover effects
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.to(emberH5, { color: secondaryPurple10, '-webkit-text-stroke': `1px ${secondaryPurple50}`, duration: 0.5, ease: "power4.out" });
     gsap.to(nebulaH5, { color: secondaryPurple100, '-webkit-text-stroke': `1px ${secondaryPurple50}`, duration: 0.5, ease: "power4.out" });
     gsap.to(collectionsSubheading, { color: secondaryPurple100, duration: 0.5, ease: "power4.out" });
-    gsap.to(collectionsDiamondIcon, { stroke: primaryPurple100, boxShadow:`0 0 10px ${primaryPurple100}`, duration: 0.5, ease: "power4.out" });
+    gsap.to(collectionsDiamondIcon, { borderColor: primaryPurple100, boxShadow:`0 0 10px ${primaryPurple100}`, duration: 0.5, ease: "power4.out" });
   });
 
   nebulaElement.addEventListener('mouseleave', () => {
@@ -109,6 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.to(emberH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.out" });
     gsap.to(nebulaH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.out" });
     gsap.to(collectionsSubheading, { color: secondaryGreen100, duration: 0.5, ease: "power4.out" });
-    gsap.to(collectionsDiamondIcon, { stroke: primaryGreen100, boxShadow:`0 0 10px ${primaryGreen100}`, duration: 0.5, ease: "power4.out" });
+    gsap.to(collectionsDiamondIcon, { borderColor: primaryGreen100, boxShadow:`0 0 10px ${primaryGreen100}`, duration: 0.5, ease: "power4.out" });
   });
 });
