@@ -1,7 +1,7 @@
 function updateDescriptionSection(newState) {
   const allContainers = document.querySelectorAll('.tech_description-container');
   const newActiveContainer = document.querySelector(`.tech_description-container.is-${newState}`);
-  
+
   // Animate out the currently active elements
   allContainers.forEach(container => {
     if (container !== newActiveContainer) {
@@ -11,12 +11,13 @@ function updateDescriptionSection(newState) {
         duration: 0.5
       });
       // Slide and fade out paragraphs smoothly
-      gsap.to(container.querySelector('.tech_description-p-wrap'), {
+      const pWrap = container.querySelector('.tech_description-p-wrap');
+      gsap.to(pWrap, {
         autoAlpha: 0, // Handles opacity and visibility
-        height: 0, // Transition height to 0
+        height: 0, // Animate height to 0
         duration: 0.5,
         onComplete: () => {
-          container.querySelector('.tech_description-p-wrap').style.display = 'none'; // Hide the element after animation
+          pWrap.style.display = 'none'; // Hide the element after animation
         }
       });
     }
@@ -27,14 +28,17 @@ function updateDescriptionSection(newState) {
     opacity: 1,
     duration: 0.5
   });
-  // Reset height, visibility, and display before animating in
-  const paragraphWrap = newActiveContainer.querySelector('.tech_description-p-wrap');
-  paragraphWrap.style.display = 'block'; // Make sure the element is visible before animating
-  gsap.set(paragraphWrap, { height: 'auto', autoAlpha: 0 }); // Set initial conditions for animation
-  gsap.to(paragraphWrap, {
-    autoAlpha: 1, // Handles opacity and visibility
-    height: 'auto', // Transition height from 0 to auto
-    duration: 0.5
+  // Reset and animate in the paragraph wrapper
+  const newParagraphWrap = newActiveContainer.querySelector('.tech_description-p-wrap');
+  newParagraphWrap.style.display = 'block';
+  gsap.fromTo(newParagraphWrap, {
+    autoAlpha: 0,
+    height: 0
+  }, {
+    autoAlpha: 1,
+    height: function() { return newParagraphWrap.scrollHeight + 'px'; }, // Animate height dynamically based on content
+    duration: 0.5,
+    clearProps: 'height' // Clear the inline height property after animation to handle dynamic content changes
   });
 }
 
@@ -43,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const techOptions = document.querySelectorAll('.tech_description-header-wrap');
   techOptions.forEach(option => {
     option.addEventListener('click', function() {
-      const newState = this.closest('.tech_description-container').classList[1].split('-')[1]; // Assuming class like 'is-quakeshift'
+      const newState = this.closest('.tech_description-container').classList[1].split('-')[1];
       updateDescriptionSection(newState);
     });
   });
