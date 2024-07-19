@@ -5,18 +5,16 @@ function updateDescriptionSection(newState) {
   // Animate out the currently active elements
   allContainers.forEach(container => {
     if (container !== newActiveContainer) {
-      // Fade out inactive headers and hide paragraphs
+      // Fade out inactive headers
       gsap.to(container.querySelector('.tech_description-header-wrap'), {
         opacity: 0.2,
         duration: 0.5
       });
+      // Slide and fade out paragraphs smoothly
       gsap.to(container.querySelector('.tech_description-p-wrap'), {
-        y: '100%', // Move down
-        opacity: 0,
-        duration: 0.5,
-        onComplete: () => {
-          container.querySelector('.tech_description-p-wrap').style.display = 'none';
-        }
+        autoAlpha: 0, // Handles opacity and visibility
+        height: 0, // Transition height to 0
+        duration: 0.5
       });
     }
   });
@@ -26,15 +24,12 @@ function updateDescriptionSection(newState) {
     opacity: 1,
     duration: 0.5
   });
-  // Ensure the paragraph is visible and reset position before animating
+  // Reset height and visibility before animating in
   const paragraphWrap = newActiveContainer.querySelector('.tech_description-p-wrap');
-  paragraphWrap.style.display = 'block';
-  gsap.fromTo(paragraphWrap, {
-    y: '100%', // Start from below
-    opacity: 0
-  }, {
-    y: '0%', // Move to original position
-    opacity: 1,
+  gsap.set(paragraphWrap, { height: 'auto', autoAlpha: 0 }); // Set initial conditions for animation
+  gsap.to(paragraphWrap, {
+    autoAlpha: 1, // Handles opacity and visibility
+    height: 'auto', // Transition height from 0 to auto
     duration: 0.5
   });
 }
