@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const quakeshiftImage = document.querySelector('.img.is-tech-image.is-quakeshift');
   const thermofluxImage = document.querySelector('.img.is-tech-image.is-thermoflux');
   const flexiweaveImage = document.querySelector('.img.is-tech-image.is-flexiweave');
+  const quakeshiftDescriptionContainer = document.querySelector('.tech_description-container.is-quakeshift')
 
   // Check if the elements are correctly selected
   console.log(counterFirstDigit, counterSecondDigit);
@@ -102,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
     onStart: () => {
       quakeshiftImage.classList.add('is-active');
       quakeshiftImageWrap.classList.add('is-active');
+      quakeshiftDescriptionContainer.classList.add('is-active');
     }
   }, ">-0.5");
 
