@@ -19,12 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const thermofluxImage = document.querySelector('.img.is-tech-image.is-thermoflux');
   const flexiweaveImage = document.querySelector('.img.is-tech-image.is-flexiweave');
 
-  // Check if the elements are correctly selected
-  console.log(counterFirstDigit, counterSecondDigit);
+  const tl = gsap.timeline({ defaults: { ease: "power4.inOut" } });
 
-  const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
-
-  // Ensure elements are hidden before starting the animation
   gsap.set([techParagraphs, terminalIcons, techBorderDivs, techHeaders, quakeshiftHeading, quakeshiftNumber, quakeshiftParagraph], { opacity: 0, visibility: 'hidden' });
 
   tl.to(terminalIcons, {
@@ -67,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     y: '0%',
     duration: 0.5
   }, "<")
-  .add('quakeshiftActive') // Correct method to add a label
+  .add('quakeshiftActive')
   .to(thermofluxHeading, {
     autoAlpha: 1,
     y: '0%',
@@ -105,8 +101,26 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }, ">-0.5");
 
-  // Set quakeshift as active after intro animations
   tl.add(() => {
     document.querySelector('.global-terminal.is-tech.is-quakeshift').classList.add('is-active');
   }, 'quakeshiftActive');
+
+  // Dispatch categoryChange event when category changes
+  function dispatchCategoryChange(newCategory) {
+    const event = new CustomEvent('categoryChange', { detail: { newCategory } });
+    document.dispatchEvent(event);
+  }
+
+  // Example usage:
+  const techOptions = document.querySelectorAll('.tech_description-header-wrap');
+  techOptions.forEach(option => {
+    option.addEventListener('click', function() {
+      const newState = this.closest('.tech_description-container').classList[1].split('-')[1];
+      updateCounter(newState);
+      dispatchCategoryChange(newState); // Dispatch event when category changes
+    });
+  });
+
+  // Initialize with the default state
+  updateCounter('quakeshift');
 });
