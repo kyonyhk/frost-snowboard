@@ -19,7 +19,7 @@ function switchTerminalState(newState) {
         });
 
         gsap.to(icon, {
-            rotate: '+=90deg', // Assuming the starting rotate is 45deg
+            rotate: '+=90deg', // Add 90 degrees to whatever the current rotation is
             opacity: 0,
             duration: 0.3,
             ease: "power4.out"
@@ -40,8 +40,9 @@ function switchTerminalState(newState) {
     });
 
     gsap.set(newIcon, {
-        rotate: '45deg',
-        opacity: 1,
+        x: '-300%', // Start from -300% on the x-axis
+        rotate: '0deg', // Reset rotation to 0 degrees
+        opacity: 0,
         clearProps: 'all'
     });
 
@@ -54,7 +55,8 @@ function switchTerminalState(newState) {
     });
 
     gsap.to(newIcon, {
-        rotate: '45deg',
+        x: '0%', // Animate to 0% on the x-axis
+        rotate: '45deg', // Rotate to 45 degrees
         opacity: 1,
         duration: 0.5,
         ease: "power4.out"
