@@ -1,62 +1,70 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const terminalContainers = document.querySelectorAll('.global-terminal');
-  const techOptions = document.querySelectorAll('.tech_description-header-wrap');
-
-  // Initialize all elements to their starting positions
-  terminalContainers.forEach(container => {
-    if (!container.classList.contains('is-active')) {
-      container.style.display = 'none';
-    }
-    gsap.set(container.querySelectorAll('.paragraph.is-terminal.is-tech'), { y: '100%' });
-    gsap.set(container.querySelector('.terminal-icon'), { opacity: 0, rotate: '0deg', x: '-300%' });
-  });
-
-  techOptions.forEach(option => option.addEventListener('click', function() {
+function switchTerminalState(newState) {
+    const allTerminals = document.querySelectorAll('.global-terminal');
     const currentActive = document.querySelector('.global-terminal.is-active');
-    const currentClass = this.closest('.tech_description-container').classList[1]; // Assuming the second class denotes the tech type
-    const newActive = document.querySelector(`.global-terminal.is-tech.${currentClass}`);
+    const newActive = document.querySelector(`.global-terminal.is-tech.is-${newState}`);
 
-    // Exit animations for currently active elements
+    // Animate out the current active terminal
     if (currentActive) {
-      gsap.to(currentActive.querySelectorAll('.paragraph.is-terminal.is-tech'), {
-        y: '-100%',
-        duration: 0.3,
-        ease: 'power4.out',
-        onComplete: () => {
-          currentActive.style.display = 'none';
-          currentActive.classList.remove('is-active');
-          // Reset positions for next animation
-          gsap.set(currentActive.querySelectorAll('.paragraph.is-terminal.is-tech'), { y: '100%' });
-        }
-      });
-      gsap.to(currentActive.querySelector('.terminal-icon'), {
-        rotate: '135deg', // Additional 90deg rotation
-        opacity: 0,
-        duration: 0.3,
-        ease: 'power4.out',
-        onComplete: () => {
-          gsap.set(currentActive.querySelector('.terminal-icon'), { rotate: '0deg', x: '-300%', opacity: 0 });
-        }
-      });
+        const paragraphs = currentActive.querySelectorAll('.paragraph.is-terminal.is-tech');
+        const icon = currentActive.querySelector('.terminal-icon');
+
+        gsap.to(paragraphs, {
+            y: '-100%',
+            duration: 0.3,
+            ease: "power4.out",
+            onComplete: () => {
+                currentActive.style.display = 'none'; // Hide the terminal after animation
+                currentActive.classList.remove('is-active');
+            }
+        });
+
+        gsap.to(icon, {
+            rotate: '+=90deg', // Assuming the starting rotate is 45deg
+            opacity: 0,
+            duration: 0.3,
+            ease: "power4.out"
+        });
     }
 
-    // Setup and animate new active elements
-    if (newActive && newActive !== currentActive) {
-      newActive.style.display = 'flex';
-      newActive.classList.add('is-active');
-      gsap.to(newActive.querySelectorAll('.paragraph.is-terminal.is-tech'), {
+    // Prepare and animate in the new active terminal
+    newActive.style.display = 'flex'; // Ensure it's visible before animation starts
+    newActive.classList.add('is-active');
+
+    // Reset styles for entrance animation
+    const newParagraphs = newActive.querySelectorAll('.paragraph.is-terminal.is-tech');
+    const newIcon = newActive.querySelector('.terminal-icon');
+
+    gsap.set(newParagraphs, {
+        y: '100%', // Start below their original position
+        clearProps: 'all'
+    });
+
+    gsap.set(newIcon, {
+        rotate: '45deg',
+        opacity: 1,
+        clearProps: 'all'
+    });
+
+    // Animate them into view with initial intro animation settings
+    gsap.to(newParagraphs, {
         y: '0%',
         duration: 0.5,
-        ease: 'power4.out',
+        ease: "power4.out",
         stagger: 0.1
-      });
-      gsap.to(newActive.querySelector('.terminal-icon'), {
-        x: '0%',
-        opacity: 1,
+    });
+
+    gsap.to(newIcon, {
         rotate: '45deg',
+        opacity: 1,
         duration: 0.5,
-        ease: 'power4.out'
-      });
-    }
-  }));
+        ease: "power4.out"
+    });
+}
+
+// Example usage, bind this to your state change triggers
+document.querySelectorAll('.tech_description-header-wrap').forEach(header => {
+    header.addEventListener('click', function() {
+        const newState = this.closest('.tech_description-container').classList[1].split('-')[1]; // Extracts 'quakeshift', 'thermoflux', or 'flexiweave'
+        switchTerminalState(newState);
+    });
 });
