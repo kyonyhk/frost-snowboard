@@ -53,5 +53,5 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Initialize with the default state
-  updateDescriptionSection('quakeshift');
+  // updateDescriptionSection('quakeshift');
 });
