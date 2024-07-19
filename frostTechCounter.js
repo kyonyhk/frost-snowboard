@@ -16,15 +16,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentIndex = categories.indexOf(currentCategory);
     const newIndex = categories.indexOf(newCategory);
 
-    // Position the digits based on the new index
-    gsap.set(digits.quakeshift, { y: `${(currentIndex - 0) * 100}%` });
-    gsap.set(digits.thermoflux, { y: `${(currentIndex - 1) * 100}%` });
-    gsap.set(digits.flexiweave, { y: `${(currentIndex - 2) * 100}%` });
+    // Calculate the direction and distance for the animation
+    const offset = (currentIndex - newIndex) * 100;
+
+    // Position the digits correctly before animating
+    gsap.set(digits.quakeshift, { y: `${(newIndex - 0) * 100}%` });
+    gsap.set(digits.thermoflux, { y: `${(newIndex - 1) * 100}%` });
+    gsap.set(digits.flexiweave, { y: `${(newIndex - 2) * 100}%` });
 
     // Animate to the new position
-    gsap.to(digits.quakeshift, { y: `${(newIndex - 0) * 100}%`, duration: 0.5 });
-    gsap.to(digits.thermoflux, { y: `${(newIndex - 1) * 100}%`, duration: 0.5 });
-    gsap.to(digits.flexiweave, { y: `${(newIndex - 2) * 100}%`, duration: 0.5 });
+    gsap.to(digits.quakeshift, { y: `${(0) * 100}%`, duration: 0.5 });
+    gsap.to(digits.thermoflux, { y: `${(1) * 100}%`, duration: 0.5 });
+    gsap.to(digits.flexiweave, { y: `${(2) * 100}%`, duration: 0.5 });
 
     currentCategory = newCategory;
   }
