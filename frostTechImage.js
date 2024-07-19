@@ -13,14 +13,12 @@ function switchImageState(newState) {
             ease: "power4.out",
             onComplete: () => {
                 currentActiveImage.classList.remove('is-active');
-                currentActiveImage.style.display = 'none'; // Hide the image after animation
             }
         });
     }
 
     // Animate in the new active image
     const newImage = newActiveImage;
-    newActiveImage.style.display = 'block'; // Ensure it's visible before animation starts
     gsap.fromTo(newImage, {
         scale: 0.8,
         opacity: 0
