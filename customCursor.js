@@ -18,17 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     defaultCursor.style.display = 'block';
   }
 
-  const colorThemes = {
-    default: { primary: '', secondary: '' },
-    ember: { primary: '#D97848', secondary: '#FDFDCE' },
-    nebula: { primary: '#580DEB', secondary: '#877FCB' },
-    quakeshift: { primary: '#6BE688', secondary: '#A1FCCF' },
-    thermoflux: { primary: '#D97848', secondary: '#FDFDCE' },
-    flexiweave: { primary: '#580DEB', secondary: '#877FCB' }
-  };
-
-  let currentTheme = 'quakeshift'; // Default theme
-
+  // Define all functions first
   function hexToRGBA(hex, opacity) {
     let r = parseInt(hex.slice(1, 3), 16);
     let g = parseInt(hex.slice(3, 5), 16);
@@ -48,13 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function resetCursorColor() {
     const currentUrl = window.location.href;
     if (currentUrl.includes('ember')) {
-      currentTheme = 'ember';
-      setCursorColor(colorThemes.ember.secondary);
+      setCursorColor('#FDFDCE');
     } else if (currentUrl.includes('nebula')) {
-      currentTheme = 'nebula';
-      setCursorColor(colorThemes.nebula.secondary);
+      setCursorColor('#877FCB');
     } else {
-      setCursorColor(colorThemes[currentTheme].primary);
+      cursor.style.borderColor = '';
+      cursor.style.backgroundColor = '';
+      innerCursor.style.backgroundColor = '';
+      defaultCursor.style.backgroundColor = '';
     }
   }
 
@@ -69,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cursor.classList.add('clicking');
     innerCursor.classList.add('clicking');
     innerCursor.style.transform = 'translate(-50%, -50%) rotate(225deg)';
+    console.log('Mouse down'); // Debugging line
   }
 
   function handleMouseUp(e) {
@@ -76,8 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
     cursor.classList.remove('clicking');
     innerCursor.classList.remove('clicking');
     innerCursor.style.transform = 'translate(-50%, -50%) rotate(45deg)';
+    console.log('Mouse up'); // Debugging line
   }
 
+  // Attach event listeners to the document
   document.addEventListener('mousedown', handleMouseDown, true);
   document.addEventListener('mouseup', handleMouseUp, true);
 
@@ -103,10 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
         isHovering = true;
 
         if (emberElement) {
-          emberElement.addEventListener('mouseenter', () => setCursorColor(colorThemes.ember.secondary));
+          emberElement.addEventListener('mouseenter', () => setCursorColor('#FDFDCE'));
         }
         if (nebulaElement) {
-          nebulaElement.addEventListener('mouseenter', () => setCursorColor(colorThemes.nebula.secondary));
+          nebulaElement.addEventListener('mouseenter', () => setCursorColor('#877FCB'));
         }
       });
 
@@ -122,18 +116,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateCursorPosition() {
     if (isHovering || isClicking) {
+      // Immediate positioning when hovering or clicking
       cursorWrapper.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
     } else {
+      //Smooth positioning when not hovering or clicking
       let dx = mouseX - currentX;
       let dy = mouseY - currentY;
       currentX += dx * easing;
       currentY += dy * easing;
-
+  
       cursorWrapper.style.transform = `translate(${currentX}px, ${currentY}px)`;
     }
-
+    
     cursor.style.transform = `translate(-50%, -50%) rotate(45deg)`;
+
+    //Always update default cursor position immediately
     defaultCursor.style.transform = `translate(${mouseX - currentX}px, ${mouseY - currentY}px) translate(-50%, -50%) rotate(45deg)`;
+    
     innerCursor.style.left = '0px';
     innerCursor.style.top = '0px';
     innerCursor.style.transform = 'translate(-50%, -50%) rotate(45deg)';
@@ -141,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(updateCursorPosition);
   }
 
+  // Initialize variables and event listeners
   let mouseX = 0;
   let mouseY = 0;
   let currentX = 0;
@@ -156,16 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Call functions in the correct order
   initializeCursorColor();
   setHoverEffects();
   updateCursorPosition();
-
-  function updateColorTheme(newCategory) {
-    currentTheme = newCategory;
-    resetCursorColor();
-  }
-
-  document.addEventListener('categoryChange', (e) => {
-    updateColorTheme(e.detail.newCategory);
-  });
 });
