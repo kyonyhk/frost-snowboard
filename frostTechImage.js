@@ -34,7 +34,7 @@ function switchImageState(newState) {
         onStart: () => {
             newActiveImage.classList.add('is-active');
             newActiveImageWrap.classList.add('is-active');
-            newActiveImageWrap.style.display = 'block';
+            newActiveImageWrap.style.display = 'flex';
         }
     });
 }
