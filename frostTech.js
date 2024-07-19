@@ -5,7 +5,7 @@ function updateDescriptionSection(newState) {
   // Animate out the currently active elements
   allContainers.forEach(container => {
     if (container !== newActiveContainer) {
-      // Fade out inactive headers
+      // Reduce opacity for inactive headers
       gsap.to(container.querySelector('.tech_description-header-wrap'), {
         opacity: 0.2,
         duration: 0.5
@@ -14,7 +14,10 @@ function updateDescriptionSection(newState) {
       gsap.to(container.querySelector('.tech_description-p-wrap'), {
         autoAlpha: 0, // Handles opacity and visibility
         height: 0, // Transition height to 0
-        duration: 0.5
+        duration: 0.5,
+        onComplete: () => {
+          container.querySelector('.tech_description-p-wrap').style.display = 'none'; // Hide the element after animation
+        }
       });
     }
   });
@@ -24,8 +27,9 @@ function updateDescriptionSection(newState) {
     opacity: 1,
     duration: 0.5
   });
-  // Reset height and visibility before animating in
+  // Reset height, visibility, and display before animating in
   const paragraphWrap = newActiveContainer.querySelector('.tech_description-p-wrap');
+  paragraphWrap.style.display = 'block'; // Make sure the element is visible before animating
   gsap.set(paragraphWrap, { height: 'auto', autoAlpha: 0 }); // Set initial conditions for animation
   gsap.to(paragraphWrap, {
     autoAlpha: 1, // Handles opacity and visibility
