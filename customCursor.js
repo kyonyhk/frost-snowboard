@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function setHoverEffects() {
     const hoverElements = document.querySelectorAll(
-      "a, button, [data-cursor='hover'], .loading_button-container"
+      "a, button, [data-cursor='hover'], .loading_button-container, .tech_description-header-wrap"
     );
     const emberElement = document.querySelector(
       '.collections-main_heading.link.is-clickable.is-ember'
