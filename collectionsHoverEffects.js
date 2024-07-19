@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const nebulaH2 = document.querySelector('.h-h2.is-collections-main.is-default.is-three');
   const nebulaH5 = document.querySelector('.h-h5.is-collections-main.is-default.is-three');
 
+  const collectionsSubheading = document.querySelector('.s-s5.is-collections');
+  const collectionsDiamondIcon = document.querySelector('.global-icon_diamond.is-icon.is-collections');
+
   //Color variables
   const primaryGreen100 = 'rgba(107, 230, 136, 1.0)';
   const primaryGreen50 = 'rgba(107, 230, 136, 0.5)';
@@ -48,6 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.to(apexH5, { color: secondaryGreen100, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.inOut" });
     gsap.to(emberH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.inOut" });
     gsap.to(nebulaH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.inOut" });
+    gsap.to(collectionsSubheading, { color: secondaryGreen100, duration: 0.5, ease: "power4.inOut" });
+    gsap.to(collectionsDiamondIcon, { stroke: primaryGreen100, boxShadow:`0 0 10px ${primaryGreen100}`, duration: 0.5, ease: "power4.inOut" });
   });
 
   apexElement.addEventListener('mouseleave', () => {
@@ -57,6 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.to(apexH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.inOut" });
     gsap.to(emberH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.inOut" });
     gsap.to(nebulaH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.inOut" });
+    gsap.to(collectionsSubheading, { color: secondaryGreen100, duration: 0.5, ease: "power4.inOut" });
+    gsap.to(collectionsDiamondIcon, { stroke: primaryGreen100, boxShadow:`0 0 10px ${primaryGreen100}`, duration: 0.5, ease: "power4.inOut" });
   });
 
   // Ember hover effects
@@ -67,6 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.to(apexH5, { color: secondaryYellow10, '-webkit-text-stroke': `1px ${secondaryYellow50}`, duration: 0.5, ease: "power4.inOut" });
     gsap.to(emberH5, { color: secondaryYellow100, '-webkit-text-stroke': `1px ${secondaryYellow50}`, duration: 0.5, ease: "power4.inOut" });
     gsap.to(nebulaH5, { color: secondaryYellow10, '-webkit-text-stroke': `1px ${secondaryYellow50}`, duration: 0.5, ease: "power4.inOut" });
+    gsap.to(collectionsSubheading, { color: secondaryYellow100, duration: 0.5, ease: "power4.inOut" });
+    gsap.to(collectionsDiamondIcon, { stroke: primaryYellow100, boxShadow:`0 0 10px ${primaryYellow100}`, duration: 0.5, ease: "power4.inOut" });
   });
 
   emberElement.addEventListener('mouseleave', () => {
@@ -76,6 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.to(apexH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.inOut" });
     gsap.to(emberH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.inOut" });
     gsap.to(nebulaH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.inOut" });
+    gsap.to(collectionsSubheading, { color: secondaryGreen100, duration: 0.5, ease: "power4.inOut" });
+    gsap.to(collectionsDiamondIcon, { stroke: primaryGreen100, boxShadow:`0 0 10px ${primaryGreen100}`, duration: 0.5, ease: "power4.inOut" });
   });
 
   // Nebula hover effects
@@ -86,6 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.to(apexH5, { color: secondaryPurple10, '-webkit-text-stroke': `1px ${secondaryPurple50}`, duration: 0.5, ease: "power4.inOut" });
     gsap.to(emberH5, { color: secondaryPurple10, '-webkit-text-stroke': `1px ${secondaryPurple50}`, duration: 0.5, ease: "power4.inOut" });
     gsap.to(nebulaH5, { color: secondaryPurple100, '-webkit-text-stroke': `1px ${secondaryPurple50}`, duration: 0.5, ease: "power4.inOut" });
+    gsap.to(collectionsSubheading, { color: secondaryPurple100, duration: 0.5, ease: "power4.inOut" });
+    gsap.to(collectionsDiamondIcon, { stroke: primaryPurple100, boxShadow:`0 0 10px ${primaryPurple100}`, duration: 0.5, ease: "power4.inOut" });
   });
 
   nebulaElement.addEventListener('mouseleave', () => {
@@ -95,5 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.to(apexH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.inOut" });
     gsap.to(emberH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.inOut" });
     gsap.to(nebulaH5, { color: secondaryGreen10, '-webkit-text-stroke': `1px ${secondaryGreen50}`, duration: 0.5, ease: "power4.inOut" });
+    gsap.to(collectionsSubheading, { color: secondaryGreen100, duration: 0.5, ease: "power4.inOut" });
+    gsap.to(collectionsDiamondIcon, { stroke: primaryGreen100, boxShadow:`0 0 10px ${primaryGreen100}`, duration: 0.5, ease: "power4.inOut" });
   });
 });
