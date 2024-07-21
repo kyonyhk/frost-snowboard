@@ -1,10 +1,15 @@
 function initializeFrostTechTerminal() {
-  function switchTerminalState(newState) {
+  console.log('Initializing Frost Tech Terminal...');
+
+  
+  function switchTerminalState(newState) {                                        
       const allTerminals = document.querySelectorAll('.global-terminal');
+      console.log('Initializing Frost Tech Terminal...');
+                                                                                                                                       
       const currentActive = document.querySelector('.global-terminal.is-active');
       const newActive = document.querySelector(`.global-terminal.is-tech.is-${newState}`);
   
-      // Animate out the current active terminal
+              // Animate out the current active terminal
       if (currentActive) {
           const paragraphs = currentActive.querySelectorAll('.paragraph.is-terminal.is-tech');
           const icon = currentActive.querySelector('.terminal-icon');
