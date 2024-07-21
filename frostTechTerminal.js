@@ -72,3 +72,6 @@ function initializeFrostTechTerminal() {
         });
     });
 }
+
+// Ensure the function is accessible globally
+window.initializeFrostTechTerminal = initializeFrostTechTerminal;
