@@ -1,3 +1,39 @@
+function loadScript(url, callback) {
+  const script = document.createElement('script');
+  script.src = url;
+  script.onload = callback;
+  document.head.appendChild(script);
+}
+
+function loadFrostTechScripts() {
+  const scripts = [
+    'https://cdn.jsdelivr.net/gh/kyonyhk/frost-snowboard/frostTech.js',
+    'https://cdn.jsdelivr.net/gh/kyonyhk/frost-snowboard/frostTechImage.js',
+    'https://cdn.jsdelivr.net/gh/kyonyhk/frost-snowboard/frostTechTerminal.js',
+    'https://cdn.jsdelivr.net/gh/kyonyhk/frost-snowboard/frostTechDescriptions.js',
+    'https://cdn.jsdelivr.net/gh/kyonyhk/frost-snowboard/frostTechDescriptionHover.js',
+    'https://cdn.jsdelivr.net/gh/kyonyhk/frost-snowboard/frostTechCounter.js',
+    'https://cdn.jsdelivr.net/gh/kyonyhk/frost-snowboard/frostTechColorThemes.js'
+  ];
+
+  scripts.forEach((src, index) => {
+    loadScript(src, () => {
+      console.log(`${src} loaded`);
+      // Call initialization functions here if needed
+      if (index === scripts.length - 1) {
+        // All scripts loaded, call initialization functions
+        if (window.initializeFrostTechImage) initializeFrostTechAnimations();
+        if (window.initializeFrostTechImage) initializeFrostTechImage();
+        if (window.initializeFrostTechTerminal) initializeFrostTechTerminal();
+        if (window.initializeFrostTechDescriptions) initializeFrostTechDescriptions();
+        if (window.initializeFrostTechDescriptionHover) initializeFrostTechDescriptionHover();
+        if (window.initializeFrostTechCounter) initializeFrostTechCounter();
+        if (window.initializeFrostTechColorThemes) initializeFrostTechColorThemes();
+      }
+    });
+  });
+}
+
 function reinitialiseWebflow(data) {
   console.log('Reinitializing Webflow interactions');
   
@@ -57,6 +93,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
           // Reinitialize Webflow interactions and animations
           reinitialiseWebflow(data);
+          if (data.next.namespace === 'frost-tech-page') {
+            loadFrostTechScripts();
+          }
         },
       },
     ],
@@ -76,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function () {
           console.log('Entered frost-tech-page namespace');
           // Reinitialize any Frost Tech Page specific JavaScript here
           reinitialiseWebflow(data);
-          initializeFrostTechAnimations();
+          loadFrostTechScripts();
         },
       },
     ],
