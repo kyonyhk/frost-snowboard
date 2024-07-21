@@ -62,3 +62,6 @@ function initializeFrostTechDescriptions() {
     // updateDescriptionSection('quakeshift'); // Ensure to add the is-active class initially
   });
 }
+
+// Ensure the function is accessible globally
+window.initializeFrostTechDescriptions = initializeFrostTechDescriptions;
