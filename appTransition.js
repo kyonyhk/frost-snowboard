@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
       app.classList.remove('fade-in');
       console.log('Removed fade-in class from .app element');
-    }, 1000); // Match this duration with your CSS transition duration
+    }, 2000); // Match this duration with your CSS transition duration
   }
 
   // Function to handle the fade-out effect
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     event.preventDefault();
     setTimeout(() => {
       window.location.href = event.target.href;
-    }, 1000); // Match this duration with your CSS transition duration
+    }, 2000); // Match this duration with your CSS transition duration
   }
 
   // Add event listeners to all internal links
