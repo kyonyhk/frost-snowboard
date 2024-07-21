@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOMContentLoaded event fired');
 
-  // Apply the fade-in effect when the page loads
   const app = document.querySelector('.app');
+
+  // Ensure the page starts with the fade-in effect
   if (app) {
-    console.log('Found .app element');
     app.classList.add('fade-in');
-  } else {
-    console.log('Could not find .app element');
+    setTimeout(() => {
+      app.classList.remove('fade-in');
+      console.log('Removed fade-in class from .app element');
+    }, 1000); // Match this duration with your CSS transition duration
   }
 
   // Function to handle the fade-out effect
@@ -20,7 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Navigating to:', href);
 
     if (app) {
-      app.classList.remove('fade-in');
       app.classList.add('fade-out');
       console.log('Applied fade-out class to .app element');
     }
@@ -42,13 +43,4 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     console.log('No internal links found');
   }
-
-  // Ensure the page starts with the fade-in effect
-  window.addEventListener('pageshow', () => {
-    console.log('pageshow event fired');
-    if (app) {
-      app.classList.add('fade-in');
-      console.log('Re-applied fade-in class to .app element');
-    }
-  });
 });
