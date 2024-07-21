@@ -1,11 +1,12 @@
 .app {
-  transition: opacity 1s ease-out;
+  opacity: 1;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.fade-out {
+.app.fade-out {
   opacity: 0;
 }
 
-.fade-in {
-  opacity: 1;
+.app.fade-in {
+  opacity: 0;
 }
