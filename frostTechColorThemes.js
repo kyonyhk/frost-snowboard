@@ -57,3 +57,6 @@ function initializeFrostTechColorThemes() {
     // updateColors('quakeshift');
   });
 }
+
+// Ensure the function is accessible globally
+window.initializeFrostTechColorThemes = initializeFrostTechColorThemes;
