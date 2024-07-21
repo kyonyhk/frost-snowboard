@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!header.closest('.tech_description-container').classList.contains('is-active')) {
         gsap.to(header, {
           opacity: 0.2,
-          duration: 0.5,
+          duration: 0.3,
           ease: "power4.inOut"
         });
       }
