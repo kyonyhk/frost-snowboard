@@ -1,0 +1,11 @@
+.app {
+  transition: opacity 1s ease-out;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+}
