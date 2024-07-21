@@ -1,6 +1,10 @@
 function initializeFrostTechDescriptionHover() {
+  console.log('Initializing Frost Tech Description Hover...');
+  
   document.addEventListener('DOMContentLoaded', () => {
     const techHeaders = document.querySelectorAll('.tech_description-header-wrap');
+    console.log('Found hover elements:', techHeaders);
+
   
     techHeaders.forEach(header => {
       header.addEventListener('mouseenter', () => {
