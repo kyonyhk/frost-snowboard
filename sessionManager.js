@@ -8,6 +8,14 @@ document.addEventListener('DOMContentLoaded', function() {
     var scrollKey = 'scrollPosition-' + path;
     var preloaderShownKey = 'preloaderShown';
 
+    // List of URLs that should trigger the preloader when navigating back to the home page
+    var specialUrls = [
+        '/collection/apex-collection',
+        '/collection/ember-collection',
+        '/collection/nebula-collection',
+        '/frost-tech'
+    ];
+
     // Handle returning to the page
     if (sessionStorage.getItem(preloaderShownKey)) {
         var savedPosition = parseInt(sessionStorage.getItem(scrollKey), 10);
