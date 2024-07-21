@@ -11,14 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
           // Animate the current container opacity
           gsap.to(data.current.container, {
             opacity: 0,
-            duration: 1,
+            duration: 3,
             ease: 'power4.out',
           });
 
           // Return the promise of the animation of the next container
           return gsap.from(data.next.container, {
             opacity: 0,
-            duration: 1,
+            duration: 3,
             ease: 'power4.out',
             onComplete: () => {
               $(data.next.container).removeClass('fixed');
