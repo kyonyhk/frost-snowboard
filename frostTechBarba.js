@@ -2,9 +2,17 @@ function initializeFrostTech() {
   console.log('Initializing Frost Tech...');
   
   const techParagraphs = document.querySelectorAll('.paragraph.is-terminal.is-tech');
+  console.log('Tech Paragraphs:', techParagraphs);
+  
   const terminalIcons = document.querySelectorAll('.terminal-icon');
+  console.log('Terminal Icons:', terminalIcons);
+  
   const techBorderDivs = document.querySelectorAll('.tech_border-div');
+  console.log('Tech Border Divs:', techBorderDivs);
+  
   const techHeaders = document.querySelectorAll('.h-h5.is-tech');
+  console.log('Tech Headers:', techHeaders);
+  
   const quakeshiftHeading = document.querySelector('.h-h6.is-tech.is-active.is-quakeshift');
   const quakeshiftNumber = document.querySelector('.s-s4.is-tech.is-quakeshift');
   const quakeshiftParagraph = document.querySelector('.paragraph.p-p2.is-tech.is-quakeshift');
