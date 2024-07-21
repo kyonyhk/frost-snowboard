@@ -24,4 +24,9 @@ function initializeFrostTechDescriptionHover() {
       });
     });
   });
+
+  console.log('Frost Tech description hover initialized');
 }
+
+// Ensure the function is globally accessible
+window.initializeFrostTechDescriptionHover = initializeFrostTechDescriptionHover;
