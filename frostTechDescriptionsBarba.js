@@ -4,9 +4,13 @@ function initializeFrostTechDescriptions() {
   function updateDescriptionSection(newState) {
     const allContainers = document.querySelectorAll('.tech_description-container');
     console.log('Found containers:', allContainers);
-
     const newActiveContainer = document.querySelector(`.tech_description-container.is-${newState}`);
   
+    if (!newActiveContainer) {
+      console.warn(`No container found for state: ${newState}`);
+      return;
+    }
+
     // Animate out the currently active elements
     allContainers.forEach(container => {
       if (container !== newActiveContainer) {
@@ -52,26 +56,42 @@ function initializeFrostTechDescriptions() {
     newActiveContainer.classList.add('is-active');
   }
   
-  // Example usage:
-  document.addEventListener('DOMContentLoaded', function() {
+  function setupEventListeners() {
     const techOptions = document.querySelectorAll('.tech_description-header-wrap');
     techOptions.forEach(option => {
-      option.addEventListener('click', function() {
-        const parentContainer = this.closest('.tech_description-container');
-        if (parentContainer.classList.contains('is-active')) {
-          return; // Do nothing if the clicked element is already active
-        }
-        const newState = parentContainer.classList[1].split('-')[1];
-        updateDescriptionSection(newState);
-      });
+      option.addEventListener('click', handleTechOptionClick);
     });
-  
-    // Initialize with the default state
-    // updateDescriptionSection('quakeshift'); // Ensure to add the is-active class initially
-  });
+  }
+
+  function handleTechOptionClick(event) {
+    const parentContainer = event.target.closest('.tech_description-container');
+    if (parentContainer.classList.contains('is-active')) {
+      return; // Do nothing if the clicked element is already active
+    }
+    const newState = parentContainer.classList[1].split('-')[1];
+    updateDescriptionSection(newState);
+  }
+
+  // Initialize with the default state
+  updateDescriptionSection('quakeshift');
+  setupEventListeners();
 
   console.log('Frost Tech descriptions initialized');
 }
 
-// Ensure the function is globally accessible
+// Cleanup function
+function cleanupFrostTechDescriptions() {
+  const techOptions = document.querySelectorAll('.tech_description-header-wrap');
+  techOptions.forEach(option => {
+    option.removeEventListener('click', handleTechOptionClick);
+  });
+
+  // Kill all GSAP animations related to this module
+  gsap.killTweensOf('.tech_description-container, .tech_description-header-wrap, .tech_description-p-wrap');
+
+  console.log('Frost Tech descriptions cleaned up');
+}
+
+// Ensure the functions are globally accessible
 window.initializeFrostTechDescriptions = initializeFrostTechDescriptions;
+window.cleanupFrostTechDescriptions = cleanupFrostTechDescriptions;
