@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ctaButton.addEventListener('mouseenter', () => {
     gsap.to(characters, {
       duration: 0.5,
-      opacity: 1,
+      color: "rgba(107, 230, 136, 1)", // Ensure the fill color goes to 100%
       stagger: 0.03,
       ease: "power4.out",
     });
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ctaButton.addEventListener('mouseleave', () => {
     gsap.to(characters, {
       duration: 0.2,
-      opacity: 0,
+      color: "rgba(107, 230, 136, 0.1)", // Change the fill color to 10%
       stagger: 0.01,
       ease: "power4.out",
     });
