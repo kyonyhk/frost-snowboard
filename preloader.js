@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.cursor-wrapper').style.display = 'block';
     
     document.body.classList.add('no-scroll');
-    var preloader = document.querySelector('.s-s3.is-loading');
+    var preloaderCounter = document.querySelector('.s-s3.is-loading');
     var loadingCounterWrap = document.querySelector('.loading_counter-wrap');
     var loadingTaglineWrap = document.querySelector('.loading_tagline-wrap');
     var button = document.querySelector('.loading_button-container');
@@ -11,22 +11,22 @@ document.addEventListener('DOMContentLoaded', function() {
     var load = 0;
 
     // Check if the preloader was shown recently
-    if (sessionStorage.getItem('preloaderShown')) {
-        preloader.style.display = 'none';
+    if (sessionStorage.getItem('preloaderShownKey')) {
+        preloaderSection.style.display = 'none';
         document.body.classList.remove('no-scroll');
-        sessionStorage.removeItem('preloaderShown');
+        sessionStorage.removeItem('preloaderShownKey');
     } else {
         var interval = setInterval(function() {
             load++;
-            if (preloader) {
-                preloader.textContent = load + '%';
+            if (preloaderCounter) {
+                preloaderCounter.textContent = load + '%';
             }
             if (load >= 100) {
                 clearInterval(interval);
                 setTimeout(function() {
-                    preloader.style.opacity = '0';
-                    preloader.style.transition = 'opacity 1s ease-out';
-                    preloader.style.transitionTimingFunction = 'cubic-bezier(0.19, 1, 0.22, 1)';
+                    preloaderCounter.style.opacity = '0';
+                    preloaderCounter.style.transition = 'opacity 1s ease-out';
+                    preloaderCounter.style.transitionTimingFunction = 'cubic-bezier(0.19, 1, 0.22, 1)';
                     
                     setTimeout(function() {
                         loadingCounterWrap.style.display = 'none';
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (button) {
             button.addEventListener('click', function() {
-                sessionStorage.setItem('preloaderShown', 'true'); // Mark the preloader as shown
+                sessionStorage.setItem('preloaderShownKey', 'true'); // Mark the preloader as shown
                 setTimeout(function() {
                     // Unlock scrolling by removing the class from the body
                     document.body.classList.remove('no-scroll');
