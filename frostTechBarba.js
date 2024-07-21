@@ -1,4 +1,6 @@
 function initializeFrostTech() {
+  console.log('Initializing Frost Tech...');
+  
   const techParagraphs = document.querySelectorAll('.paragraph.is-terminal.is-tech');
   const terminalIcons = document.querySelectorAll('.terminal-icon');
   const techBorderDivs = document.querySelectorAll('.tech_border-div');
