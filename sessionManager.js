@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var path = window.location.pathname;
     var scrollKey = 'scrollPosition-' + path;
-    var preloaderShownKey = 'preloaderShown-' + path;
+    var preloaderShownKey = 'preloaderShown';
 
     // Handle returning to the page
     if (sessionStorage.getItem(preloaderShownKey)) {
@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (preloaderSection) {
             preloaderSection.style.display = 'none'; // Hide the preloader section
         }
+        document.body.classList.remove('no-scroll'); // Allow scrolling
     }
 
     // Save scroll position on navigate away
@@ -36,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!isNaN(savedPosition) && savedPosition > 0) {
                     window.scrollTo(0, savedPosition);
                 }
-            }, 5000); // Delay set to match the hero animation duration
+            }, 500); // Remove scroll lock delay, no need to match hero animation duration
         });
     }
 
