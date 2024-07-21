@@ -1,3 +1,4 @@
+// Function to dynamically load a script
 function loadScript(url, callback) {
   const script = document.createElement('script');
   script.src = url;
@@ -5,6 +6,7 @@ function loadScript(url, callback) {
   document.head.appendChild(script);
 }
 
+// Function to load all Frost Tech scripts
 function loadFrostTechScripts() {
   const scripts = [
     'https://cdn.jsdelivr.net/gh/kyonyhk/frost-snowboard/frostTech.js',
@@ -16,13 +18,16 @@ function loadFrostTechScripts() {
     'https://cdn.jsdelivr.net/gh/kyonyhk/frost-snowboard/frostTechColorThemes.js'
   ];
 
-  scripts.forEach((src, index) => {
+  let loadedScripts = 0;
+
+  scripts.forEach((src) => {
     loadScript(src, () => {
       console.log(`${src} loaded`);
-      // Call initialization functions here if needed
-      if (index === scripts.length - 1) {
-        // All scripts loaded, call initialization functions
-        if (window.initializeFrostTechImage) initializeFrostTechAnimations();
+      loadedScripts++;
+
+      // When all scripts are loaded, call the initialization functions
+      if (loadedScripts === scripts.length) {
+        if (window.initializeFrostTech) initializeFrostTech();
         if (window.initializeFrostTechImage) initializeFrostTechImage();
         if (window.initializeFrostTechTerminal) initializeFrostTechTerminal();
         if (window.initializeFrostTechDescriptions) initializeFrostTechDescriptions();
@@ -34,6 +39,7 @@ function loadFrostTechScripts() {
   });
 }
 
+// Function to reinitialize Webflow interactions
 function reinitialiseWebflow(data) {
   console.log('Reinitializing Webflow interactions');
   
