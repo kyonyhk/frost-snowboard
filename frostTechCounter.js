@@ -45,7 +45,3 @@ function initializeFrostTechCounter() {
     // Initialize with the default state
     // updateCounter('quakeshift');
   });
-}
-
-// Ensure the function is accessible globally
-window.initializeFrostTechCounter = initializeFrostTechCounter;
