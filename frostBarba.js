@@ -4,26 +4,33 @@ document.addEventListener('DOMContentLoaded', function () {
     transitions: [
       {
         name: 'page-transition',
-        enter(data) {
-          console.log('Entering transition');
+        async leave(data) {
+          console.log('Leaving transition');
+          const done = this.async();
+
           // Ensure the class is added before the animation starts
           $(data.current.container).addClass('fixed');
           $(data.next.container).addClass('fixed');
 
           // Animate the current container opacity
-          gsap.to(data.current.container, {
+          await gsap.to(data.current.container, {
             opacity: 0,
-            duration: 3,
+            duration: 1,
             ease: 'power4.out',
             onComplete: () => {
               console.log('Current container faded out');
             },
           });
 
+          done();
+        },
+        async enter(data) {
+          console.log('Entering transition');
+
           // Return the promise of the animation of the next container
-          return gsap.from(data.next.container, {
+          await gsap.from(data.next.container, {
             opacity: 0,
-            duration: 3,
+            duration: 1,
             ease: 'power4.out',
             onComplete: () => {
               $(data.next.container).removeClass('fixed');
