@@ -15,96 +15,75 @@ function reinitialiseWebflow(data) {
   console.log('Webflow interactions reinitialized');
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  console.log('DOM fully loaded and parsed');
+// Function to clean up existing animations and listeners
+function cleanupBeforeTransition() {
+  // Kill all GSAP animations
+  gsap.killAll();
   
-  barba.init({
-    transitions: [
-      {
-        name: 'page-transition',
-        async leave(data) {
-          console.log('Leaving transition');
-          const done = this.async();
+  // Remove any custom event listeners here
+  // For example:
+  // document.querySelectorAll('.tech_description-header-wrap').forEach(el => {
+  //   el.removeEventListener('click', handleTechDescriptionClick);
+  // });
+  
+  console.log('Cleaned up animations and listeners');
+}
 
-          // Ensure the class is added before the animation starts
-          $(data.current.container).addClass('fixed');
-          $(data.next.container).addClass('fixed');
-
-          // Animate the current container opacity
-          await gsap.to(data.current.container, {
-            opacity: 0,
-            duration: 1,
-            ease: 'power4.out',
-            onComplete: () => {
-              console.log('Current container faded out');
-            },
-          });
-
-          done();
-        },
-        async enter(data) {
-          console.log('Entering transition');
-
-          // Return the promise of the animation of the next container
-          await gsap.from(data.next.container, {
-            opacity: 0,
-            duration: 1,
-            ease: 'power4.out',
-            onComplete: () => {
-              $(data.next.container).removeClass('fixed');
-              console.log('Next container faded in');
-            },
-          });
-
-          // Reinitialize Webflow interactions and animations
-          reinitialiseWebflow(data);
-          if (data.next.namespace === 'frost-tech-page') {
-            console.log('Initializing Frost Tech Scripts');
-            try {
-              if (window.initializeFrostTech) initializeFrostTech();
-              if (window.initializeFrostTechImage) initializeFrostTechImage();
-              if (window.initializeFrostTechTerminal) initializeFrostTechTerminal();
-              if (window.initializeFrostTechDescriptions) initializeFrostTechDescriptions();
-              if (window.initializeFrostTechDescriptionHover) initializeFrostTechDescriptionHover();
-              if (window.initializeFrostTechCounter) initializeFrostTechCounter();
-              if (window.initializeFrostTechColorThemes) initializeFrostTechColorThemes();
-            } catch (error) {
-              console.error('Error initializing Frost Tech scripts:', error);
-            }
-          }
-        },
+// Initialize Barba
+barba.init({
+  transitions: [{
+    name: 'opacity-transition',
+    async leave(data) {
+      await gsap.to(data.current.container, {
+        opacity: 0,
+        duration: 0.5,
+      });
+    },
+    enter(data) {
+      return gsap.from(data.next.container, {
+        opacity: 0,
+        duration: 0.5,
+      });
+    },
+  }],
+  views: [
+    {
+      namespace: 'collections-cms',
+      beforeEnter() {
+        cleanupBeforeTransition();
       },
-    ],
-    views: [
-      {
-        namespace: 'collections-cms',
-        afterEnter(data) {
-          console.log('Entered collections-cms namespace');
-          // Reinitialize any CMS-specific JavaScript here
-          reinitialiseWebflow(data);
-          // initializeGallery();
-        },
+      afterEnter(data) {
+        console.log('Entered collections-cms namespace');
+        reinitialiseWebflow(data);
+        // Add any CMS-specific initializations here
       },
-      {
-        namespace: 'frost-tech-page',
-        afterEnter(data) {
-          console.log('Entered frost-tech-page namespace');
-          // Reinitialize any Frost Tech Page specific JavaScript here
-          reinitialiseWebflow(data);
-          console.log('Initializing Frost Tech Scripts');
-          try {
-            if (window.initializeFrostTech) initializeFrostTech();
-            if (window.initializeFrostTechImage) initializeFrostTechImage();
-            if (window.initializeFrostTechTerminal) initializeFrostTechTerminal();
-            if (window.initializeFrostTechDescriptions) initializeFrostTechDescriptions();
-            if (window.initializeFrostTechDescriptionHover) initializeFrostTechDescriptionHover();
-            if (window.initializeFrostTechCounter) initializeFrostTechCounter();
-            if (window.initializeFrostTechColorThemes) initializeFrostTechColorThemes();
-          } catch (error) {
-            console.error('Error initializing Frost Tech scripts:', error);
-          }
-        },
+    },
+    {
+      namespace: 'frost-tech-page',
+      beforeEnter() {
+        cleanupBeforeTransition();
       },
-    ],
-  });
+      afterEnter(data) {
+        console.log('Entered frost-tech-page namespace');
+        reinitialiseWebflow(data);
+        console.log('Initializing Frost Tech Scripts');
+        try {
+          if (window.initializeFrostTech) initializeFrostTech();
+          if (window.initializeFrostTechImage) initializeFrostTechImage();
+          if (window.initializeFrostTechTerminal) initializeFrostTechTerminal();
+          if (window.initializeFrostTechDescriptions) initializeFrostTechDescriptions();
+          if (window.initializeFrostTechDescriptionHover) initializeFrostTechDescriptionHover();
+          if (window.initializeFrostTechCounter) initializeFrostTechCounter();
+          if (window.initializeFrostTechColorThemes) initializeFrostTechColorThemes();
+        } catch (error) {
+          console.error('Error initializing Frost Tech scripts:', error);
+        }
+      },
+    },
+  ],
+});
+
+// Log when Barba is ready
+barba.hooks.ready(() => {
+  console.log('Barba is ready');
 });
