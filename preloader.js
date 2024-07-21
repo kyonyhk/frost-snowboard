@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   document.body.style.cursor = 'none';
   document.querySelector('.cursor-wrapper').style.display = 'block';
-  
+
   var preloaderShownKey = 'preloaderShown';
   var preloaderCounter = document.querySelector('.s-s3.is-loading');
   var preloaderSection = document.querySelector('.section.is-loading');
@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     document.body.classList.remove('no-scroll'); // Allow scrolling
     return; // Exit early to skip the rest of the preloader logic
+  } else {
+    // Show the preloader if it hasn't been shown yet
+    preloaderSection.style.display = 'block';
   }
 
   document.body.classList.add('no-scroll');
