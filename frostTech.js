@@ -112,3 +112,5 @@ function initializeFrostTechAnimations() {
     document.querySelector('.global-terminal.is-tech.is-quakeshift').classList.add('is-active');
   }, 'quakeshiftActive');
 }
+
+initializeFrostTechAnimations();
