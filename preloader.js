@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.cursor-wrapper').style.display = 'block';
   
   var preloaderShownKey = 'preloaderShown';
-  var preloader = document.querySelector('.s-s3.is-loading');
+  var preloaderCounter = document.querySelector('.s-s3.is-loading');
   var preloaderSection = document.querySelector('.section.is-loading');
 
   // If preloader has already been shown in this session, hide it
@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var interval = setInterval(function() {
     load++;
-    if (preloader) {
-      preloader.textContent = load + '%';
+    if (preloaderCounter) {
+      preloaderCounter.textContent = load + '%';
     }
     if (load >= 100) {
       clearInterval(interval);
       setTimeout(function() {
-        preloader.style.opacity = '0';
-        preloader.style.transition = 'opacity 1s ease-out';
-        preloader.style.transitionTimingFunction = 'cubic-bezier(0.19, 1, 0.22, 1)';
+        preloaderCounter.style.opacity = '0';
+        preloaderCounter.style.transition = 'opacity 1s ease-out';
+        preloaderCounter.style.transitionTimingFunction = 'cubic-bezier(0.19, 1, 0.22, 1)';
         
         setTimeout(function() {
           loadingCounterWrap.style.display = 'none';
