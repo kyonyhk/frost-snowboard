@@ -71,4 +71,9 @@ function initializeFrostTechTerminal() {
           switchTerminalState(newState);
       });
   });
+
+  console.log('Frost Tech terminal initialized');
 }
+
+// Ensure the function is globally accessible
+window.initializeFrostTechTerminal = initializeFrostTechTerminal;
