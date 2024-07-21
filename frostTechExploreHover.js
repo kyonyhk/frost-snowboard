@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const ctaButton = document.querySelector('.cta-button.is-clickable.is-frost-tech-intro');
   const characters = document.querySelectorAll('.h-h6.is-cta.is-frost-tech');
-  const ctaSvg = document.querySelector('.cta-svg');
+  const ctaSvg = document.querySelector('.cta-svg.is-frost-tech');
 
   ctaButton.addEventListener('mouseenter', () => {
     gsap.to(characters, {
