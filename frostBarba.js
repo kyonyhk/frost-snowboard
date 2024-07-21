@@ -1,5 +1,4 @@
 function reinitialiseWebflow(data) {
-  // Log to ensure function is called
   console.log('Reinitializing Webflow interactions');
   
   let parser = new DOMParser();
@@ -56,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
           });
 
-          // Reinitialize Webflow interactions
+          // Reinitialize Webflow interactions and animations
           reinitialiseWebflow(data);
         },
       },
@@ -77,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
           console.log('Entered frost-tech-page namespace');
           // Reinitialize any Frost Tech Page specific JavaScript here
           reinitialiseWebflow(data);
+          initializeFrostTechAnimations();
         },
       },
     ],
