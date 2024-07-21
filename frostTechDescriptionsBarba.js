@@ -65,4 +65,9 @@ function initializeFrostTechDescriptions() {
     // Initialize with the default state
     // updateDescriptionSection('quakeshift'); // Ensure to add the is-active class initially
   });
+
+  console.log('Frost Tech descriptions initialized');
 }
+
+// Ensure the function is globally accessible
+window.initializeFrostTechDescriptions = initializeFrostTechDescriptions;
