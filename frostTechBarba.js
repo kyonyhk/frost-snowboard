@@ -111,4 +111,9 @@ function initializeFrostTech() {
   tl.add(() => {
     document.querySelector('.global-terminal.is-tech.is-quakeshift').classList.add('is-active');
   }, 'quakeshiftActive');  
+
+  console.log('Frost Tech initialized');
 }
+
+// Ensure the function is globally accessible
+window.initializeFrostTech = initializeFrostTech;
