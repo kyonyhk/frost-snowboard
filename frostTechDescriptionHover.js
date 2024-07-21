@@ -25,3 +25,6 @@ function initializeFrostTechDescriptionHover() {
     });
   });
 }
+
+// Ensure the function is accessible globally
+window.initializeFrostTechDescriptionHover = initializeFrostTechDescriptionHover;
