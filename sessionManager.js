@@ -14,7 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!isNaN(savedPosition) && savedPosition > 0) {
             window.scrollTo(0, savedPosition);
         }
-        document.body.classList.add('no-preloader');
+        var preloaderSection = document.querySelector('.section.is-loading');
+        if (preloaderSection) {
+            preloaderSection.style.display = 'none'; // Hide the preloader section
+        }
     }
 
     // Save scroll position on navigate away
@@ -24,9 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    var enterButton = document.querySelector('.enter-button');
-    if (enterButton) {
-        enterButton.addEventListener('click', function() {
+    var button = document.querySelector('.loading_button-container');
+    if (button) {
+        button.addEventListener('click', function() {
             // Delay scrolling to saved position until after animations
             setTimeout(() => {
                 let savedPosition = parseInt(sessionStorage.getItem(scrollKey), 10);
