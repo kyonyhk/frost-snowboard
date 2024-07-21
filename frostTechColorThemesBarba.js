@@ -1,4 +1,6 @@
 function initializeFrostTechColorThemes() {
+  console.log('Initializing Frost Tech Color Themes...');
+
   document.addEventListener('DOMContentLoaded', function() {
     const colorThemes = {
       quakeshift: {
@@ -14,6 +16,7 @@ function initializeFrostTechColorThemes() {
         secondary: '#877FCB'
       }
     };
+    console.log('Found themes:', colorThemes);
   
     let currentCategory = 'quakeshift'; // Default category
   
