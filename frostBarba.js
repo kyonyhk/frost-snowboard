@@ -1,14 +1,18 @@
 function reinitialiseWebflow(data) {
+  // Log to ensure function is called
+  console.log('Reinitializing Webflow interactions');
+  
   let parser = new DOMParser();
   let dom = parser.parseFromString(data.next.html, 'text/html');
   let webflowPageId = $(dom).find('html').attr('data-wf-page');
-
+  
   $('html').attr('data-wf-page', webflowPageId);
-
+  
   window.Webflow && window.Webflow.destroy();
   window.Webflow && window.Webflow.ready();
-
   window.Webflow && window.Webflow.require('ix2').init();
+
+  console.log('Webflow interactions reinitialized');
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -60,22 +64,18 @@ document.addEventListener('DOMContentLoaded', function () {
     views: [
       {
         namespace: 'collections-cms',
-        afterEnter() {
+        afterEnter(data) {
           console.log('Entered collections-cms namespace');
           // Reinitialize any CMS-specific JavaScript here
-          // initializeGallery();
-          
-          // Reinitialize Webflow interactions
           reinitialiseWebflow(data);
+          // initializeGallery();
         },
       },
       {
         namespace: 'frost-tech-page',
-        afterEnter() {
+        afterEnter(data) {
           console.log('Entered frost-tech-page namespace');
           // Reinitialize any Frost Tech Page specific JavaScript here
-
-          // Reinitialize Webflow interactions
           reinitialiseWebflow(data);
         },
       },
