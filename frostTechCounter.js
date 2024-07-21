@@ -46,3 +46,6 @@ function initializeFrostTechCounter() {
     // updateCounter('quakeshift');
   });
 }
+
+// Ensure the function is accessible globally
+window.initializeFrostTechCounter = initializeFrostTechCounter;
