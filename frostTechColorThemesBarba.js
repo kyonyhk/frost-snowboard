@@ -57,7 +57,7 @@ function initializeFrostTechColorThemes() {
     // updateColors('quakeshift');
   });
 
-  console.log('Frost Tech initialized');
+  console.log('Frost Tech color themes initialized');
 }
 
 // Ensure the function is globally accessible
