@@ -47,4 +47,9 @@ function initializeFrostTechImage() {
           switchImageState(newState);
       });
   });
+
+  console.log('Frost Tech image initialized');
 }
+
+// Ensure the function is globally accessible
+window.initializeFrostTechImage = initializeFrostTechImage;
