@@ -11,7 +11,6 @@ function reinitialiseWebflow(data) {
   window.Webflow && window.Webflow.destroy();
   window.Webflow && window.Webflow.ready();
   window.Webflow && window.Webflow.require('ix2').init();
-
   console.log('Webflow interactions reinitialized');
 }
 
@@ -19,12 +18,6 @@ function reinitialiseWebflow(data) {
 function cleanupBeforeTransition() {
   // Kill all GSAP animations
   gsap.killAll();
-  
-  // Remove any custom event listeners here
-  // For example:
-  // document.querySelectorAll('.tech_description-header-wrap').forEach(el => {
-  //   el.removeEventListener('click', handleTechDescriptionClick);
-  // });
   
   console.log('Cleaned up animations and listeners');
 }
@@ -34,15 +27,25 @@ barba.init({
   transitions: [{
     name: 'opacity-transition',
     async leave(data) {
+      // Clean up Frost Tech scripts if leaving Frost Tech page
+      if (data.current.namespace === 'frost-tech-page') {
+        if (window.cleanupFrostTechColorThemes) cleanupFrostTechColorThemes();
+        if (window.cleanupFrostTechCounter) cleanupFrostTechCounter();
+        if (window.cleanupFrostTechDescriptionHover) cleanupFrostTechDescriptionHover();
+        if (window.cleanupFrostTechDescriptions) cleanupFrostTechDescriptions();
+        if (window.cleanupFrostTechImage) cleanupFrostTechImage();
+        if (window.cleanupFrostTechTerminal) cleanupFrostTechTerminal();
+      }
+
       await gsap.to(data.current.container, {
         opacity: 0,
-        duration: 0.5,
+        duration: 1,
       });
     },
     enter(data) {
       return gsap.from(data.next.container, {
         opacity: 0,
-        duration: 0.5,
+        duration: 1,
       });
     },
   }],
