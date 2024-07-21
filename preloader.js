@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (sessionStorage.getItem(preloaderShownKey)) {
     if (preloaderSection) {
       preloaderSection.style.display = 'none';
+      preloaderCounter.style.display = 'none';
     }
     document.body.classList.remove('no-scroll'); // Allow scrolling
     return; // Exit early to skip the rest of the preloader logic
