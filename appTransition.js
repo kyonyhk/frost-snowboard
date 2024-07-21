@@ -14,26 +14,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Function to handle the fade-out effect
   function handleFadeOut(event) {
-    event.preventDefault(); // Prevent the default link behavior
-
-    const link = event.currentTarget;
-    const href = link.getAttribute('href');
-
-    console.log('Navigating to:', href);
+    console.log('Link clicked:', event.target.href); // Log the clicked link
 
     if (app) {
       app.classList.add('fade-out');
       console.log('Applied fade-out class to .app element');
     }
 
-    // Wait for the fade-out transition to complete before navigating
+    // Delay navigation to allow the fade-out effect to complete
+    event.preventDefault();
     setTimeout(() => {
-      console.log('Navigating to new page:', href);
-      window.location.href = href;
+      window.location.href = event.target.href;
     }, 1000); // Match this duration with your CSS transition duration
   }
 
-  // Attach event listeners to all internal links
+  // Add event listeners to all internal links
   const internalLinks = document.querySelectorAll('a[href^="/"]');
   if (internalLinks.length > 0) {
     console.log('Found internal links:', internalLinks.length);
