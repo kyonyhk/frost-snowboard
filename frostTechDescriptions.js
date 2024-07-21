@@ -52,7 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const techOptions = document.querySelectorAll('.tech_description-header-wrap');
   techOptions.forEach(option => {
     option.addEventListener('click', function() {
-      const newState = this.closest('.tech_description-container').classList[1].split('-')[1];
+      const parentContainer = this.closest('.tech_description-container');
+      if (parentContainer.classList.contains('is-active')) {
+        return; // Do nothing if the clicked element is already active
+      }
+      const newState = parentContainer.classList[1].split('-')[1];
       updateDescriptionSection(newState);
     });
   });
@@ -60,4 +64,3 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize with the default state
   // updateDescriptionSection('quakeshift'); // Ensure to add the is-active class initially
 });
-
