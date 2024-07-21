@@ -1,6 +1,10 @@
 function initializeFrostTechDescriptions() {
+  console.log('Initializing Frost Tech Descriptions...');
+  
   function updateDescriptionSection(newState) {
     const allContainers = document.querySelectorAll('.tech_description-container');
+    console.log('Found containers:', allContainers);
+
     const newActiveContainer = document.querySelector(`.tech_description-container.is-${newState}`);
   
     // Animate out the currently active elements
