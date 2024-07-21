@@ -59,13 +59,18 @@ document.addEventListener('DOMContentLoaded', function () {
           // Reinitialize Webflow interactions and animations
           reinitialiseWebflow(data);
           if (data.next.namespace === 'frost-tech-page') {
-            initializeFrostTech();
-            initializeFrostTechImage();
-            initializeFrostTechTerminal();
-            initializeFrostTechDescriptions();
-            initializeFrostTechDescriptionHover();
-            initializeFrostTechCounter();
-            initializeFrostTechColorThemes();
+            console.log('Initializing Frost Tech Scripts');
+            try {
+              if (window.initializeFrostTech) initializeFrostTech();
+              if (window.initializeFrostTechImage) initializeFrostTechImage();
+              if (window.initializeFrostTechTerminal) initializeFrostTechTerminal();
+              if (window.initializeFrostTechDescriptions) initializeFrostTechDescriptions();
+              if (window.initializeFrostTechDescriptionHover) initializeFrostTechDescriptionHover();
+              if (window.initializeFrostTechCounter) initializeFrostTechCounter();
+              if (window.initializeFrostTechColorThemes) initializeFrostTechColorThemes();
+            } catch (error) {
+              console.error('Error initializing Frost Tech scripts:', error);
+            }
           }
         },
       },
@@ -86,13 +91,18 @@ document.addEventListener('DOMContentLoaded', function () {
           console.log('Entered frost-tech-page namespace');
           // Reinitialize any Frost Tech Page specific JavaScript here
           reinitialiseWebflow(data);
-          initializeFrostTech();
-          initializeFrostTechImage();
-          initializeFrostTechTerminal();
-          initializeFrostTechDescriptions();
-          initializeFrostTechDescriptionHover();
-          initializeFrostTechCounter();
-          initializeFrostTechColorThemes();
+          console.log('Initializing Frost Tech Scripts');
+          try {
+            if (window.initializeFrostTech) initializeFrostTech();
+            if (window.initializeFrostTechImage) initializeFrostTechImage();
+            if (window.initializeFrostTechTerminal) initializeFrostTechTerminal();
+            if (window.initializeFrostTechDescriptions) initializeFrostTechDescriptions();
+            if (window.initializeFrostTechDescriptionHover) initializeFrostTechDescriptionHover();
+            if (window.initializeFrostTechCounter) initializeFrostTechCounter();
+            if (window.initializeFrostTechColorThemes) initializeFrostTechColorThemes();
+          } catch (error) {
+            console.error('Error initializing Frost Tech scripts:', error);
+          }
         },
       },
     ],
