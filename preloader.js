@@ -5,9 +5,21 @@ document.addEventListener('DOMContentLoaded', function() {
   var preloaderShownKey = 'preloaderShown';
   var preloaderCounter = document.querySelector('.s-s3.is-loading');
   var preloaderSection = document.querySelector('.section.is-loading');
+  
+  // List of URLs that should trigger the preloader when navigating back to the home page
+  var specialUrls = [
+    '/collection/apex-collection',
+    '/collection/ember-collection',
+    '/collection/nebula-collection',
+    '/frost-tech'
+  ];
 
-  // If preloader has already been shown in this session, hide it
-  if (sessionStorage.getItem(preloaderShownKey)) {
+  // Check if the user is navigating back to the home page from a special URL
+  var referrer = document.referrer;
+  var isNavigatingBack = specialUrls.some(url => referrer.includes(url));
+
+  // If preloader has already been shown in this session or not navigating back from a special URL, hide it
+  if (sessionStorage.getItem(preloaderShownKey) && !isNavigatingBack) {
     if (preloaderSection) {
       preloaderSection.style.display = 'none';
       preloaderCounter.style.display = 'none';
