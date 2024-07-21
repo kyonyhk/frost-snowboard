@@ -1,6 +1,10 @@
 function initializeFrostTechImage() {
+  console.log('Initializing Frost Tech Image...');
+
   function switchImageState(newState) {
       const allImages = document.querySelectorAll('.img.is-tech-image');
+      console.log('Found images:', allImages);
+    
       const currentActiveImage = document.querySelector('.img.is-tech-image.is-active');
       const newActiveImage = document.querySelector(`.img.is-tech-image.is-${newState}`);
       const currentActiveImageWrap = document.querySelector('.tech_image-wrap.is-active')
