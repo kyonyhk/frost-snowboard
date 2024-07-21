@@ -49,3 +49,6 @@ function initializeFrostTechImage() {
     });
 }
 
+// Ensure the function is accessible globally
+window.initializeFrostTechImage = initializeFrostTechImage;
+
