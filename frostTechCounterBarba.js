@@ -1,4 +1,6 @@
 function initializeFrostTechCounter() {
+  console.log('Initializing Frost Tech Counter...');
+
   document.addEventListener('DOMContentLoaded', function() {
     let currentCategory = 'quakeshift'; // Default category
   
