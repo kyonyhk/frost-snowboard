@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+function initializeFrostTechAnimations() {
   const techParagraphs = document.querySelectorAll('.paragraph.is-terminal.is-tech');
   const terminalIcons = document.querySelectorAll('.terminal-icon');
   const techBorderDivs = document.querySelectorAll('.tech_border-div');
@@ -111,4 +111,4 @@ document.addEventListener('DOMContentLoaded', function() {
   tl.add(() => {
     document.querySelector('.global-terminal.is-tech.is-quakeshift').classList.add('is-active');
   }, 'quakeshiftActive');
-});
+}
