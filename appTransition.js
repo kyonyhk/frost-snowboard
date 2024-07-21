@@ -1,27 +1,33 @@
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOMContentLoaded event fired');
+  const body = document.body;
   const app = document.querySelector('.app');
-  
-  // Ensure the page starts with the fade-in effect
-  if (app) {
-    app.classList.add('fade-in');
-    setTimeout(() => {
-      app.classList.remove('fade-in');
-      console.log('Removed fade-in class from .app element');
-    }, 1000); // Match this duration with your CSS transition duration
+
+  // Function to fade in the content
+  function fadeInContent() {
+    console.log('Fading in content');
+    body.classList.remove('content-hidden');
   }
+
+  // Call the fade-in function after a short delay to ensure smooth transition
+  setTimeout(fadeInContent, 50);
 
   // Function to handle the fade-out effect
   function handleFadeOut(event) {
-    console.log('Link clicked:', event.target.closest('a').href); // Log the clicked link
+    const link = event.target.closest('a');
+    if (!link) return;  // Exit if the click wasn't on a link or its children
+
+    console.log('Link clicked:', link.href);
+    event.preventDefault();
+
     if (app) {
       app.classList.add('fade-out');
       console.log('Applied fade-out class to .app element');
     }
+
     // Delay navigation to allow the fade-out effect to complete
-    event.preventDefault();
     setTimeout(() => {
-      window.location.href = event.target.closest('a').href;
+      window.location.href = link.href;
     }, 1000); // Match this duration with your CSS transition duration
   }
 
@@ -30,13 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (internalLinks.length > 0) {
     console.log('Found internal links:', internalLinks.length);
     internalLinks.forEach(link => {
-      if (link.classList.contains('frost-tech-intro_link')) {
-        // For the specific frost-tech link, add the event listener to the link itself
-        link.addEventListener('click', handleFadeOut);
-      } else {
-        // For other links, add the event listener as before
-        link.addEventListener('click', handleFadeOut);
-      }
+      link.addEventListener('click', handleFadeOut);
     });
   } else {
     console.log('No internal links found');
