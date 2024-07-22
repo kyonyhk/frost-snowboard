@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
   ];
 
   // Check if the user is navigating back to the home page from a special URL
-  var referrer = document.referrer;
-  var isNavigatingBack = specialUrls.some(url => referrer.includes(url));
+  var lastPage = sessionStorage.getItem('lastPage');
+  var isNavigatingBack = specialUrls.includes(lastPage);
 
-  console.log('Referrer:', referrer);
+  console.log('Last Page:', lastPage);
   console.log('Is Navigating Back:', isNavigatingBack);
 
   // If navigating back from a special URL, hide the preloader and set scroll position
