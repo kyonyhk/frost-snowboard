@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var preloaderShownKey = 'preloaderShown';
     var lastPageKey = 'lastPage';
 
-    // List of URLs that should trigger the preloader when navigating back to the home page
+    // List of URLs that should not trigger the preloader when navigating back to the home page
     var specialUrls = [
         '/collection/apex-collection',
         '/collection/ember-collection',
