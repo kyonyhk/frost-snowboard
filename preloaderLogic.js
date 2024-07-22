@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     '/frost-tech'
   ];
 
-  // Check if the user is navigating back to the home page from a special URL
+  // Get the last page from session storage
   var lastPage = sessionStorage.getItem('lastPage');
   var isNavigatingBack = specialUrls.includes(lastPage);
 
