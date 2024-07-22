@@ -15,8 +15,12 @@ document.addEventListener('DOMContentLoaded', function() {
   var referrer = document.referrer;
   var isNavigatingBack = specialUrls.some(url => referrer.includes(url));
 
+  console.log('Referrer:', referrer);
+  console.log('Is Navigating Back:', isNavigatingBack);
+
   // If navigating back from a special URL, hide the preloader and set scroll position
   if (isNavigatingBack) {
+    console.log('Navigating back from a special URL, hiding preloader...');
     if (preloaderSection) {
       preloaderSection.style.display = 'none';
       preloaderCounter.style.display = 'none';
@@ -33,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
     return; // Exit early to skip the rest of the preloader logic
   }
 
+  console.log('Showing preloader...');
   // Show the preloader if not navigating back from a special URL
   preloaderSection.style.display = 'block';
   document.body.classList.add('no-scroll');
