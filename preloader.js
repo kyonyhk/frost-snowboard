@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var isNavigatingBack = specialUrls.some(url => referrer.includes(url));
 
   // If preloader has already been shown in this session or not navigating back from a special URL, hide it
-  if (sessionStorage.getItem(preloaderShownKey) && !isNavigatingBack) {
+  // if (sessionStorage.getItem(preloaderShownKey) && !isNavigatingBack) {
+  if (!isNavigatingBack) {
     if (preloaderSection) {
       preloaderSection.style.display = 'none';
       preloaderCounter.style.display = 'none';
