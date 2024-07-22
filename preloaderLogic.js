@@ -15,13 +15,21 @@ document.addEventListener('DOMContentLoaded', function() {
   var referrer = document.referrer;
   var isNavigatingBack = specialUrls.some(url => referrer.includes(url));
 
-  // If navigating back from a special URL, hide the preloader
+  // If navigating back from a special URL, hide the preloader and set scroll position
   if (isNavigatingBack) {
     if (preloaderSection) {
       preloaderSection.style.display = 'none';
       preloaderCounter.style.display = 'none';
     }
     document.body.classList.remove('no-scroll'); // Allow scrolling
+
+    // Restore scroll position
+    var path = window.location.pathname;
+    var scrollKey = 'scrollPosition-' + path;
+    var savedPosition = parseInt(sessionStorage.getItem(scrollKey), 10);
+    if (!isNaN(savedPosition) && savedPosition > 0) {
+      window.scrollTo(0, savedPosition);
+    }
     return; // Exit early to skip the rest of the preloader logic
   }
 
