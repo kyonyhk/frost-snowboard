@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var path = window.location.pathname;
     var scrollKey = 'scrollPosition-' + path;
     var preloaderShownKey = 'preloaderShown';
+    var lastPageKey = 'lastPage';
 
     // List of URLs that should trigger the preloader when navigating back to the home page
     var specialUrls = [
@@ -29,10 +30,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.remove('no-scroll'); // Allow scrolling
     }
 
-    // Save scroll position on navigate away
+    // Save scroll position and last page on navigate away
     document.querySelectorAll("a").forEach(function(link) {
         link.addEventListener('click', function() {
             sessionStorage.setItem(scrollKey, window.scrollY || window.pageYOffset);
+            sessionStorage.setItem(lastPageKey, window.location.pathname);
         });
     });
 
@@ -53,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Save the current scroll position to sessionStorage
         sessionStorage.setItem(scrollKey, window.scrollY || window.pageYOffset);
         sessionStorage.setItem(preloaderShownKey, 'true');
+        sessionStorage.setItem(lastPageKey, window.location.pathname);
         // Update the history state to mark navigation to a subdomain
         history.replaceState({ fromSubdomain: true }, '', location.href);
     });
