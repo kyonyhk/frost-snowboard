@@ -1,3 +1,5 @@
+console.log('RGBShiftEffect script loaded');
+
 class RGBShiftEffect extends EffectShell {
   constructor(container, itemsWrapper = null, options = {}) {
     super(container, itemsWrapper);
