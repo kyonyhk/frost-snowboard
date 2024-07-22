@@ -10,16 +10,19 @@ function updateDescriptionSection(newState) {
         opacity: 0.2,
         duration: 0.5
       });
+      
       // Slide and fade out paragraphs smoothly
       const pWrap = container.querySelector('.tech_description-p-wrap');
-      gsap.to(pWrap, {
-        autoAlpha: 0, // Handles opacity and visibility
-        height: 0, // Animate height to 0
-        duration: 0.5,
-        onComplete: () => {
-          pWrap.style.display = 'none'; // Hide the element after animation
-        }
-      });
+      if (pWrap) {
+        gsap.to(pWrap, {
+          autoAlpha: 0, // Handles opacity and visibility
+          height: 0, // Animate height to 0
+          duration: 0.5,
+          onComplete: () => {
+            pWrap.style.display = 'none'; // Hide the element after animation
+          }
+        });
+      }
       // Remove is-active class from inactive containers
       container.classList.remove('is-active');
     }
@@ -30,18 +33,21 @@ function updateDescriptionSection(newState) {
     opacity: 1,
     duration: 0.5
   });
+
   // Reset and animate in the paragraph wrapper
   const newParagraphWrap = newActiveContainer.querySelector('.tech_description-p-wrap');
-  newParagraphWrap.style.display = 'block';
-  gsap.fromTo(newParagraphWrap, {
-    autoAlpha: 0,
-    height: 0
-  }, {
-    autoAlpha: 1,
-    height: function() { return newParagraphWrap.scrollHeight + 'px'; }, // Animate height dynamically based on content
-    duration: 0.5,
-    clearProps: 'height' // Clear the inline height property after animation to handle dynamic content changes
-  });
+  if (newParagraphWrap) {
+    newParagraphWrap.style.display = 'block';
+    gsap.fromTo(newParagraphWrap, {
+      autoAlpha: 0,
+      height: 0
+    }, {
+      autoAlpha: 1,
+      height: function() { return newParagraphWrap.scrollHeight + 'px'; }, // Animate height dynamically based on content
+      duration: 0.5,
+      clearProps: 'height' // Clear the inline height property after animation to handle dynamic content changes
+    });
+  }
 
   // Add is-active class to the new active container
   newActiveContainer.classList.add('is-active');
