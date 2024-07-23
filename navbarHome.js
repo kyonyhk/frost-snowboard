@@ -36,4 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   backButton.addEventListener('mouseleave', function() {
     console.log('Back button mouseleave');
-    gsap.to(bigCircle, { scale: 1, opacity: 0.5, duratio
+    gsap.to(bigCircle, { scale: 1, opacity: 0.5, duration: 0.3, ease: 'power4.inOut', fill: '#A1FCCF' });
+    gsap.to(smallCircle, { scale: 1, opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
+    gsap.to(arrowIcon, { strokeWidth: 1, duration: 0.3, ease: 'power4.inOut' });
+    gsap.to(navbarBackgroundPath, { attr: { 'fill-opacity': 0.1 }, duration: 0.3, ease: 'power4.inOut' });
+  });
+});
