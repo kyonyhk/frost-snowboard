@@ -46,8 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const textContainers = document.querySelectorAll('.global-navbar_text-container');
 
   textContainers.forEach(container => {
-    const originalText = container.querySelector('.original-text');
-    const animatedText = container.querySelector('.animated-text');
+    const originalText = container.querySelector('.is-original-text');
+    const animatedText = container.querySelector('.is-animated-text');
 
     const originalSplit = new SplitText(originalText, { type: "chars" });
     const animatedSplit = new SplitText(animatedText, { type: "chars" });
