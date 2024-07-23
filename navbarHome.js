@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
           ease: "power4.inOut"
         })
         .to(animatedSplit.chars, {
-          y: "0%",
+          y: "-100%",
           stagger: 0.1,
           duration: 0.6,
           ease: "power4.inOut"
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Text container mouseleave:', container);
       gsap.timeline()
         .to(animatedSplit.chars, {
-          y: "100%",
+          y: "0%",
           stagger: 0.1,
           duration: 0.6,
           ease: "power4.inOut"
