@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Text container mouseenter');
       gsap.to(arrowIcon, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
       gsap.to(bigCircle, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
-      gsap.to(container.querySelector('.is-original-text'), { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
+      gsap.to(container, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
       gsap.to(navbarBackgroundPath, { attr: { 'fill-opacity': 0.3 }, duration: 0.5, ease: 'power4.inOut' });
     });
 
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Text container mouseleave');
       gsap.to(arrowIcon, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
       gsap.to(bigCircle, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
-      gsap.to(container.querySelector('.is-original-text'), { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
+      gsap.to(container, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
       gsap.to(navbarBackgroundPath, { attr: { 'fill-opacity': 0.1 }, duration: 0.3, ease: 'power4.inOut' });
     });
   });
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
           ease: 'power4.inOut'
         })
         .to(animatedSplit.chars, {
-          y: '0%',
+          y: '-100%',
           stagger: 0.1,
           duration: 0.6,
           ease: 'power4.inOut'
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
     container.addEventListener('mouseleave', () => {
       gsap.timeline()
         .to(animatedSplit.chars, {
-          y: '100%',
+          y: '0%',
           stagger: 0.1,
           duration: 0.6,
           ease: 'power4.inOut'
