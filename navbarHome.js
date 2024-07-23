@@ -7,31 +7,48 @@ document.addEventListener('DOMContentLoaded', function() {
   const navbarBackgroundPath = document.querySelector('.global-navbar_background svg path:nth-child(3)');
   const backButton = document.querySelector('.global-navbar_back-button');
 
+  // Function to handle navbar wrap hover effects
+  function handleNavbarWrapHover(enter) {
+    const opacity = enter ? 1.0 : 0.5;
+    const strokeGradient = enter ? 'url(#paint1_linear_3240_2372)' : 'url(#paint0_linear_3227_209)';
+
+    gsap.to(arrowIcon, { opacity, duration: 0.3 });
+    gsap.to(bigCircle, { opacity, duration: 0.3 });
+    gsap.to(menuText, { opacity, duration: 0.3 });
+    gsap.to(navbarBackgroundPath, { attr: { fill: strokeGradient }, duration: 0.3 });
+  }
+
+  // Function to handle back button hover effects
+  function handleBackButtonHover(enter) {
+    const bigCircleScale = enter ? 1.2 : 1.0;
+    const bigCircleFill = enter ? '#6BE688' : 'none';
+    const bigCircleOpacity = enter ? 1.0 : 0.5;
+    const smallCircleScale = enter ? 0.8 : 1.0;
+    const smallCircleOpacity = enter ? 1.0 : 0.5;
+    const arrowStrokeWidth = enter ? 2 : 1;
+    const strokeGradient = enter ? 'url(#paint1_linear_3240_2418)' : 'url(#paint0_linear_3227_209)';
+
+    gsap.to(bigCircle, { scale: bigCircleScale, fill: bigCircleFill, opacity: bigCircleOpacity, duration: 0.3 });
+    gsap.to(smallCircle, { scale: smallCircleScale, opacity: smallCircleOpacity, duration: 0.3 });
+    gsap.to(arrowIcon.querySelector('path'), { strokeWidth: arrowStrokeWidth, duration: 0.3 });
+    gsap.to(navbarBackgroundPath, { attr: { fill: strokeGradient }, duration: 0.3 });
+  }
+
+  // Event listeners for navbar wrap hover
   navbarWrap.addEventListener('mouseenter', function() {
-    gsap.to(arrowIcon, { opacity: 1.0, duration: 0.3 });
-    gsap.to(bigCircle, { opacity: 1.0, duration: 0.3 });
-    gsap.to(menuText, { opacity: 1.0, duration: 0.3 });
-    gsap.to(navbarBackgroundPath, { attr: { fill: 'url(#paint1_linear_3240_2372)' }, duration: 0.3 });
+    handleNavbarWrapHover(true);
   });
 
   navbarWrap.addEventListener('mouseleave', function() {
-    gsap.to(arrowIcon, { opacity: 0.5, duration: 0.3 });
-    gsap.to(bigCircle, { opacity: 0.5, duration: 0.3 });
-    gsap.to(menuText, { opacity: 0.5, duration: 0.3 });
-    gsap.to(navbarBackgroundPath, { attr: { fill: 'url(#paint0_linear_3227_209)' }, duration: 0.3 });
+    handleNavbarWrapHover(false);
   });
 
+  // Event listeners for back button hover
   backButton.addEventListener('mouseenter', function() {
-    gsap.to(bigCircle, { scale: 1.2, fill: '#6BE688', opacity: 1.0, duration: 0.3 });
-    gsap.to(smallCircle, { scale: 0.8, opacity: 1.0, duration: 0.3 });
-    gsap.to(arrowIcon.querySelector('path'), { strokeWidth: 2, duration: 0.3 });
-    gsap.to(navbarBackgroundPath, { attr: { fill: 'url(#paint1_linear_3240_2418)' }, duration: 0.3 });
+    handleBackButtonHover(true);
   });
 
   backButton.addEventListener('mouseleave', function() {
-    gsap.to(bigCircle, { scale: 1.0, opacity: 0.5, duration: 0.3 });
-    gsap.to(smallCircle, { scale: 1.0, opacity: 0.5, duration: 0.3 });
-    gsap.to(arrowIcon.querySelector('path'), { strokeWidth: 1, duration: 0.3 });
-    gsap.to(navbarBackgroundPath, { attr: { fill: 'url(#paint0_linear_3227_209)' }, duration: 0.3 });
+    handleBackButtonHover(false);
   });
 });
