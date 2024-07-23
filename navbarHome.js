@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Back button mouseenter');
     gsap.to(bigCircle, { scale: 1.2, opacity: 1.0, duration: 0.5, ease: 'power4.inOut', fill: '#6BE688' });
     gsap.to(smallCircle, { scale: 0.8, opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
-    gsap.to(arrowIcon, { strokeWidth: 2, opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
+    gsap.to(arrowIcon, { strokeWidth: 2, duration: 0.5, ease: 'power4.inOut' });
     gsap.to(navbarBackgroundPath, { attr: { 'fill-opacity': 1.0 }, duration: 0.5, ease: 'power4.inOut' });
   });
 
@@ -38,7 +38,52 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Back button mouseleave');
     gsap.to(bigCircle, { scale: 1, opacity: 0.5, duration: 0.3, ease: 'power4.inOut', fill: '#A1FCCF' });
     gsap.to(smallCircle, { scale: 1, opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
-    gsap.to(arrowIcon, { strokeWidth: 1, opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
+    gsap.to(arrowIcon, { strokeWidth: 1, duration: 0.3, ease: 'power4.inOut' });
     gsap.to(navbarBackgroundPath, { attr: { 'fill-opacity': 0.1 }, duration: 0.3, ease: 'power4.inOut' });
+  });
+
+  // Text animation on hover
+  const textContainers = document.querySelectorAll('.global-navbar_text-container');
+
+  textContainers.forEach(container => {
+    const originalText = container.querySelector('.original-text');
+    const animatedText = container.querySelector('.animated-text');
+
+    const originalSplit = new SplitText(originalText, { type: "chars" });
+    const animatedSplit = new SplitText(animatedText, { type: "chars" });
+
+    gsap.set(animatedSplit.chars, { y: "100%" });
+
+    container.addEventListener('mouseenter', () => {
+      gsap.timeline()
+        .to(originalSplit.chars, {
+          y: "-100%",
+          stagger: 0.1,
+          duration: 0.6,
+          ease: "power4.inOut"
+        })
+        .to(animatedSplit.chars, {
+          y: "0%",
+          stagger: 0.1,
+          duration: 0.6,
+          ease: "power4.inOut"
+        }, 0);
+    });
+
+    container.addEventListener('mouseleave', () => {
+      gsap.timeline()
+        .to(animatedSplit.chars, {
+          y: "100%",
+          stagger: 0.1,
+          duration: 0.6,
+          ease: "power4.inOut"
+        })
+        .to(originalSplit.chars, {
+          y: "0%",
+          stagger: 0.1,
+          duration: 0.6,
+          ease: "power4.inOut"
+        }, 0);
+    });
   });
 });
