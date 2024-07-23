@@ -49,10 +49,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const originalText = container.querySelector('.is-original-text');
     const animatedText = container.querySelector('.is-animated-text');
 
-    const originalSplit = new SplitText(originalText, { type: "chars" });
-    const animatedSplit = new SplitText(animatedText, { type: "chars" });
+    if (!originalText || !animatedText) {
+      console.error('Missing original or animated text elements:', { container, originalText, animatedText });
+      return;
+    }
+
+    const originalSplit = new SplitType(originalText, { types: 'chars' });
+    const animatedSplit = new SplitType(animatedText, { types: 'chars' });
 
     container.addEventListener('mouseenter', () => {
+      console.log('Text container mouseenter:', container);
       gsap.timeline()
         .to(originalSplit.chars, {
           y: "-100%",
@@ -69,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     container.addEventListener('mouseleave', () => {
+      console.log('Text container mouseleave:', container);
       gsap.timeline()
         .to(animatedSplit.chars, {
           y: "100%",
