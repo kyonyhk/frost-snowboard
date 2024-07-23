@@ -1,14 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const navbarWrap = document.querySelector('.global-navbar_navbar-wrap');
+  const menuText = document.querySelector('.s-s5.is-navbar.is-menu');
   const arrowIcon = document.querySelector('.navbar-back_arrow-icon');
   const bigCircle = document.querySelector('.navbar-back_big-circle');
   const smallCircle = document.querySelector('.navbar-back_small-circle');
-  const menuText = document.querySelector('.s-s5.is-navbar.is-menu');
   const navbarBackgroundPath = document.querySelector('.global-navbar_background svg path:nth-child(3)');
   const backButton = document.querySelector('.global-navbar_back-button');
 
-  // Function to handle navbar wrap hover effects
-  function handleNavbarWrapHover(enter) {
+  // Function to handle menu text hover effects
+  function handleMenuTextHover(enter) {
     const opacity = enter ? 1.0 : 0.5;
     const strokeGradient = enter ? 'url(#paint1_linear_3240_2372)' : 'url(#paint0_linear_3227_209)';
 
@@ -34,13 +33,13 @@ document.addEventListener('DOMContentLoaded', function() {
     gsap.to(navbarBackgroundPath, { attr: { fill: strokeGradient }, duration: 0.3 });
   }
 
-  // Event listeners for navbar wrap hover
-  navbarWrap.addEventListener('mouseenter', function() {
-    handleNavbarWrapHover(true);
+  // Event listeners for menu text hover
+  menuText.addEventListener('mouseenter', function() {
+    handleMenuTextHover(true);
   });
 
-  navbarWrap.addEventListener('mouseleave', function() {
-    handleNavbarWrapHover(false);
+  menuText.addEventListener('mouseleave', function() {
+    handleMenuTextHover(false);
   });
 
   // Event listeners for back button hover
