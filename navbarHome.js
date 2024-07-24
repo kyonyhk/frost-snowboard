@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
         attr: { filter: 'url(#expandedBackgroundFilter)' },
         duration: 1,
         ease: 'power4.inOut'
-      }, 0);
+      }, 0)
       .to(defaultStrokePath, {
         morphSVG: expandedStrokePath,
         duration: 1,
@@ -142,6 +142,6 @@ document.addEventListener('DOMContentLoaded', function () {
         width: 640,
         duration: 1,
         ease: 'power4.inOut'
-      }, 0)
+      }, 0);
   });
 });
