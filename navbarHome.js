@@ -8,10 +8,17 @@ document.addEventListener('DOMContentLoaded', function () {
   const backButton = document.querySelector('.global-navbar_back-button');
   const textContainers = document.querySelectorAll('.global-navbar_text-container');
   const navbarContainer = document.querySelector('.global-navbar_navbar-container');
+  
   const fillSvgElement = document.querySelector('.global-navbar_background-fill svg');
   const fillGElement = fillSvgElement.querySelector('g');
-  const defaultPath = document.getElementById('defaultFillPath');
-  const expandedPath = document.getElementById('expandedFillPath');
+  const defaultFillPath = document.getElementById('defaultFillPath');
+  const expandedFillPath = document.getElementById('expandedFillPath');
+
+  const strokeSvgElement = document.querySelector('.global-navbar_background-fill svg');
+  const strokeGElement = fillSvgElement.querySelector('g');
+  const defaultStrokePath = document.getElementById('defaultFillPath');
+  const expandedStrokePath = document.getElementById('expandedFillPath');
+  
   const strokePath = document.querySelector('.global-navbar_background-stroke svg path:nth-child(3)');
 
   console.log('Elements:', {
@@ -119,5 +126,22 @@ document.addEventListener('DOMContentLoaded', function () {
         duration: 1,
         ease: 'power4.inOut'
       }, 0);
+      .to(defaultStrokePath, {
+        morphSVG: expandedStrokePath,
+        duration: 1,
+        ease: 'power4.inOut',
+        onStart: () => gsap.set(expandedStrokePath, { opacity: 0.1 }),
+        onComplete: () = gsap.set(defaultStrokePath, { opacity: 0 })
+      }, 0)
+      .to(strokeSvgElement, {
+        attr: { viewBox: "0 0 640 64" },
+        duration: 1,
+        ease: 'power4.inOut'
+      }, 0)
+      .to(strokeSvgElement, {
+        width: 640,
+        duration: 1,
+        ease: 'power4.inOut'
+      }, 0)
   });
 });
