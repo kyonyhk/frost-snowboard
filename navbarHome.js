@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const backButton = document.querySelector('.global-navbar_back-button');
   const textContainers = document.querySelectorAll('.global-navbar_text-container');
   const navbarContainer = document.querySelector('.global-navbar_navbar-container');
-  const iconContainer = document.querySelector('.navbar-back_icon-container');
+  const iconContainer = document.querySelector('.global-navbar_icon-container');
   const closeIcon = document.querySelector('.global-navbar_close-icon');
 
   const fillSvgElement = document.querySelector('.global-navbar_background-fill svg');
