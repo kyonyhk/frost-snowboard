@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
         duration: 1,
         ease: 'power4.inOut',
         onStart: () => gsap.set(expandedStrokePath, { opacity: 0.1 }),
-        onComplete: () = gsap.set(defaultStrokePath, { opacity: 0 })
+        onComplete: () => gsap.set(defaultStrokePath, { opacity: 0 })
       }, 0)
       .to(strokeSvgElement, {
         attr: { viewBox: "0 0 640 64" },
