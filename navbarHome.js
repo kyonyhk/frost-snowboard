@@ -13,13 +13,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const fillSvgElement = document.querySelector('.global-navbar_background-fill svg');
   const fillGElement = fillSvgElement.querySelector('g');
-  const defaultFillPath = document.getElementById('defaultFillPath d');
-  const expandedFillPath = document.getElementById('expandedFillPath d');
+  const defaultFillPath = document.querySelector('.global-navbar_background-fill #defaultFillPath d');
+  const expandedFillPath = document.querySelector('.global-navbar_background-fill #expandedFillPath d');
 
   const strokeSvgElement = document.querySelector('.global-navbar_background-stroke svg');
   const strokeGElement = fillSvgElement.querySelector('g');
-  const defaultStrokePath = document.getElementById('defaultStrokePath d');
-  const expandedStrokePath = document.getElementById('expandedStrokePath d');
+  const defaultStrokePath = document.querySelector('.global-navbar_background-stroke #defaultStrokePath d');
+  const expandedStrokePath = document.querySelector('.global-navbar_background-stroke #expandedStrokePath d');
 
   const strokePath = document.querySelector('.global-navbar_background-stroke svg path:nth-child(3)');
 
