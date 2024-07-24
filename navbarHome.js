@@ -86,14 +86,35 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Menu click to expand navbar
-  menuContainer.addEventListener('click', function() {
+  // Initial setup
+  gsap.set(expandedFillPath, { opacity: 0 });
+
+  // Menu click to expand navbar
+  menuContainer.addEventListener('click', function () {
     console.log('Menu text click');
-    gsap.to(defaultPath, {
-      morphSVG: expandedPath,
-      duration: 1,
-      ease: 'power4.inOut',
-      onStart: () => gsap.set(expandedPath, { opacity: 1 }), // Ensure expanded path becomes visible
-      onComplete: () => gsap.set(defaultPath, { opacity: 0 }) // Hide default path after morphing
-    });
+
+    gsap.timeline()
+      .to(defaultFillPath, {
+        morphSVG: expandedFillPath,
+        duration: 1,
+        ease: 'power4.inOut',
+        onStart: () => gsap.set(expandedFillPath, { opacity: 1 }), // Ensure expanded path becomes visible
+        onComplete: () => gsap.set(defaultFillPath, { opacity: 0 }) // Hide default path after morphing
+      })
+      .to(svgElement, {
+        attr: { viewBox: "0 0 640 64" },
+        duration: 1,
+        ease: 'power4.inOut'
+      }, 0)
+      .to(svgElement, {
+        width: 640,
+        duration: 1,
+        ease: 'power4.inOut'
+      }, 0)
+      .to(svgElement, {
+        attr: { filter: 'url(#expandedBackgroundFilter)' },
+        duration: 1,
+        ease: 'power4.inOut'
+      }, 0);
   });
 });
