@@ -259,14 +259,9 @@ document.addEventListener('DOMContentLoaded', function () {
       .add(() => {
         textContainers.forEach((container) => {
           if (container !== menuContainer) {
-            const originalText = container.querySelector('.is-original-text');
-            const originalSplit = new SplitType(originalText, {
-              types: 'chars',
-            });
-  
             gsap.set(originalSplit.chars, { y: '100%' });
             gsap.to(originalSplit.chars, {
-              y: '0',
+              y: '0%',
               stagger: 0.1,
               duration: 0.5,
               ease: 'power4.out',
