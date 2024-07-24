@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const defaultStrokePath = document.querySelector('#defaultStrokePath');
   const expandedStrokePath = document.querySelector('#expandedStrokePath');
 
-  const strokePath = document.querySelector('.global-navbar_background-stroke svg path:nth-child(3)');
+  const strokePath = document.querySelector('.global-navbar_background-stroke');
 
   console.log('Elements:', {
     menuContainer,
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
       gsap.to(bigCircle, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
       gsap.to(container, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
       gsap.to(strokePath, {
-        attr: { 'fill-opacity': 0.3 },
+        opacity: 0.3,
         duration: 0.5,
         ease: 'power4.inOut',
       });
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
       gsap.to(bigCircle, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
       gsap.to(container, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
       gsap.to(strokePath, {
-        attr: { 'fill-opacity': 0.1 },
+        opacity: 0.1,
         duration: 0.3,
         ease: 'power4.inOut',
       });
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
       ease: 'power4.inOut',
     });
     gsap.to(strokePath, {
-      attr: { 'fill-opacity': 0.5 },
+      opacity: 0.5,
       duration: 0.5,
       ease: 'power4.inOut',
     });
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
       ease: 'power4.inOut',
     });
     gsap.to(strokePath, {
-      attr: { 'fill-opacity': 0.1 },
+      opacity: 0.1,
       duration: 0.3,
       ease: 'power4.inOut',
     });
@@ -147,12 +147,12 @@ document.addEventListener('DOMContentLoaded', function () {
         .to(originalSplit.chars, {
           y: '-100%',
           stagger: 0.1,
-          duration: 0.6,
+          duration: 0.5,
           ease: 'power4.inOut',
         })
         .to(
           animatedSplit.chars,
-          { y: '-100%', stagger: 0.1, duration: 0.6, ease: 'power4.inOut' },
+          { y: '-100%', stagger: 0.1, duration: 0.5, ease: 'power4.inOut' },
           0
         );
     });
@@ -163,12 +163,12 @@ document.addEventListener('DOMContentLoaded', function () {
         .to(animatedSplit.chars, {
           y: '0%',
           stagger: 0.1,
-          duration: 0.6,
+          duration: 0.5,
           ease: 'power4.inOut',
         })
         .to(
           originalSplit.chars,
-          { y: '0%', stagger: 0.1, duration: 0.6, ease: 'power4.inOut' },
+          { y: '0%', stagger: 0.1, duration: 0.5, ease: 'power4.inOut' },
           0
         );
     });
