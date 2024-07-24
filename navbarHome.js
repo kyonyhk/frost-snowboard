@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const defaultFillPath = document.getElementById('defaultFillPath');
   const expandedFillPath = document.getElementById('expandedFillPath');
 
-  const strokeSvgElement = document.querySelector('.global-navbar_background-fill svg');
+  const strokeSvgElement = document.querySelector('.global-navbar_background-stroke svg');
   const strokeGElement = fillSvgElement.querySelector('g');
   const defaultStrokePath = document.getElementById('defaultStrokePath');
   const expandedStrokePath = document.getElementById('expandedStrokePath');
