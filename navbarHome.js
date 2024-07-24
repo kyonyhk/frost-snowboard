@@ -182,17 +182,23 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('Menu text click');
   
     const menuOriginalText = menuContainer.querySelector('.is-original-text');
-    const menuOriginalSplit = new SplitType(menuOriginalText, {
-      types: 'chars',
-    });
+    const menuOriginalSplit = new SplitType(menuOriginalText, { types: 'chars' });
+    const menuAnimatedText = menuContainer.querySelector('.is-animated-text');
+    const menuAnimatedSplit = new SplitType(menuAnimatedText, { types: 'chars' });
   
     gsap.timeline()
       .to(menuOriginalSplit.chars, {
-        y: '-100%',
+        y: '-200%',
         stagger: 0.1,
         duration: 0.5,
         ease: 'power4.out',
       })
+      .to(menuAnimatedSplit.chars, {
+        y: '-200%',
+        stagger: 0.1,
+        duration: 0.5,
+        ease: 'power4.out',
+      }, 0)
       .add(() => {
         // Hide menuContainer and show other containers and icons
         gsap.set(menuContainer, { display: 'none' });
