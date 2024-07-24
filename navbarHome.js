@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const arrowIcon = document.querySelector('.navbar-back_arrow-icon');
   const bigCircle = document.querySelector('.navbar-back_big-circle');
   const smallCircle = document.querySelector('.navbar-back_small-circle');
-  const navbarBackgroundPath = document.querySelector('.global-navbar_background svg path:nth-child(3)');
   const backButton = document.querySelector('.global-navbar_back-button');
   const textContainers = document.querySelectorAll('.global-navbar_text-container');
   const navbarContainer = document.querySelector('.global-navbar_navbar-container');
@@ -13,13 +12,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const fillGElement = fillSvgElement.querySelector('g');
   const defaultPath = document.getElementById('defaultFillPath');
   const expandedPath = document.getElementById('expandedFillPath');
+  const strokePath = document.querySelector('.global-navbar_background-stroke svg path:nth-child(3)');
 
   console.log('Elements:', {
     menuContainer,
     arrowIcon,
     bigCircle,
     smallCircle,
-    navbarBackgroundPath,
+    strokePath,
     backButton,
     textContainers,
     fillSvgElement,
@@ -39,14 +39,14 @@ document.addEventListener('DOMContentLoaded', function () {
       gsap.to(arrowIcon, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
       gsap.to(bigCircle, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
       gsap.to(container, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
-      gsap.to(navbarBackgroundPath, { attr: { 'fill-opacity': 0.3 }, duration: 0.5, ease: 'power4.inOut' });
+      gsap.to(strokePath, { attr: { 'fill-opacity': 0.3 }, duration: 0.5, ease: 'power4.inOut' });
     });
 
     container.addEventListener('mouseleave', function () {
       gsap.to(arrowIcon, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
       gsap.to(bigCircle, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
       gsap.to(container, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
-      gsap.to(navbarBackgroundPath, { attr: { 'fill-opacity': 0.1 }, duration: 0.3, ease: 'power4.inOut' });
+      gsap.to(strokePath, { attr: { 'fill-opacity': 0.1 }, duration: 0.3, ease: 'power4.inOut' });
     });
   });
 
@@ -55,14 +55,14 @@ document.addEventListener('DOMContentLoaded', function () {
     gsap.to(bigCircle, { scale: 1.2, opacity: 1.0, duration: 0.5, ease: 'power4.inOut', fill: '#6BE688' });
     gsap.to(smallCircle, { scale: 0.8, opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
     gsap.to(arrowIcon, { strokeWidth: 2, opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
-    gsap.to(navbarBackgroundPath, { attr: { 'fill-opacity': 0.5 }, duration: 0.5, ease: 'power4.inOut' });
+    gsap.to(strokePath, { attr: { 'fill-opacity': 0.5 }, duration: 0.5, ease: 'power4.inOut' });
   });
 
   backButton.addEventListener('mouseleave', function () {
     gsap.to(bigCircle, { scale: 1, opacity: 0.5, duration: 0.3, ease: 'power4.inOut', fill: '#A1FCCF' });
     gsap.to(smallCircle, { scale: 1, opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
     gsap.to(arrowIcon, { strokeWidth: 1, opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
-    gsap.to(navbarBackgroundPath, { attr: { 'fill-opacity': 0.1 }, duration: 0.3, ease: 'power4.inOut' });
+    gsap.to(strokePath, { attr: { 'fill-opacity': 0.1 }, duration: 0.3, ease: 'power4.inOut' });
   });
 
   // Text animation on hover
