@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
             gsap.set(container, { display: 'flex' });
           }
         });
-      }, 0);
+      }, 0)
       .add(() => {
         textContainers.forEach((container) => {
           if (container !== menuContainer) {
