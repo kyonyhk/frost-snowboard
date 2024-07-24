@@ -1,42 +1,34 @@
 document.addEventListener('DOMContentLoaded', function () {
   gsap.registerPlugin(MorphSVGPlugin);
 
-  const menuContainer = document.querySelector(
-    '.global-navbar_text-container.is-menu'
-  );
+  const menuContainer = document.querySelector('.global-navbar_text-container.is-menu');
   const arrowIcon = document.querySelector('.navbar-back_arrow-icon');
   const bigCircle = document.querySelector('.navbar-back_big-circle');
   const smallCircle = document.querySelector('.navbar-back_small-circle');
   const backButton = document.querySelector('.global-navbar_back-button');
-  const textContainers = document.querySelectorAll(
-    '.global-navbar_text-container'
-  );
-  const navbarContainer = document.querySelector(
-    '.global-navbar_navbar-container'
-  );
+  const textContainers = document.querySelectorAll('.global-navbar_text-container');
+  const navbarContainer = document.querySelector('.global-navbar_navbar-container');
+  const iconContainer = document.querySelector('.navbar-back_icon-container');
+  const closeIcon = document.querySelector('.global-navbar_close-icon');
 
-  const fillSvgElement = document.querySelector(
-    '.global-navbar_background-fill svg'
-  );
+  const fillSvgElement = document.querySelector('.global-navbar_background-fill svg');
   const fillGElement = fillSvgElement.querySelector('g');
   const defaultFillPath = document.getElementById('defaultFillPath');
   const expandedFillPath = document.getElementById('expandedFillPath');
 
-  const strokeSvgElement = document.querySelector(
-    '.global-navbar_background-stroke svg'
-  );
+  const strokeSvgElement = document.querySelector('.global-navbar_background-stroke svg');
+  const strokeGElement = fillSvgElement.querySelector('g');
   const defaultStrokePath = document.getElementById('defaultStrokePath');
   const expandedStrokePath = document.getElementById('expandedStrokePath');
 
-  const strokePath = document.querySelector(
-    '.global-navbar_background-stroke svg path:nth-child(3)'
-  );
+  const strokePath = document.querySelector('.global-navbar_background-stroke svg path:nth-child(3)');
 
   console.log('Elements:', {
     menuContainer,
     arrowIcon,
     bigCircle,
     smallCircle,
+    strokePath,
     backButton,
     textContainers,
     fillSvgElement,
@@ -44,9 +36,19 @@ document.addEventListener('DOMContentLoaded', function () {
     defaultFillPath,
     expandedFillPath,
     strokeSvgElement,
+    strokeGElement,
     defaultStrokePath,
     expandedStrokePath,
+    strokePath,
+    iconContainer,
+    closeIcon,
   });
+
+  // Ensure paths are correctly selected
+  if (!defaultStrokePath || !expandedStrokePath) {
+    console.error('SVG paths not found or incorrectly referenced.');
+    return;
+  }
 
   // Text container hover effect
   textContainers.forEach((container) => {
@@ -54,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
       gsap.to(arrowIcon, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
       gsap.to(bigCircle, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
       gsap.to(container, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
-      gsap.to(strokeSvgElement, {
+      gsap.to(strokePath, {
         attr: { 'fill-opacity': 0.3 },
         duration: 0.5,
         ease: 'power4.inOut',
@@ -65,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
       gsap.to(arrowIcon, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
       gsap.to(bigCircle, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
       gsap.to(container, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
-      gsap.to(strokeSvgElement, {
+      gsap.to(strokePath, {
         attr: { 'fill-opacity': 0.1 },
         duration: 0.3,
         ease: 'power4.inOut',
@@ -94,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
       duration: 0.5,
       ease: 'power4.inOut',
     });
-    gsap.to(strokeSvgElement, {
+    gsap.to(strokePath, {
       attr: { 'fill-opacity': 0.5 },
       duration: 0.5,
       ease: 'power4.inOut',
@@ -121,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
       duration: 0.3,
       ease: 'power4.inOut',
     });
-    gsap.to(strokeSvgElement, {
+    gsap.to(strokePath, {
       attr: { 'fill-opacity': 0.1 },
       duration: 0.3,
       ease: 'power4.inOut',
@@ -178,7 +180,6 @@ document.addEventListener('DOMContentLoaded', function () {
   menuContainer.addEventListener('click', function () {
     console.log('Menu text click');
 
-    // Step 1: Menu text exit animation
     const menuOriginalText = menuContainer.querySelector('.is-original-text');
     const menuOriginalSplit = new SplitType(menuOriginalText, {
       types: 'chars',
@@ -191,40 +192,19 @@ document.addEventListener('DOMContentLoaded', function () {
         stagger: 0.1,
         duration: 0.5,
         ease: 'power4.out',
-        onComplete: () => {
-          // Hide the menu container and show the other text containers
-          gsap.set(menuContainer, { display: 'none' });
-          gsap.set(textContainers, { display: 'flex' });
-
-          textContainers.forEach((container) => {
-            if (container !== menuContainer) {
-              const originalText = container.querySelector('.is-original-text');
-              const originalSplit = new SplitType(originalText, {
-                types: 'chars',
-              });
-
-              gsap.set(originalSplit.chars, { y: '100%' });
-              gsap.to(originalSplit.chars, {
-                y: '0%',
-                stagger: 0.1,
-                duration: 0.5,
-                ease: 'power4.out',
-              });
-            }
-          });
-        },
       })
-      .to(
-        defaultFillPath,
-        {
-          morphSVG: expandedFillPath,
-          duration: 1,
-          ease: 'power4.inOut',
-          onStart: () => gsap.set(expandedFillPath, { opacity: 1 }),
-          onComplete: () => gsap.set(defaultFillPath, { opacity: 0 }),
-        },
-        0
-      )
+      .to(navbarContainer, {
+        width: '577px',
+        duration: 1,
+        ease: 'power4.inOut',
+      })
+      .to(defaultFillPath, {
+        morphSVG: expandedFillPath,
+        duration: 1,
+        ease: 'power4.inOut',
+        onStart: () => gsap.set(expandedFillPath, { opacity: 1 }), // Ensure expanded path becomes visible
+        onComplete: () => gsap.set(defaultFillPath, { opacity: 0 }), // Hide default path after morphing
+      })
       .to(
         fillSvgElement,
         {
@@ -280,6 +260,39 @@ document.addEventListener('DOMContentLoaded', function () {
           ease: 'power4.inOut',
         },
         0
-      );
+      )
+      .add(() => {
+        gsap.set(menuContainer, { display: 'none' });
+        gsap.set(iconContainer, { display: 'block' });
+        textContainers.forEach((container) => {
+          if (container !== menuContainer) {
+            gsap.set(container, { display: 'flex' });
+          }
+        });
+      })
+      .add(() => {
+        textContainers.forEach((container) => {
+          if (container !== menuContainer) {
+            const originalText = container.querySelector('.is-original-text');
+            const originalSplit = new SplitType(originalText, {
+              types: 'chars',
+            });
+
+            gsap.set(originalSplit.chars, { y: '100%' });
+            gsap.to(originalSplit.chars, {
+              y: '0',
+              stagger: 0.1,
+              duration: 0.5,
+              ease: 'power4.out',
+            });
+          }
+        });
+
+        gsap.fromTo(
+          closeIcon,
+          { scale: 1.1 },
+          { scale: 1.0, duration: 0.5, ease: 'power4.out' }
+        );
+      }, '-=0.5');
   });
 });
