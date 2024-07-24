@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const textContainers = document.querySelectorAll('.global-navbar_text-container');
   const navbarContainer = document.querySelector('.global-navbar_navbar-container');
   const fillSvgElement = document.querySelector('.global-navbar_background-fill svg');
+  const fillGElement = fillSvgElement.querySelector('g');
   const defaultPath = document.getElementById('defaultFillPath');
   const expandedPath = document.getElementById('expandedFillPath');
 
@@ -113,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
         duration: 1,
         ease: 'power4.inOut'
       }, 0)
-      .to(fillSvgElement, {
+      .to(fillGElement, {
         attr: { filter: 'url(#expandedBackgroundFilter)' },
         duration: 1,
         ease: 'power4.inOut'
