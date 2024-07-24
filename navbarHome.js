@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     navbarBackgroundPath,
     backButton,
     textContainers,
-    svgElement,
+    fillSvgElement,
     defaultPath,
     expandedPath
   });
