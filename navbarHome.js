@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Ensure paths are correctly selected
-  if (!defaultPath || !expandedPath) {
+  if (!defaultStrokePath || !expandedStrokePath) {
     console.error('SVG paths not found or incorrectly referenced.');
     return;
   }
