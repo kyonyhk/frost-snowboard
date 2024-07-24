@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
         onComplete: () => {
           // Step 2: Hide menuContainer and show other containers
           menuContainer.style.display = 'none';
-          navbarContainer.style.display = 'flex';
+          textContainer.style.display = 'flex';
 
           // Step 3: Animate in the other text containers
           const otherTextContainers = document.querySelectorAll(
