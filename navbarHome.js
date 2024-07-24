@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const backButton = document.querySelector('.global-navbar_back-button');
   const textContainers = document.querySelectorAll('.global-navbar_text-container');
   const navbarContainer = document.querySelector('.global-navbar_navbar-container');
+  const svgElement = document.querySelector('.global-navbar_background svg');
   const defaultPath = document.getElementById('defaultFillPath');
   const expandedPath = document.getElementById('expandedFillPath');
 
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     navbarBackgroundPath,
     backButton,
     textContainers,
+    svgElement,
     defaultPath,
     expandedPath
   });
