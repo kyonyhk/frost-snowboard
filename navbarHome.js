@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const backButton = document.querySelector('.global-navbar_back-button');
   const textContainers = document.querySelectorAll('.global-navbar_text-container');
   const navbarContainer = document.querySelector('.global-navbar_navbar-container');
-  const svgElement = document.querySelector('.global-navbar_background svg');
+  const fillSvgElement = document.querySelector('.global-navbar_background-fill svg');
   const defaultPath = document.getElementById('defaultFillPath');
   const expandedPath = document.getElementById('expandedFillPath');
 
@@ -103,17 +103,17 @@ document.addEventListener('DOMContentLoaded', function () {
         onStart: () => gsap.set(expandedFillPath, { opacity: 1 }), // Ensure expanded path becomes visible
         onComplete: () => gsap.set(defaultFillPath, { opacity: 0 }) // Hide default path after morphing
       })
-      .to(svgElement, {
+      .to(fillSvgElement, {
         attr: { viewBox: "0 0 640 64" },
         duration: 1,
         ease: 'power4.inOut'
       }, 0)
-      .to(svgElement, {
+      .to(fillSvgElement, {
         width: 640,
         duration: 1,
         ease: 'power4.inOut'
       }, 0)
-      .to(svgElement, {
+      .to(fillSvgElement, {
         attr: { filter: 'url(#expandedBackgroundFilter)' },
         duration: 1,
         ease: 'power4.inOut'
