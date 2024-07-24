@@ -179,97 +179,76 @@ document.addEventListener('DOMContentLoaded', function () {
 
   menuContainer.addEventListener('click', function () {
     console.log('Menu text click');
-
+  
     const menuOriginalText = menuContainer.querySelector('.is-original-text');
     const menuOriginalSplit = new SplitType(menuOriginalText, {
       types: 'chars',
     });
-
-    gsap
-      .timeline()
+  
+    gsap.timeline()
       .to(menuOriginalSplit.chars, {
         y: '-100%',
         stagger: 0.1,
         duration: 0.5,
         ease: 'power4.out',
       })
+      .add(() => {
+        // Hide menuContainer and show other containers and icons
+        gsap.set(menuContainer, { display: 'none' });
+        gsap.set(iconContainer, { display: 'block', opacity: 0 });
+        textContainers.forEach((container) => {
+          if (container !== menuContainer) {
+            gsap.set(container, { display: 'flex', opacity: 0 });
+          }
+        });
+      }, '-=0.5') // Start during the exit animation
+  
       .to(navbarContainer, {
         width: '577px',
         duration: 1,
         ease: 'power4.inOut',
-      })
+      }, 0)
       .to(defaultFillPath, {
         morphSVG: expandedFillPath,
         duration: 1,
         ease: 'power4.inOut',
-        // onStart: () => gsap.set(expandedFillPath, { opacity: 1 }), // Ensure expanded path becomes visible
-        // onComplete: () => gsap.set(defaultFillPath, { opacity: 0 }), // Hide default path after morphing
       }, 0)
-      .to(
-        fillSvgElement,
-        {
-          attr: { viewBox: '0 0 640 64' },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        fillSvgElement,
-        {
-          width: 640,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        fillGElement,
-        {
-          attr: { filter: 'url(#expandedBackgroundFilter)' },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        defaultStrokePath,
-        {
-          morphSVG: expandedStrokePath,
-          duration: 1,
-          ease: 'power4.inOut',
-          // onStart: () => gsap.set(expandedStrokePath, { opacity: 0.1 }),
-          // onComplete: () => gsap.set(defaultStrokePath, { opacity: 0 }),
-        },
-        0
-      )
-      .to(
-        strokeSvgElement,
-        {
-          attr: { viewBox: '0 0 640 64' },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        strokeSvgElement,
-        {
-          width: 640,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .add(() => {
-        gsap.set(menuContainer, { display: 'none' });
-        gsap.set(iconContainer, { display: 'block' });
-        textContainers.forEach((container) => {
-          if (container !== menuContainer) {
-            gsap.set(container, { display: 'flex' });
-          }
-        });
+      .to(fillSvgElement, {
+        attr: { viewBox: '0 0 640 64' },
+        duration: 1,
+        ease: 'power4.inOut',
       }, 0)
+      .to(fillSvgElement, {
+        width: 640,
+        duration: 1,
+        ease: 'power4.inOut',
+      }, 0)
+      .to(fillGElement, {
+        attr: { filter: 'url(#expandedBackgroundFilter)' },
+        duration: 1,
+        ease: 'power4.inOut',
+      }, 0)
+      .to(defaultStrokePath, {
+        morphSVG: expandedStrokePath,
+        duration: 1,
+        ease: 'power4.inOut',
+      }, 0)
+      .to(strokeSvgElement, {
+        attr: { viewBox: '0 0 640 64' },
+        duration: 1,
+        ease: 'power4.inOut',
+      }, 0)
+      .to(strokeSvgElement, {
+        width: 640,
+        duration: 1,
+        ease: 'power4.inOut',
+      }, 0)
+      .to([iconContainer, textContainers], {
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      }, 0) // Fading in the containers and icon
+  
       .add(() => {
         textContainers.forEach((container) => {
           if (container !== menuContainer) {
@@ -277,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const originalSplit = new SplitType(originalText, {
               types: 'chars',
             });
-
+  
             gsap.set(originalSplit.chars, { y: '100%' });
             gsap.to(originalSplit.chars, {
               y: '0',
@@ -287,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
           }
         });
-
+  
         gsap.fromTo(
           closeIcon,
           { scale: 1.1 },
