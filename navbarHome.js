@@ -188,11 +188,11 @@ document.addEventListener('DOMContentLoaded', function () {
   menuContainer.addEventListener('click', function () {
     console.log('Menu text click');
 
-    const originalText = menuContainer.querySelector('.is-original-text');
-    const originalSplit = new SplitType(originalText, { types: 'chars' });
+    const menuAnimatedText = menuContainer.querySelector('.is-animated-text');
+    const menuAnimatedSplit = new SplitType(menuAnimatedText, { types: 'chars' });
 
-    gsap.timeline().to(originalSplit.chars, {
-      y: '-100%',
+    gsap.timeline().to(menuAnimatedSplit.chars, {
+      y: '-200%',
       stagger: 0.1,
       duration: 0.5,
       ease: 'power4.out',
