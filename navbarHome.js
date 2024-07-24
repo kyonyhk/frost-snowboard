@@ -13,13 +13,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const fillSvgElement = document.querySelector('.global-navbar_background-fill svg');
   const fillGElement = fillSvgElement.querySelector('g');
-  const defaultFillPath = document.getElementById('defaultFillPath');
-  const expandedFillPath = document.getElementById('expandedFillPath');
+  const defaultFillPath = document.getElementById('defaultFillPath d');
+  const expandedFillPath = document.getElementById('expandedFillPath d');
 
   const strokeSvgElement = document.querySelector('.global-navbar_background-stroke svg');
   const strokeGElement = fillSvgElement.querySelector('g');
-  const defaultStrokePath = document.getElementById('defaultStrokePath');
-  const expandedStrokePath = document.getElementById('expandedStrokePath');
+  const defaultStrokePath = document.getElementById('defaultStrokePath d');
+  const expandedStrokePath = document.getElementById('expandedStrokePath d');
 
   const strokePath = document.querySelector('.global-navbar_background-stroke svg path:nth-child(3)');
 
@@ -202,8 +202,8 @@ document.addEventListener('DOMContentLoaded', function () {
         morphSVG: expandedFillPath,
         duration: 1,
         ease: 'power4.inOut',
-        onStart: () => gsap.set(expandedFillPath, { opacity: 1 }), // Ensure expanded path becomes visible
-        onComplete: () => gsap.set(defaultFillPath, { opacity: 0 }), // Hide default path after morphing
+        // onStart: () => gsap.set(expandedFillPath, { opacity: 1 }), // Ensure expanded path becomes visible
+        // onComplete: () => gsap.set(defaultFillPath, { opacity: 0 }), // Hide default path after morphing
       }, 0)
       .to(
         fillSvgElement,
@@ -238,8 +238,8 @@ document.addEventListener('DOMContentLoaded', function () {
           morphSVG: expandedStrokePath,
           duration: 1,
           ease: 'power4.inOut',
-          onStart: () => gsap.set(expandedStrokePath, { opacity: 0.1 }),
-          onComplete: () => gsap.set(defaultStrokePath, { opacity: 0 }),
+          // onStart: () => gsap.set(expandedStrokePath, { opacity: 0.1 }),
+          // onComplete: () => gsap.set(defaultStrokePath, { opacity: 0 }),
         },
         0
       )
