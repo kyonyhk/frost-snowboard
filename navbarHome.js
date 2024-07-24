@@ -138,7 +138,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const originalSplit = new SplitType(originalText, { types: 'chars' });
     const animatedSplit = new SplitType(animatedText, { types: 'chars' });
 
-    gsap.set(animatedSplit.chars, { y: '100%' });
+    gsap.set(originalSplit.chars, { y: '0%' });
+    gsap.set(animatedSplit.chars, { y: '0%' });
 
     container.addEventListener('mouseenter', () => {
       gsap
