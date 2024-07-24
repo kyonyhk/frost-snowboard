@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ease: 'power4.inOut',
         onStart: () => gsap.set(expandedFillPath, { opacity: 1 }), // Ensure expanded path becomes visible
         onComplete: () => gsap.set(defaultFillPath, { opacity: 0 }), // Hide default path after morphing
-      })
+      }, 0)
       .to(
         fillSvgElement,
         {
