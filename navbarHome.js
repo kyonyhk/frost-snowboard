@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
     container.addEventListener('mouseleave', () => {
       gsap.timeline()
         .to(animatedSplit.chars, {
-          y: '00%',
+          y: '0%',
           stagger: 0.1,
           duration: 0.6,
           ease: 'power4.inOut'
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Step 3: Back button movement
     gsap.to(backButton, {
-      x: 50,
+      x: "-20%",
       duration: 1,
       ease: 'power4.inOut'
     });
