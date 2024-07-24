@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const expandedPath = document.getElementById('expandedPath');
 
   console.log('Elements:', {
-    menuText,
+    menuContainer,
     arrowIcon,
     bigCircle,
     smallCircle,
