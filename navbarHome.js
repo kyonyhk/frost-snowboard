@@ -30,8 +30,14 @@ document.addEventListener('DOMContentLoaded', function () {
     backButton,
     textContainers,
     fillSvgElement,
-    defaultPath,
-    expandedPath
+    fillGElement,
+    defaultFillPath,
+    expandedFillPath,
+    strokeSvgElement,
+    strokeGElement,
+    defaultStrokePath,
+    expandedStrokePath,
+    strokePath
   });
 
   // Ensure paths are correctly selected
