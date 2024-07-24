@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const defaultStrokePath = document.getElementById('defaultStrokePath');
   const expandedStrokePath = document.getElementById('expandedStrokePath');
 
+	const strokePath = document.querySelector('.global-navbar_background-stroke svg path:nth-child(3)');
+
   console.log('Elements:', {
     menuContainer,
     arrowIcon,
