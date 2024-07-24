@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log('Text container mouseenter');
       gsap.to(arrowIcon, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
       gsap.to(bigCircle, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
-      gsap.to(container.querySelector('.is-original-text'), {
+      gsap.to(container, {
         opacity: 1.0,
         duration: 0.5,
         ease: 'power4.inOut',
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log('Text container mouseleave');
       gsap.to(arrowIcon, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
       gsap.to(bigCircle, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
-      gsap.to(container.querySelector('.is-original-text'), {
+      gsap.to(container, {
         opacity: 0.5,
         duration: 0.3,
         ease: 'power4.inOut',
