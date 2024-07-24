@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   gsap.registerPlugin(MorphSVGPlugin);
 
-  const menuText = document.querySelector('.s-s5.is-navbar.is-menu');
+  const menuContainer = document.querySelector('.global-navbar_text-container.is-menu');
   const arrowIcon = document.querySelector('.navbar-back_arrow-icon');
   const bigCircle = document.querySelector('.navbar-back_big-circle');
   const smallCircle = document.querySelector('.navbar-back_small-circle');
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Menu click to expand navbar
-  menuText.addEventListener('click', function() {
+  menuContainer.addEventListener('click', function() {
     console.log('Menu text click');
     gsap.to(defaultPath, {
       morphSVG: expandedPath,
