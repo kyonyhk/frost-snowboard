@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const backButton = document.querySelector('.global-navbar_back-button');
   const textContainers = document.querySelectorAll('.global-navbar_text-container');
   const navbarContainer = document.querySelector('.global-navbar_navbar-container');
-  const defaultPath = document.getElementById('defaultPath');
-  const expandedPath = document.getElementById('expandedPath');
+  const defaultPath = document.getElementById('defaultFillPath');
+  const expandedPath = document.getElementById('expandedFillPath');
 
   console.log('Elements:', {
     menuContainer,
