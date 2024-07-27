@@ -86,6 +86,27 @@ document.addEventListener('DOMContentLoaded', function () {
     gsap.to(strokePath, { opacity: 0.1, duration: 0.3, ease: 'power4.inOut' });
   });
 
+  // Diamond element hover effect
+  diamondElement.addEventListener('mouseenter', function () {
+    gsap.to(diamondElement, {
+      boxShadow: '0 0 10px 0 rgba(107, 230, 136)',
+      rotation: 360,
+      duration: 0.5,
+      ease: 'power4.inOut',
+      repeat: -1, // Continuous rotation
+    });
+  });
+
+  diamondElement.addEventListener('mouseleave', function () {
+    gsap.to(diamondElement, {
+      boxShadow: 'none',
+      rotation: 0,
+      duration: 0.5,
+      ease: 'power4.inOut'
+    });
+    gsap.killTweensOf(diamondElement, "rotation"); // Stop rotation
+  });
+
   // Text animation on hover
   linkContainers.forEach((container) => {
     const originalText = container.querySelector('.is-original-text');
