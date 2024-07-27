@@ -422,7 +422,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .to(
         navbarContainer,
         {
-          width: '180px',
+          width: '114px',
           duration: 1,
           ease: 'power4.inOut',
         },
