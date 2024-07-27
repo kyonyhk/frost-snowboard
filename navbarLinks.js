@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const menuLinks = document.querySelectorAll('.global-navbar-link');
+    const menuContainer = document.querySelector('.global-navbar-link.is-menu');
+    const menuLinks = document.querySelectorAll('.global-navbar-link:not(.is-menu)');
     const sections = {
         'frost': '.section.is-hero',
         'vibes': '.section.is-intro',
@@ -7,6 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
         'tech': '.section.is-frost-tech-intro'
     };
 
+    // Menu open/close functionality
+    if (menuContainer) {
+        menuContainer.addEventListener('click', function(e) {
+            e.preventDefault();
+            toggleMenu();
+        });
+    }
+
+    // Navigation functionality
     menuLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -17,6 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 navigateToHomePage(targetSection);
             }
+
+            // Close the menu after navigation
+            closeMenu();
         });
     });
 
@@ -28,30 +41,34 @@ document.addEventListener('DOMContentLoaded', function() {
     function scrollToSection(sectionName) {
         const targetElement = document.querySelector(sections[sectionName]);
         if (targetElement) {
-            // If you're using a smooth scroll library like Lenis, use its scrollTo method
             if (window.SmoothScroll) {
                 window.SmoothScroll.scrollTo(targetElement);
             } else {
-                // Fallback to native smooth scroll
                 targetElement.scrollIntoView({ behavior: 'smooth' });
             }
         }
     }
 
     function navigateToHomePage(sectionName) {
-        // Store the target section in sessionStorage
         sessionStorage.setItem('scrollTarget', sectionName);
-        // Navigate to the homepage
         window.location.href = '/';
+    }
+
+    function toggleMenu() {
+        // Add your menu open/close logic here
+        console.log('Toggle menu');
+    }
+
+    function closeMenu() {
+        // Add your menu close logic here
+        console.log('Close menu');
     }
 
     // Check for stored scroll target on page load
     if (isHomePage()) {
         const scrollTarget = sessionStorage.getItem('scrollTarget');
         if (scrollTarget) {
-            // Clear the stored target
             sessionStorage.removeItem('scrollTarget');
-            // Scroll to the target section after a short delay to ensure the page is loaded
             setTimeout(() => scrollToSection(scrollTarget), 100);
         }
     }
