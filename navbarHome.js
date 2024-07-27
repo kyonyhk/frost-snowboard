@@ -34,6 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   let menuOpenTimeline;
 
+  const textSplits = new Map();
+
   console.log('Elements:', {
     menuContainer,
     arrowIcon,
@@ -283,55 +285,61 @@ document.addEventListener('DOMContentLoaded', function () {
       ease: 'power4.inOut',
     });
   });
-  
-  function setTextHoverAnimations() {
-    linkContainers.forEach((container) => {
-      container.addEventListener('mouseenter', function () {
-        const originalText = container.querySelector('.is-original-text');
-        const animatedText = container.querySelector('.is-animated-text');
 
-        const originalSplit = new SplitType(originalText, { types: 'chars' });
-        const animatedSplit = new SplitType(animatedText, { types: 'chars' });
+  // Text animation on hover
 
-        gsap.to(originalSplit.chars, {
-          y: '-100%',
-          stagger: 0.1,
-          duration: 0.5,
-          ease: 'power4.inOut',
-        });
-        gsap.to(animatedSplit.chars, {
-          y: '-100%',
-          stagger: 0.1,
-          duration: 0.5,
-          ease: 'power4.inOut',
-        }, 0);
+  function setupTextHoverAnimations() {
+  	linkContainers.forEach((container) => {
+		const originalText = container.querySelector('.is-original-text');
+		const animatedText = container.querySelector('.is-animated-text');
+
+		if (!textSplits.has(container)) {
+			textSplits.set(container, {
+				original: new SplitType(originalText, { types: 'chars' }),
+				animated: new SplitType(animatedText, { types: 'chars' })
+			});
+		}
+
+		const splits = textSplits.get(container);
+
+		gsap.set(splits.original.chars, { y: '0%' });
+		gsap.set(splits.animated.chars, { y: '0%' });
+
+		container.addEventListener('mouseenter', () => {
+        gsap
+          .timeline()
+          .to(splits.original.chars, {
+            y: '-100%',
+            stagger: 0.1,
+            duration: 0.5,
+            ease: 'power4.inOut',
+          })
+          .to(
+            splits.animated.chars,
+            { y: '-100%', stagger: 0.1, duration: 0.5, ease: 'power4.inOut' },
+            0
+          );
       });
 
-      container.addEventListener('mouseleave', function () {
-        const originalText = container.querySelector('.is-original-text');
-        const animatedText = container.querySelector('.is-animated-text');
-
-        const originalSplit = new SplitType(originalText, { types: 'chars' });
-        const animatedSplit = new SplitType(animatedText, { types: 'chars' });
-
-        gsap.to(originalSplit.chars, {
-          y: '0%',
-          stagger: 0.1,
-          duration: 0.5,
-          ease: 'power4.inOut',
-        });
-        gsap.to(animatedSplit.chars, {
-          y: '0%',
-          stagger: 0.1,
-          duration: 0.5,
-          ease: 'power4.inOut',
-        }, 0);
+      container.addEventListener('mouseleave', () => {
+        gsap
+          .timeline()
+          .to(splits.animated.chars, {
+            y: '0%',
+            stagger: 0.1,
+            duration: 0.5,
+            ease: 'power4.inOut',
+          })
+          .to(
+            splits.original.chars,
+            { y: '0%', stagger: 0.1, duration: 0.5, ease: 'power4.inOut' },
+            0
+          );
       });
-    });
+	})
   }
 
-  // Apply hover effects
-  setTextHoverAnimations();
+  setupTextHoverAnimations();
 
   // Menu click to expand navbar
   // Initial setup
@@ -434,7 +442,6 @@ document.addEventListener('DOMContentLoaded', function () {
       .add(() => {
         gsap.set(menuOriginalSplit.chars, { y: '0%' });
         gsap.set(menuAnimatedSplit.chars, { y: '0%' });
-        setTextHoverAnimations();
       }, 0);
   });
 
@@ -508,7 +515,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .add(() => {
         gsap.set(menuOriginalSplit.chars, { y: '0%' });
         gsap.set(menuAnimatedSplit.chars, { y: '0%' });
-        setTextHoverAnimations();
+	setupTextHoverAnimations();
       }, 0);
   });
 
