@@ -99,6 +99,25 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  function animateSvgMorph({ fromPath, toPath, fillSvg, newViewBox, newWidth, duration = 1, easing = 'power4.inOut' }) {
+    gsap.timeline()
+      .to(fromPath, {
+        morphSVG: toPath,
+        duration: duration,
+        ease: easing,
+      }, 0)
+      .to(fillSvg, {
+        attr: { viewBox: newViewBox },
+        duration: duration,
+        ease: easing,
+      }, 0)
+      .to(fillSvg, {
+        width: newWidth,
+        duration: duration,
+        ease: easing,
+      }, 0);
+  }
+
   // Text container hover effect
   linkContainers.forEach((container) => {
     container.addEventListener('mouseenter', function () {
@@ -309,69 +328,20 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         0
       )
-      .to(
-        defaultFillPath,
-        {
-          morphSVG: expandedFillPath,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        fillSvgElement,
-        {
-          attr: { viewBox: '0 0 640 64' },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        fillSvgElement,
-        {
-          width: 640,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        fillGElement,
-        {
-          attr: { filter: 'url(#expandedBackgroundFilter)' },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        defaultStrokePath,
-        {
-          morphSVG: expandedStrokePath,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        strokeSvgElement,
-        {
-          attr: { viewBox: '0 0 640 64' },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        strokeSvgElement,
-        {
-          width: 640,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
+      .call(animateSvgMorph, [{
+        fromPath: defaultFillPath,
+        toPath: expandedFillPath,
+        fillSvg: fillSvgElement,
+        newViewBox: '0 0 640 64',
+        newWidth: 640,
+      }], 0)
+      .call(animateSvgMorph, [{
+        fromPath: defaultStrokePath,
+        toPath: expandedStrokePath,
+        fillSvg: strokeSvgElement,
+        newViewBox: '0 0 640 64',
+        newWidth: 640,
+      }], 0)
       .to(
         [iconContainer, linkContainers],
         {
@@ -453,69 +423,20 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         0
       )
-      .to(
-        expandedFillPath,
-        {
-          morphSVG: defaultFillPath,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        fillSvgElement,
-        {
-          attr: { viewBox: '0 0 180 64' },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        fillSvgElement,
-        {
-          width: 180,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        fillGElement,
-        {
-          attr: { filter: 'url(#defaultBackgroundFilter)' },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        expandedStrokePath,
-        {
-          morphSVG: defaultStrokePath,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        strokeSvgElement,
-        {
-          attr: { viewBox: '0 0 180 64' },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        strokeSvgElement,
-        {
-          width: 180,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
+      .call(animateSvgMorph, [{
+        fromPath: expandedFillPath,
+        toPath: defaultFillPath,
+        fillSvg: fillSvgElement,
+        newViewBox: '0 0 180 64',
+        newWidth: 180,
+      }], 0)
+      .call(animateSvgMorph, [{
+        fromPath: expandedStrokePath,
+        toPath: defaultStrokePath,
+        fillSvg: strokeSvgElement,
+        newViewBox: '0 0 180 64',
+        newWidth: 180,
+      }], 0)
       .to(
         menuContainer,
         {
