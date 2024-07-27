@@ -393,32 +393,32 @@ document.addEventListener('DOMContentLoaded', function () {
         0
       ) 
 			
-			// Fading in the containers and icon
-      // .add(() => {
-      //   linkContainers.forEach((container) => {
-      //     const menuOpenOriginalText = container.querySelector('.is-original-text');
-      //     const menuOpenAnimatedText = container.querySelector('.is-animated-text');
+      // Fading in the containers and icon
+      .add(() => {
+        linkContainers.forEach((container) => {
+          const menuOpenOriginalText = container.querySelector('.is-original-text');
+          const menuOpenAnimatedText = container.querySelector('.is-animated-text');
       
-      //     const menuOpenOriginalSplit = new SplitType(menuOriginalText, { types: 'chars' });
-      //     const menuOpenAnimatedSplit = new SplitType(menuAnimatedText, { types: 'chars' });
+          const menuOpenOriginalSplit = new SplitType(menuOriginalText, { types: 'chars' });
+          const menuOpenAnimatedSplit = new SplitType(menuAnimatedText, { types: 'chars' });
           
-      //     if (container !== menuContainer) {
-      //       gsap.set(menuOpenOriginalSplit.chars, { y: '100%' });
-      //       gsap.to(menuOpenOriginalSplit.chars, {
-      //         y: '0%',
-      //         stagger: 0.1,
-      //         duration: 0.5,
-      //         ease: 'power4.out',
-      //       });
-      //     }
-      //   });
+          if (container !== menuContainer) {
+            gsap.set(menuOpenOriginalSplit.chars, { y: '100%' });
+            gsap.to(menuOpenOriginalSplit.chars, {
+              y: '0%',
+              stagger: 0.1,
+              duration: 0.5,
+              ease: 'power4.out',
+            });
+          }
+        });
 
-      //   gsap.fromTo(
-      //     closeIcon,
-      //     { scale: 1.1 },
-      //     { scale: 1.0, duration: 0.5, ease: 'power4.out' }
-      //   );
-      // }, '-=0.5');
+        gsap.fromTo(
+          closeIcon,
+          { scale: 1.1 },
+          { scale: 1.0, duration: 0.5, ease: 'power4.out' }
+        );
+      }, '-=0.5');
   });
 
   // Close navbar animation
