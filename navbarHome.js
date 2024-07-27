@@ -103,50 +103,57 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Set initial text state
   function setInitialTextState() {
-    document.querySelectorAll('.is-original-text, .is-animated-text').forEach(el => {
-      gsap.set(el, { y: '0%' });
-    });
+    document
+      .querySelectorAll('.is-original-text, .is-animated-text')
+      .forEach((el) => {
+        gsap.set(el, { y: '0%' });
+      });
   }
 
   // Fill SVG animation function
   function animateFillSvg(forward = true) {
     const fillTimeline = gsap.timeline();
-    fillTimeline.to(
-      defaultFillPath,
-      {
-        morphSVG: forward ? expandedFillPath : defaultFillPath,
-        duration: 1,
-        ease: 'power4.inOut',
-      },
-      0
-    )
-    .to(
-      fillSvgElement,
-      {
-        attr: { viewBox: forward ? '0 0 640 64' : '0 0 180 64' },
-        duration: 1,
-        ease: 'power4.inOut',
-      },
-      0
-    )
-    .to(
-      fillSvgElement,
-      {
-        width: forward ? 640 : 180,
-        duration: 1,
-        ease: 'power4.inOut',
-      },
-      0
-    )
-    .to(
-      fillGElement,
-      {
-        attr: { filter: forward ? 'url(#expandedBackgroundFilter)' : 'url(#defaultBackgroundFilter)' },
-        duration: 1,
-        ease: 'power4.inOut',
-      },
-      0
-    );
+    fillTimeline
+      .to(
+        defaultFillPath,
+        {
+          morphSVG: forward ? expandedFillPath : defaultFillPath,
+          duration: 1,
+          ease: 'power4.inOut',
+        },
+        0
+      )
+      .to(
+        fillSvgElement,
+        {
+          attr: { viewBox: forward ? '0 0 640 64' : '0 0 180 64' },
+          duration: 1,
+          ease: 'power4.inOut',
+        },
+        0
+      )
+      .to(
+        fillSvgElement,
+        {
+          width: forward ? 640 : 180,
+          duration: 1,
+          ease: 'power4.inOut',
+        },
+        0
+      )
+      .to(
+        fillGElement,
+        {
+          attr: {
+            filter: forward
+              ? 'url(#expandedBackgroundFilter)'
+              : 'url(#defaultBackgroundFilter)',
+          },
+          duration: 1,
+          ease: 'power4.inOut',
+        },
+        0
+      );
 
     return fillTimeline;
   }
@@ -154,33 +161,34 @@ document.addEventListener('DOMContentLoaded', function () {
   // Stroke SVG animation function
   function animateStrokeSvg(forward = true) {
     const strokeTimeline = gsap.timeline();
-    strokeTimeline.to(
-      defaultStrokePath,
-      {
-        morphSVG: forward ? expandedStrokePath : defaultStrokePath,
-        duration: 1,
-        ease: 'power4.inOut',
-      },
-      0
-    )
-    .to(
-      strokeSvgElement,
-      {
-        attr: { viewBox: forward ? '0 0 640 64' : '0 0 180 64' },
-        duration: 1,
-        ease: 'power4.inOut',
-      },
-      0
-    )
-    .to(
-      strokeSvgElement,
-      {
-        width: forward ? 640 : 180,
-        duration: 1,
-        ease: 'power4.inOut',
-      },
-      0
-    );
+    strokeTimeline
+      .to(
+        defaultStrokePath,
+        {
+          morphSVG: forward ? expandedStrokePath : defaultStrokePath,
+          duration: 1,
+          ease: 'power4.inOut',
+        },
+        0
+      )
+      .to(
+        strokeSvgElement,
+        {
+          attr: { viewBox: forward ? '0 0 640 64' : '0 0 180 64' },
+          duration: 1,
+          ease: 'power4.inOut',
+        },
+        0
+      )
+      .to(
+        strokeSvgElement,
+        {
+          width: forward ? 640 : 180,
+          duration: 1,
+          ease: 'power4.inOut',
+        },
+        0
+      );
 
     return strokeTimeline;
   }
@@ -288,62 +296,62 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Text animation on hover
   function setupTextHoverAnimations() {
-  linkContainers.forEach((container) => {
-    const originalText = container.querySelector('.is-original-text');
-    const animatedText = container.querySelector('.is-animated-text');
+    linkContainers.forEach((container) => {
+      const originalText = container.querySelector('.is-original-text');
+      const animatedText = container.querySelector('.is-animated-text');
 
-    // Remove existing event listeners
-    const oldInstance = textSplits.get(container);
-    if (oldInstance) {
-      container.removeEventListener('mouseenter', oldInstance.enterHandler);
-      container.removeEventListener('mouseleave', oldInstance.leaveHandler);
-    }
+      // Remove existing event listeners
+      const oldInstance = textSplits.get(container);
+      if (oldInstance) {
+        container.removeEventListener('mouseenter', oldInstance.enterHandler);
+        container.removeEventListener('mouseleave', oldInstance.leaveHandler);
+      }
 
-    // Create new SplitType instances
-    const splits = {
-      original: new SplitType(originalText, { types: 'chars' }),
-      animated: new SplitType(animatedText, { types: 'chars' })
-    };
+      // Create new SplitType instances
+      const splits = {
+        original: new SplitType(originalText, { types: 'chars' }),
+        animated: new SplitType(animatedText, { types: 'chars' }),
+      };
 
-    gsap.set([splits.original.chars, splits.animated.chars], { y: '0%' });
+      gsap.set([splits.original.chars, splits.animated.chars], { y: '0%' });
 
-    const enterHandler = () => {
-      gsap.to(splits.original.chars, {
-        y: '-100%',
-        stagger: 0.1,
-        duration: 0.5,
-        ease: 'power4.inOut',
-      });
-      gsap.to(splits.animated.chars, {
-        y: '-100%',
-        stagger: 0.1,
-        duration: 0.5,
-        ease: 'power4.inOut',
-      });
-    };
+      const enterHandler = () => {
+        gsap.to(splits.original.chars, {
+          y: '-100%',
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power4.inOut',
+        });
+        gsap.to(splits.animated.chars, {
+          y: '-100%',
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power4.inOut',
+        });
+      };
 
-    const leaveHandler = () => {
-      gsap.to(splits.original.chars, {
-        y: '0%',
-        stagger: 0.1,
-        duration: 0.5,
-        ease: 'power4.inOut',
-      });
-      gsap.to(splits.animated.chars, {
-        y: '0%',
-        stagger: 0.1,
-        duration: 0.5,
-        ease: 'power4.inOut',
-      });
-    };
+      const leaveHandler = () => {
+        gsap.to(splits.original.chars, {
+          y: '0%',
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power4.inOut',
+        });
+        gsap.to(splits.animated.chars, {
+          y: '0%',
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power4.inOut',
+        });
+      };
 
-    container.addEventListener('mouseenter', enterHandler);
-    container.addEventListener('mouseleave', leaveHandler);
+      container.addEventListener('mouseenter', enterHandler);
+      container.addEventListener('mouseleave', leaveHandler);
 
-    // Store the new instance and handlers
-    textSplits.set(container, { splits, enterHandler, leaveHandler });
-  });
-}
+      // Store the new instance and handlers
+      textSplits.set(container, { splits, enterHandler, leaveHandler });
+    });
+  }
 
   setupTextHoverAnimations();
 
@@ -417,17 +425,23 @@ document.addEventListener('DOMContentLoaded', function () {
           ease: 'power4.inOut',
         },
         0
-      ) 
-			
+      )
+
       // Fading in the containers and icon
       .add(() => {
         linkContainers.forEach((container) => {
-          const menuOpenOriginalText = container.querySelector('.is-original-text');
-          const menuOpenAnimatedText = container.querySelector('.is-animated-text');
-      
-          const menuOpenOriginalSplit = new SplitType(menuOriginalText, { types: 'chars' });
-          const menuOpenAnimatedSplit = new SplitType(menuAnimatedText, { types: 'chars' });
-          
+          const menuOpenOriginalText =
+            container.querySelector('.is-original-text');
+          const menuOpenAnimatedText =
+            container.querySelector('.is-animated-text');
+
+          const menuOpenOriginalSplit = new SplitType(menuOriginalText, {
+            types: 'chars',
+          });
+          const menuOpenAnimatedSplit = new SplitType(menuAnimatedText, {
+            types: 'chars',
+          });
+
           if (container !== menuContainer) {
             gsap.set(menuOpenOriginalSplit.chars, { y: '100%' });
             gsap.to(menuOpenOriginalSplit.chars, {
@@ -461,14 +475,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const linkAnimatedTexts = document.querySelectorAll(
       '.global-navbar_text-container .is-animated-text'
     );
-    const menuOriginalText = menuContainer.querySelector('.is-original-text');
-    const menuOriginalSplit = new SplitType(menuOriginalText, {
-      types: 'chars',
-    });
-    const menuAnimatedText = menuContainer.querySelector('.is-animated-text');
-    const menuAnimatedSplit = new SplitType(menuAnimatedText, {
-      types: 'chars',
-    });
+    const menuSplits = textSplits.get(menuContainer)?.splits || {
+      original: new SplitType(
+        menuContainer.querySelector('.is-original-text'),
+        { types: 'chars' }
+      ),
+      animated: new SplitType(
+        menuContainer.querySelector('.is-animated-text'),
+        { types: 'chars' }
+      ),
+    };
 
     // Animate out the texts and the close icon
     gsap
@@ -509,12 +525,12 @@ document.addEventListener('DOMContentLoaded', function () {
         0
       )
       .add(() => {
-      gsap.set(menuSplits.original.chars, { y: '0%' });
-      gsap.set(menuSplits.animated.chars, { y: '100%' });
-    })
-    .add(() => {
-      setupTextHoverAnimations();
-    }, 0);
+        gsap.set(menuSplits.original.chars, { y: '0%' });
+        gsap.set(menuSplits.animated.chars, { y: '100%' });
+      })
+      .add(() => {
+        setupTextHoverAnimations();
+      }, 0);
   });
 
   // Set initial state for text elements
