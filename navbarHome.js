@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Resetting positions of menu text elements
         gsap.set(menuOriginalSplit.chars, { y: '0%' });
         gsap.set(menuAnimatedSplit.chars, { y: '0%' });
-      })
+      }, "+=0.1")
       .add(() => {
         // Hide menuContainer and show other containers and icons
         gsap.set(menuContainer, { display: 'none' });
