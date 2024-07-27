@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const diamondElement = document.querySelector('.global-navbar_diamond');
 
+  let menuOpenTimeline;
+
   console.log('Elements:', {
     menuContainer,
     arrowIcon,
@@ -199,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const menuAnimatedText = menuContainer.querySelector('.is-animated-text');
     const menuAnimatedSplit = new SplitType(menuAnimatedText, { types: 'chars' });
   
-    gsap.timeline()
+    menuOpenTimeline = gsap.timeline()
       .to(menuOriginalSplit.chars, {
         y: '-200%',
         stagger: 0.1,
@@ -289,4 +291,14 @@ document.addEventListener('DOMContentLoaded', function () {
         );
       }, '-=0.5');
   });
+
+  // Close icon click to collapse navbar
+  if (closeIcon) {
+    closeIcon.addEventListener('click', function() {
+      console.log('Close icon clicked')
+      if (menuOpenTimeline) {
+        menuOpenTimeline.reverse();
+      }
+    });
+  }
 });
