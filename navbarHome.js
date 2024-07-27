@@ -99,6 +99,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Set initial text state
+  function setInitialTextState() {
+    document.querySelectorAll('.is-original-text, .is-animated-text').forEach(el => {
+      gsap.set(el, { y: '0%' });
+    });
+  }
+
   // Fill SVG animation function
   function animateFillSvg(forward = true) {
     const fillTimeline = gsap.timeline();
@@ -418,7 +425,11 @@ document.addEventListener('DOMContentLoaded', function () {
           { scale: 1.1 },
           { scale: 1.0, duration: 0.5, ease: 'power4.out' }
         );
-      }, '-=0.5');
+      }, '-=0.5')
+      .add(() => {
+        gsap.set(menuOriginalSplit.chars, { y: '0%' });
+        gsap.set(menuAnimatedSplit.chars, { y: '0%' });
+      }, 0);
   });
 
   // Close navbar animation
@@ -488,5 +499,12 @@ document.addEventListener('DOMContentLoaded', function () {
           ease: 'power4.out',
         });
       });
+      .add(() => {
+        gsap.set(menuOriginalSplit.chars, { y: '0%' });
+        gsap.set(menuAnimatedSplit.chars, { y: '0%' });
+      }, 0);
   });
+
+  // Set initial state for text elements
+  setInitialTextState();
 });
