@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
       gsap.set(el, { y: '0%' });
     });
     document.querySelectorAll('.is-animated-text').forEach((el) => {
-      gsap.set(el, { y: '100%' });
+      gsap.set(el, { y: '0%' });
     });
   }
 
