@@ -384,6 +384,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
       .add(() => {
         linkContainers.forEach((container) => {
+          const originalText = container.querySelector('.is-original-text');
+          const animatedText = container.querySelector('.is-animated-text');
+      
+          const originalSplit = new SplitType(originalText, { types: 'chars' });
+          const animatedSplit = new SplitType(animatedText, { types: 'chars' });
+          
           if (container !== menuContainer) {
             gsap.set(originalSplit.chars, { y: '100%' });
             gsap.to(originalSplit.chars, {
@@ -511,7 +517,7 @@ document.addEventListener('DOMContentLoaded', function () {
         0
       )
       .to(
-        [menuContainer],
+        menuContainer,
         {
           opacity: 1,
           duration: 0.5,
