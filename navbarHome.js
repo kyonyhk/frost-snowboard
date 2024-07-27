@@ -452,4 +452,3 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       });
   });
-});
