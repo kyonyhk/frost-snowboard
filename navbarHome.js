@@ -291,14 +291,4 @@ document.addEventListener('DOMContentLoaded', function () {
         );
       }, '-=0.5');
   });
-
-  // Close icon click to collapse navbar
-  if (closeIcon) {
-    closeIcon.addEventListener('click', function() {
-      console.log('Close icon clicked')
-      if (menuOpenTimeline) {
-        menuOpenTimeline.reverse();
-      }
-    });
-  }
 });
