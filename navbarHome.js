@@ -345,22 +345,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     menuOpenTimeline = gsap
       .timeline()
-      // .to(menuOriginalSplit.chars, {
-      //   y: '100%',
-      //   stagger: 0.1,
-      //   duration: 0.5,
-      //   ease: 'power4.out',
-      // })
-      // .to(
-      //   menuAnimatedSplit.chars,
-      //   {
-      //     y: '100%',
-      //     stagger: 0.1,
-      //     duration: 0.5,
-      //     ease: 'power4.out',
-      //   },
-      //   0
-      // )
+      .to(menuOriginalSplit.chars, {
+        y: '100%',
+        stagger: 0.1,
+        duration: 0.5,
+        ease: 'power4.out',
+      })
+      .to(
+        menuAnimatedSplit.chars,
+        {
+          y: '100%',
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power4.out',
+        },
+        0
+      )
       .add(() => {
         // Hide menuContainer and show other containers and icons
         gsap.set(menuContainer, { display: 'none' });
@@ -443,12 +443,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Animate out the texts and the close icon
     gsap
       .timeline()
-      // .to([linkOriginalTexts, linkAnimatedTexts], {
-      //   y: '100%',
-      //   stagger: 0.1,
-      //   duration: 0.5,
-      //   ease: 'power4.out',
-      // })
+      .to([linkOriginalTexts, linkAnimatedTexts], {
+        y: '100%',
+        stagger: 0.1,
+        duration: 0.5,
+        ease: 'power4.out',
+      })
       .add(() => {
         gsap.set(iconContainer, { display: 'none' });
         gsap.set(menuContainer, { display: 'block' });
