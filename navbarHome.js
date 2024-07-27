@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', function () {
       };
 
       gsap.set(splits.original.chars, { y: '0%' });
-      gsap.set(splits.animated.chars, { y: '100%' });
+      gsap.set(splits.animated.chars, { y: '0%' });
 
       const enterHandler = () => {
         gsap.to(splits.original.chars, {
