@@ -99,23 +99,81 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function animateSvgMorph({ fromPath, toPath, fillSvg, newViewBox, newWidth, duration = 1, easing = 'power4.inOut' }) {
-    gsap.timeline()
-      .to(fromPath, {
-        morphSVG: toPath,
-        duration: duration,
-        ease: easing,
-      }, 0)
-      .to(fillSvg, {
-        attr: { viewBox: newViewBox },
-        duration: duration,
-        ease: easing,
-      }, 0)
-      .to(fillSvg, {
-        width: newWidth,
-        duration: duration,
-        ease: easing,
-      }, 0);
+  // Fill SVG animation function
+  function animateFillSvg(forward = true) {
+    const fillTimeline = gsap.timeline();
+    fillTimeline.to(
+      defaultFillPath,
+      {
+        morphSVG: forward ? expandedFillPath : defaultFillPath,
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      fillSvgElement,
+      {
+        attr: { viewBox: forward ? '0 0 640 64' : '0 0 180 64' },
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      fillSvgElement,
+      {
+        width: forward ? 640 : 180,
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      fillGElement,
+      {
+        attr: { filter: forward ? 'url(#expandedBackgroundFilter)' : 'url(#defaultBackgroundFilter)' },
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    );
+
+    return fillTimeline;
+  }
+
+  // Stroke SVG animation function
+  function animateStrokeSvg(forward = true) {
+    const strokeTimeline = gsap.timeline();
+    strokeTimeline.to(
+      defaultStrokePath,
+      {
+        morphSVG: forward ? expandedStrokePath : defaultStrokePath,
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      strokeSvgElement,
+      {
+        attr: { viewBox: forward ? '0 0 640 64' : '0 0 180 64' },
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      strokeSvgElement,
+      {
+        width: forward ? 640 : 180,
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    );
+
+    return strokeTimeline;
   }
 
   // Text container hover effect
@@ -323,20 +381,8 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         0
       )
-      .call(animateSvgMorph, [{
-        fromPath: defaultFillPath,
-        toPath: expandedFillPath,
-        fillSvg: fillSvgElement,
-        newViewBox: '0 0 640 64',
-        newWidth: 640,
-      }], 0)
-      .call(animateSvgMorph, [{
-        fromPath: defaultStrokePath,
-        toPath: expandedStrokePath,
-        fillSvg: strokeSvgElement,
-        newViewBox: '0 0 640 64',
-        newWidth: 640,
-      }], 0)
+      .add(animateFillSvg(true).play, 0)
+      .add(animateStrokeSvg(true).play, 0)
       .to(
         [iconContainer, linkContainers],
         {
@@ -421,20 +467,8 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         0
       )
-      .call(animateSvgMorph, [{
-        fromPath: expandedFillPath,
-        toPath: defaultFillPath,
-        fillSvg: fillSvgElement,
-        newViewBox: '0 0 180 64',
-        newWidth: 180,
-      }], 0)
-      .call(animateSvgMorph, [{
-        fromPath: expandedStrokePath,
-        toPath: defaultStrokePath,
-        fillSvg: strokeSvgElement,
-        newViewBox: '0 0 180 64',
-        newWidth: 180,
-      }], 0)
+      .add(animateFillSvg(true).reverse, 0)
+      .add(animateStrokeSvg(true).reverse, 0)
       .to(
         menuContainer,
         {
