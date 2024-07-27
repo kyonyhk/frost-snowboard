@@ -521,6 +521,7 @@ document.addEventListener('DOMContentLoaded', function () {
       )
       .add(() => {
         gsap.set(menuOriginalSplit.chars, { y: '100%' });
+        gsap.set(menuAnimatedSplit.chars, { y: '0%' });
         gsap.to(menuOriginalSplit.chars, {
           y: '0',
           stagger: 0.1,
