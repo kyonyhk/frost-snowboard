@@ -260,6 +260,12 @@ document.addEventListener('DOMContentLoaded', function () {
       types: 'chars',
     });
 
+    const originalText = container.querySelector('.is-original-text');
+    const animatedText = container.querySelector('.is-animated-text');
+
+    const originalSplit = new SplitType(originalText, { types: 'chars' });
+    const animatedSplit = new SplitType(animatedText, { types: 'chars' });
+
     menuOpenTimeline = gsap
       .timeline()
       .to(menuOriginalSplit.chars, {
