@@ -498,7 +498,7 @@ document.addEventListener('DOMContentLoaded', function () {
           duration: 0.5,
           ease: 'power4.out',
         });
-      });
+      })
       .add(() => {
         gsap.set(menuOriginalSplit.chars, { y: '0%' });
         gsap.set(menuAnimatedSplit.chars, { y: '0%' });
