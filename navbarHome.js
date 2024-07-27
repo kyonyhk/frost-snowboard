@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const bigCircle = document.querySelector('.navbar-back_big-circle');
   const smallCircle = document.querySelector('.navbar-back_small-circle');
   const backButton = document.querySelector('.global-navbar_back-button');
+  const backLink = document.querySelector('.global-navbar_back-link');
   const linkContainers = document.querySelectorAll('.global-navbar-link');
   const navbarContainer = document.querySelector('.global-navbar_navbar-container');
   const iconContainer = document.querySelector('.global-navbar-link.is-icon');
@@ -51,6 +52,28 @@ document.addEventListener('DOMContentLoaded', function () {
     console.error('SVG paths not found or incorrectly referenced.');
     return;
   }
+
+  function updateNavbarDisplay() {
+    const isHomepage = window.location.hostname === 'frost-snow.com' && window.location.pathname === '/';
+
+    if (isHomepage) {
+      if (diamondElement) {
+        diamondElement.style.display = 'block';
+      }
+      if (backLink) {
+        backLink.style.display = 'none';
+      }
+    } else {
+      if (diamondElement) {
+        diamondElement.style.display = 'none';
+      }
+      if (backLink) {
+        backLink.style.display = 'block';
+      }
+    }
+  }
+
+  updateNavbarDisplay();
 
   // Text container hover effect
   linkContainers.forEach((container) => {
