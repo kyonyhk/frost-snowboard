@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
   gsap.registerPlugin(MorphSVGPlugin);
 
-  const menuContainer = document.querySelector('.global-navbar_text-container.is-menu');
+  const menuContainer = document.querySelector('.global-navbar-link.is-menu');
   const arrowIcon = document.querySelector('.navbar-back_arrow-icon');
   const bigCircle = document.querySelector('.navbar-back_big-circle');
   const smallCircle = document.querySelector('.navbar-back_small-circle');
   const backButton = document.querySelector('.global-navbar_back-button');
-  const textContainers = document.querySelectorAll('.global-navbar_text-container');
+  const linkContainers = document.querySelectorAll('.global-navbar-link');
   const navbarContainer = document.querySelector('.global-navbar_navbar-container');
-  const iconContainer = document.querySelector('.global-navbar_icon-container');
+  const iconContainer = document.querySelector('.global-navbar-link.is-icon');
   const closeIcon = document.querySelector('.global-navbar_close-icon');
 
   const fillSvgElement = document.querySelector('.global-navbar_background-fill svg');
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     smallCircle,
     strokePath,
     backButton,
-    textContainers,
+    linkContainers,
     fillSvgElement,
     fillGElement,
     defaultFillPath,
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Text container hover effect
-  textContainers.forEach((container) => {
+  linkContainers.forEach((container) => {
     container.addEventListener('mouseenter', function () {
       gsap.to(arrowIcon, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
       gsap.to(bigCircle, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Text animation on hover
-  textContainers.forEach((container) => {
+  linkContainers.forEach((container) => {
     const originalText = container.querySelector('.is-original-text');
     const animatedText = container.querySelector('.is-animated-text');
 
@@ -203,9 +203,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // Hide menuContainer and show other containers and icons
         gsap.set(menuContainer, { display: 'none' });
         gsap.set(iconContainer, { display: 'block', opacity: 0 });
-        textContainers.forEach((container) => {
+        linkContainers.forEach((container) => {
           if (container !== menuContainer) {
-            gsap.set(container, { display: 'flex', opacity: 0 });
+            gsap.set(container, { display: 'block', opacity: 0 });
           }
         });
       }, '-=0.5') // Start during the exit animation
@@ -250,14 +250,14 @@ document.addEventListener('DOMContentLoaded', function () {
         duration: 1,
         ease: 'power4.inOut',
       }, 0)
-      .to([iconContainer, textContainers], {
+      .to([iconContainer, linkContainers], {
         opacity: 1,
         duration: 0.5,
         ease: 'power4.inOut',
       }, 0) // Fading in the containers and icon
   
       .add(() => {
-        textContainers.forEach((container) => {
+        linkContainers.forEach((container) => {
           if (container !== menuContainer) {
             gsap.set(originalSplit.chars, { y: '100%' });
             gsap.to(originalSplit.chars, {
