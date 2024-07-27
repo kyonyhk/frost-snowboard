@@ -467,8 +467,8 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         0
       )
-      .add(animateFillSvg(true).reverse, 0)
-      .add(animateStrokeSvg(true).reverse, 0)
+      .add(animateFillSvg(false).play, 0)
+      .add(animateStrokeSvg(false).play, 0)
       .to(
         menuContainer,
         {
