@@ -499,7 +499,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .to(
         linkAnimatedTexts,
         {
-          y: '100%',
+          y: '0%',
           duration: 0.5,
           ease: 'power4.out',
         },
