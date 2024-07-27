@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
           ease: 'power2.inOut',
         });
         gsap.to(splits.animated.chars, {
-          y: '0%',
+          y: '-100%',
           stagger: 0.02,
           duration: 0.3,
           ease: 'power2.inOut',
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function () {
           ease: 'power2.inOut',
         });
         gsap.to(splits.animated.chars, {
-          y: '100%',
+          y: '0%',
           stagger: 0.02,
           duration: 0.3,
           ease: 'power2.inOut',
@@ -536,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function () {
       )
       .add(() => {
         gsap.set(menuSplits.original.chars, { y: '0%' });
-        gsap.set(menuSplits.animated.chars, { y: '100%' });
+        gsap.set(menuSplits.animated.chars, { y: '0%' });
       })
       .add(() => {
         setupTextHoverAnimations();
