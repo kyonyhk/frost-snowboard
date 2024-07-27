@@ -288,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
     menuOpenTimeline = gsap
       .timeline()
       .to(menuOriginalSplit.chars, {
-        y: '-200%',
+        y: '100%',
         stagger: 0.1,
         duration: 0.5,
         ease: 'power4.out',
@@ -296,18 +296,13 @@ document.addEventListener('DOMContentLoaded', function () {
       .to(
         menuAnimatedSplit.chars,
         {
-          y: '-200%',
+          y: '100%',
           stagger: 0.1,
           duration: 0.5,
           ease: 'power4.out',
         },
         0
       )
-      .add(() => {
-        // Resetting positions of menu text elements
-        gsap.set(menuOriginalText, { y: '0%' });
-        gsap.set(menuAnimatedText, { y: '0%' });
-      }, "+=0.1")
       .add(() => {
         // Hide menuContainer and show other containers and icons
         gsap.set(menuContainer, { display: 'none' });
@@ -352,24 +347,24 @@ document.addEventListener('DOMContentLoaded', function () {
         0
       ) // Fading in the containers and icon
 
-      .add(() => {
-        linkContainers.forEach((container) => {
-          const menuOpenOriginalText = container.querySelector('.is-original-text');
-          const menuOpenAnimatedText = container.querySelector('.is-animated-text');
+      // .add(() => {
+      //   linkContainers.forEach((container) => {
+      //     const menuOpenOriginalText = container.querySelector('.is-original-text');
+      //     const menuOpenAnimatedText = container.querySelector('.is-animated-text');
       
-          const menuOpenOriginalSplit = new SplitType(menuOriginalText, { types: 'chars' });
-          const menuOpenAnimatedSplit = new SplitType(menuAnimatedText, { types: 'chars' });
+      //     const menuOpenOriginalSplit = new SplitType(menuOriginalText, { types: 'chars' });
+      //     const menuOpenAnimatedSplit = new SplitType(menuAnimatedText, { types: 'chars' });
           
-          if (container !== menuContainer) {
-            gsap.set(menuOpenOriginalSplit.chars, { y: '100%' });
-            gsap.to(menuOpenOriginalSplit.chars, {
-              y: '0%',
-              stagger: 0.1,
-              duration: 0.5,
-              ease: 'power4.out',
-            });
-          }
-        });
+      //     if (container !== menuContainer) {
+      //       gsap.set(menuOpenOriginalSplit.chars, { y: '100%' });
+      //       gsap.to(menuOpenOriginalSplit.chars, {
+      //         y: '0%',
+      //         stagger: 0.1,
+      //         duration: 0.5,
+      //         ease: 'power4.out',
+      //       });
+      //     }
+      //   });
 
         gsap.fromTo(
           closeIcon,
@@ -400,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function () {
     gsap
       .timeline()
       .to([linkOriginalTexts, linkAnimatedTexts], {
-        y: '-200%',
+        y: '100%',
         stagger: 0.1,
         duration: 0.5,
         ease: 'power4.out',
