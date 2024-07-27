@@ -74,6 +74,21 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   updateNavbarDisplay();
+  
+  // Check if the back link element exists
+  if (backLink) {
+    // Add a click event listener
+    backLink.addEventListener('click', function (event) {
+      event.preventDefault(); // Prevent the default anchor behavior if any
+
+      if (history.length > 1) {
+        history.back(); // Navigate to the previous page
+      } else {
+        window.location.href = 'https://frost-snow.com'; // Redirect to the homepage
+      }
+    });
+  }
+
 
   // Text container hover effect
   linkContainers.forEach((container) => {
