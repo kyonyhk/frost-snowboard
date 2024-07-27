@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
   diamondElement.addEventListener('mouseenter', function () {
     gsap.to(diamondElement, {
       boxShadow: '0 0 10px 0 rgba(107, 230, 136)',
-      rotation: 135,
+      rotation: 225,
       duration: 0.5,
       ease: 'power4.inOut',
     });
