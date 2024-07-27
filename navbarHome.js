@@ -445,9 +445,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const linkOriginalTexts = document.querySelectorAll(
       '.global-navbar_text-container .is-original-text'
     );
+    const linkOriginalTextsSplit = new SplitType(linkOriginalTexts, { types: 'chars' };
     const linkAnimatedTexts = document.querySelectorAll(
       '.global-navbar_text-container .is-animated-text'
     );
+    const linkAnimatedTextsSplit = new SplitType(linkAnimatedTexts, { types: 'chars' };
     const menuOriginalText = menuContainer.querySelector('.is-original-text');
     const menuOriginalSplit = new SplitType(menuOriginalText, {
       types: 'chars',
@@ -460,7 +462,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Animate out the texts and the close icon
     gsap
       .timeline()
-      .to([linkOriginalTexts, linkAnimatedTexts], {
+      .to([linkOriginalTextsSplit.chars, linkAnimatedTextsSplit.chars], {
         y: '100%',
         stagger: 0.1,
         duration: 0.5,
