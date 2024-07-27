@@ -278,8 +278,8 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         0
       )
-      .set(originalSplit.chars, { y: '0%' })
-      .set(animatedSplit.chars, { y: '0%' })
+      .set(menuOriginalSplit.chars, { y: '0%' })
+      .set(menuAnimatedSplit.chars, { y: '0%' })
       .add(() => {
         // Hide menuContainer and show other containers and icons
         gsap.set(menuContainer, { display: 'none' });
