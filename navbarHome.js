@@ -287,57 +287,63 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Text animation on hover
-
   function setupTextHoverAnimations() {
-  	linkContainers.forEach((container) => {
-		const originalText = container.querySelector('.is-original-text');
-		const animatedText = container.querySelector('.is-animated-text');
+  linkContainers.forEach((container) => {
+    const originalText = container.querySelector('.is-original-text');
+    const animatedText = container.querySelector('.is-animated-text');
 
-		if (!textSplits.has(container)) {
-			textSplits.set(container, {
-				original: new SplitType(originalText, { types: 'chars' }),
-				animated: new SplitType(animatedText, { types: 'chars' })
-			});
-		}
+    // Remove existing event listeners
+    const oldInstance = textSplits.get(container);
+    if (oldInstance) {
+      container.removeEventListener('mouseenter', oldInstance.enterHandler);
+      container.removeEventListener('mouseleave', oldInstance.leaveHandler);
+    }
 
-		const splits = textSplits.get(container);
+    // Create new SplitType instances
+    const splits = {
+      original: new SplitType(originalText, { types: 'chars' }),
+      animated: new SplitType(animatedText, { types: 'chars' })
+    };
 
-		gsap.set(splits.original.chars, { y: '0%' });
-		gsap.set(splits.animated.chars, { y: '0%' });
+    gsap.set([splits.original.chars, splits.animated.chars], { y: '0%' });
 
-		container.addEventListener('mouseenter', () => {
-        gsap
-          .timeline()
-          .to(splits.original.chars, {
-            y: '-100%',
-            stagger: 0.1,
-            duration: 0.5,
-            ease: 'power4.inOut',
-          })
-          .to(
-            splits.animated.chars,
-            { y: '-100%', stagger: 0.1, duration: 0.5, ease: 'power4.inOut' },
-            0
-          );
+    const enterHandler = () => {
+      gsap.to(splits.original.chars, {
+        y: '-100%',
+        stagger: 0.1,
+        duration: 0.5,
+        ease: 'power4.inOut',
       });
-
-      container.addEventListener('mouseleave', () => {
-        gsap
-          .timeline()
-          .to(splits.animated.chars, {
-            y: '0%',
-            stagger: 0.1,
-            duration: 0.5,
-            ease: 'power4.inOut',
-          })
-          .to(
-            splits.original.chars,
-            { y: '0%', stagger: 0.1, duration: 0.5, ease: 'power4.inOut' },
-            0
-          );
+      gsap.to(splits.animated.chars, {
+        y: '-100%',
+        stagger: 0.1,
+        duration: 0.5,
+        ease: 'power4.inOut',
       });
-	})
-  }
+    };
+
+    const leaveHandler = () => {
+      gsap.to(splits.original.chars, {
+        y: '0%',
+        stagger: 0.1,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      });
+      gsap.to(splits.animated.chars, {
+        y: '0%',
+        stagger: 0.1,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      });
+    };
+
+    container.addEventListener('mouseenter', enterHandler);
+    container.addEventListener('mouseleave', leaveHandler);
+
+    // Store the new instance and handlers
+    textSplits.set(container, { splits, enterHandler, leaveHandler });
+  });
+}
 
   setupTextHoverAnimations();
 
@@ -503,20 +509,12 @@ document.addEventListener('DOMContentLoaded', function () {
         0
       )
       .add(() => {
-        gsap.set(menuOriginalSplit.chars, { y: '100%' });
-        gsap.set(menuAnimatedSplit.chars, { y: '0%' });
-        gsap.to(menuOriginalSplit.chars, {
-          y: '0',
-          stagger: 0.1,
-          duration: 0.5,
-          ease: 'power4.out',
-        });
-      })
-      .add(() => {
-        gsap.set(menuOriginalSplit.chars, { y: '0%' });
-        gsap.set(menuAnimatedSplit.chars, { y: '0%' });
-	setupTextHoverAnimations();
-      }, 0);
+      gsap.set(menuSplits.original.chars, { y: '0%' });
+      gsap.set(menuSplits.animated.chars, { y: '100%' });
+    })
+    .add(() => {
+      setupTextHoverAnimations();
+    }, 0);
   });
 
   // Set initial state for text elements
