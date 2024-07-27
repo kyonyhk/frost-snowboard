@@ -400,6 +400,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const linkAnimatedTexts = document.querySelectorAll(
       '.global-navbar_text-container .is-animated-text'
     );
+    const menuOriginalText = menuContainer.querySelector('.is-original-text');
+    const menuOriginalSplit = new SplitType(menuOriginalText, {
+      types: 'chars',
+    });
+    const menuAnimatedText = menuContainer.querySelector('.is-animated-text');
+    const menuAnimatedSplit = new SplitType(menuAnimatedText, {
+      types: 'chars',
+    });
 
     // Animate out the texts and the close icon
     gsap
