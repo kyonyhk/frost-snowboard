@@ -90,10 +90,9 @@ document.addEventListener('DOMContentLoaded', function () {
   diamondElement.addEventListener('mouseenter', function () {
     gsap.to(diamondElement, {
       boxShadow: '0 0 10px 0 rgba(107, 230, 136)',
-      rotation: 360,
+      rotation: 90,
       duration: 0.5,
       ease: 'power4.inOut',
-      repeat: -1, // Continuous rotation
     });
   });
 
@@ -101,10 +100,9 @@ document.addEventListener('DOMContentLoaded', function () {
     gsap.to(diamondElement, {
       boxShadow: 'none',
       rotation: 0,
-      duration: 0.5,
+      duration: 0.3,
       ease: 'power4.inOut'
     });
-    gsap.killTweensOf(diamondElement, "rotation"); // Stop rotation
   });
 
   // Text animation on hover
