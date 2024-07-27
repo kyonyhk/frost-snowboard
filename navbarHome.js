@@ -345,8 +345,9 @@ document.addEventListener('DOMContentLoaded', function () {
           ease: 'power4.inOut',
         },
         0
-      ) // Fading in the containers and icon
-
+      ) 
+			
+			// Fading in the containers and icon
       // .add(() => {
       //   linkContainers.forEach((container) => {
       //     const menuOpenOriginalText = container.querySelector('.is-original-text');
@@ -366,12 +367,12 @@ document.addEventListener('DOMContentLoaded', function () {
       //     }
       //   });
 
-        gsap.fromTo(
-          closeIcon,
-          { scale: 1.1 },
-          { scale: 1.0, duration: 0.5, ease: 'power4.out' }
-        );
-      }, '-=0.5');
+      //   gsap.fromTo(
+      //     closeIcon,
+      //     { scale: 1.1 },
+      //     { scale: 1.0, duration: 0.5, ease: 'power4.out' }
+      //   );
+      // }, '-=0.5');
   });
 
   // Close navbar animation
@@ -454,3 +455,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       });
   });
+});
