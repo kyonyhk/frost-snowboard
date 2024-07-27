@@ -345,22 +345,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     menuOpenTimeline = gsap
       .timeline()
-      // .to(menuOriginalSplit.chars, {
-      //   y: '100%',
-      //   stagger: 0.1,
-      //   duration: 0.5,
-      //   ease: 'power4.out',
-      // })
-      // .to(
-      //   menuAnimatedSplit.chars,
-      //   {
-      //     y: '100%',
-      //     stagger: 0.1,
-      //     duration: 0.5,
-      //     ease: 'power4.out',
-      //   },
-      //   0
-      // )
+      .to(menuOriginalSplit.chars, {
+        y: '100%',
+        stagger: 0.1,
+        duration: 0.5,
+        ease: 'power4.out',
+      })
+      .to(
+        menuAnimatedSplit.chars,
+        {
+          y: '100%',
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power4.out',
+        },
+        0
+      )
       .add(() => {
         // Hide menuContainer and show other containers and icons
         gsap.set(menuContainer, { display: 'none' });
@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', function () {
             gsap.set(container, { display: 'block', opacity: 0 });
           }
         });
-      }) // Start during the exit animation
+      }, '-=0.5') // Start during the exit animation
 
       .to(
         navbarContainer,
