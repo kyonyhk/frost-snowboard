@@ -1,83 +1,178 @@
 document.addEventListener('DOMContentLoaded', function () {
   gsap.registerPlugin(MorphSVGPlugin);
 
-  const elements = {
-    menuContainer: document.querySelector('.global-navbar-link.is-menu'),
-    arrowIcon: document.querySelector('.navbar-back_arrow-icon'),
-    bigCircle: document.querySelector('.navbar-back_big-circle'),
-    smallCircle: document.querySelector('.navbar-back_small-circle'),
-    backButton: document.querySelector('.global-navbar_back-button'),
-    backLink: document.querySelector('.global-navbar_back-link'),
-    linkContainers: document.querySelectorAll('.global-navbar-link'),
-    navbarContainer: document.querySelector('.global-navbar_navbar-container'),
-    iconContainer: document.querySelector('.global-navbar-link.is-icon'),
-    closeIcon: document.querySelector('.global-navbar_close-icon'),
-    fillSvgElement: document.querySelector('.global-navbar_background-fill svg'),
-    strokeSvgElement: document.querySelector('.global-navbar_background-stroke svg'),
-    strokePath: document.querySelector('.global-navbar_background-stroke'),
-    diamondElement: document.querySelector('.global-navbar_diamond'),
-    defaultFillPath: document.querySelector('#defaultFillPath'),
-    expandedFillPath: document.querySelector('#expandedFillPath'),
-    defaultStrokePath: document.querySelector('#defaultStrokePath'),
-    expandedStrokePath: document.querySelector('#expandedStrokePath'),
-  };
+  const menuContainer = document.querySelector('.global-navbar-link.is-menu');
+  const arrowIcon = document.querySelector('.navbar-back_arrow-icon');
+  const bigCircle = document.querySelector('.navbar-back_big-circle');
+  const smallCircle = document.querySelector('.navbar-back_small-circle');
+  const backButton = document.querySelector('.global-navbar_back-button');
+  const backLink = document.querySelector('.global-navbar_back-link');
+  const linkContainers = document.querySelectorAll('.global-navbar-link');
+  const navbarContainer = document.querySelector(
+    '.global-navbar_navbar-container'
+  );
+  const iconContainer = document.querySelector('.global-navbar-link.is-icon');
+  const closeIcon = document.querySelector('.global-navbar_close-icon');
 
-  const fillGElement = elements.fillSvgElement ? elements.fillSvgElement.querySelector('g') : null;
+  const fillSvgElement = document.querySelector(
+    '.global-navbar_background-fill svg'
+  );
+  const fillGElement = fillSvgElement.querySelector('g');
+  const defaultFillPath = document.querySelector('#defaultFillPath');
+  const expandedFillPath = document.querySelector('#expandedFillPath');
+
+  const strokeSvgElement = document.querySelector(
+    '.global-navbar_background-stroke svg'
+  );
+  const strokeGElement = fillSvgElement.querySelector('g');
+  const defaultStrokePath = document.querySelector('#defaultStrokePath');
+  const expandedStrokePath = document.querySelector('#expandedStrokePath');
+
+  const strokePath = document.querySelector('.global-navbar_background-stroke');
+
+  const diamondElement = document.querySelector('.global-navbar_diamond');
 
   let menuOpenTimeline;
 
-  const textSplits = new Map();
+  console.log('Elements:', {
+    menuContainer,
+    arrowIcon,
+    bigCircle,
+    smallCircle,
+    strokePath,
+    backButton,
+    linkContainers,
+    fillSvgElement,
+    fillGElement,
+    defaultFillPath,
+    expandedFillPath,
+    strokeSvgElement,
+    strokeGElement,
+    defaultStrokePath,
+    expandedStrokePath,
+    strokePath,
+    iconContainer,
+    closeIcon,
+  });
 
-  function initializeElements() {
-    if (!elements.defaultStrokePath || !elements.expandedStrokePath) {
-      console.error('SVG paths not found or incorrectly referenced.');
-      return false;
-    }
-    return true;
+  // Ensure paths are correctly selected
+  if (!defaultStrokePath || !expandedStrokePath) {
+    console.error('SVG paths not found or incorrectly referenced.');
+    return;
   }
 
   function updateNavbarDisplay() {
-    const isHomepage = window.location.hostname === 'frost-snow.com' && window.location.pathname === '/';
-    if (elements.diamondElement) {
-      elements.diamondElement.style.display = isHomepage ? 'block' : 'none';
-    }
-    if (elements.backLink) {
-      elements.backLink.style.display = isHomepage ? 'none' : 'block';
+    const isHomepage =
+      window.location.hostname === 'frost-snow.com' &&
+      window.location.pathname === '/';
+
+    if (isHomepage) {
+      if (diamondElement) {
+        diamondElement.style.display = 'block';
+      }
+      if (backLink) {
+        backLink.style.display = 'none';
+      }
+    } else {
+      if (diamondElement) {
+        diamondElement.style.display = 'none';
+      }
+      if (backLink) {
+        backLink.style.display = 'block';
+      }
     }
   }
 
-  function setupBackLinkListener() {
-    if (elements.backLink) {
-      elements.backLink.addEventListener('click', function (event) {
-        event.preventDefault();
-        if (history.length > 1) {
-          history.back();
-        } else {
-          window.location.href = 'https://frost-snow.com';
-        }
-      });
-    }
+  updateNavbarDisplay();
+
+  // Check if the back link element exists
+  if (backLink) {
+    // Add a click event listener
+    backLink.addEventListener('click', function (event) {
+      event.preventDefault(); // Prevent the default anchor behavior if any
+
+      if (history.length > 1) {
+        history.back(); // Navigate to the previous page
+      } else {
+        window.location.href = 'https://frost-snow.com'; // Redirect to the homepage
+      }
+    });
   }
 
+  // Set initial text state
   function setInitialTextState() {
-    gsap.set('.is-original-text, .is-animated-text', { y: '0%' });
+    document.querySelectorAll('.is-original-text, .is-animated-text').forEach(el => {
+      gsap.set(el, { y: '0%' });
+    });
   }
 
-  function animateSvg(svgElement, defaultPath, expandedPath, forward = true) {
-    const timeline = gsap.timeline();
-    timeline.to(
-      defaultPath,
+  // Fill SVG animation function
+  function animateFillSvg(forward = true) {
+    const fillTimeline = gsap.timeline();
+    fillTimeline.to(
+      defaultFillPath,
       {
-        morphSVG: forward ? expandedPath : defaultPath,
+        morphSVG: forward ? expandedFillPath : defaultFillPath,
         duration: 1,
         ease: 'power4.inOut',
       },
       0
     )
     .to(
-      svgElement,
+      fillSvgElement,
       {
         attr: { viewBox: forward ? '0 0 640 64' : '0 0 180 64' },
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      fillSvgElement,
+      {
+        width: forward ? 640 : 180,
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      fillGElement,
+      {
+        attr: { filter: forward ? 'url(#expandedBackgroundFilter)' : 'url(#defaultBackgroundFilter)' },
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    );
+
+    return fillTimeline;
+  }
+
+  // Stroke SVG animation function
+  function animateStrokeSvg(forward = true) {
+    const strokeTimeline = gsap.timeline();
+    strokeTimeline.to(
+      defaultStrokePath,
+      {
+        morphSVG: forward ? expandedStrokePath : defaultStrokePath,
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      strokeSvgElement,
+      {
+        attr: { viewBox: forward ? '0 0 640 64' : '0 0 180 64' },
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      strokeSvgElement,
+      {
         width: forward ? 640 : 180,
         duration: 1,
         ease: 'power4.inOut',
@@ -85,150 +180,243 @@ document.addEventListener('DOMContentLoaded', function () {
       0
     );
 
-    if (svgElement === elements.fillSvgElement && fillGElement) {
-      timeline.to(
-        fillGElement,
-        {
-          attr: { filter: forward ? 'url(#expandedBackgroundFilter)' : 'url(#defaultBackgroundFilter)' },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      );
-    }
-
-    return timeline;
+    return strokeTimeline;
   }
 
-  function setupHoverEffects() {
-    elements.linkContainers.forEach((container) => {
-      container.addEventListener('mouseenter', () => handleContainerHover(container, true));
-      container.addEventListener('mouseleave', () => handleContainerHover(container, false));
+  // Text container hover effect
+  linkContainers.forEach((container) => {
+    container.addEventListener('mouseenter', function () {
+      gsap.to(arrowIcon, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
+      gsap.to(bigCircle, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
+      gsap.to(container, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
+      gsap.to(strokePath, {
+        opacity: 0.3,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      });
+      gsap.to(diamondElement, {
+        opacity: 1.0,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      });
     });
 
-    elements.backButton.addEventListener('mouseenter', () => handleBackButtonHover(true));
-    elements.backButton.addEventListener('mouseleave', () => handleBackButtonHover(false));
+    container.addEventListener('mouseleave', function () {
+      gsap.to(arrowIcon, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
+      gsap.to(bigCircle, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
+      gsap.to(container, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
+      gsap.to(strokePath, {
+        opacity: 0.1,
+        duration: 0.3,
+        ease: 'power4.inOut',
+      });
+      gsap.to(diamondElement, {
+        opacity: 0.5,
+        duration: 0.3,
+        ease: 'power4.inOut',
+      });
+    });
+  });
 
-    elements.diamondElement.addEventListener('mouseenter', () => handleDiamondHover(true));
-    elements.diamondElement.addEventListener('mouseleave', () => handleDiamondHover(false));
+  // Back button hover effect
+  backButton.addEventListener('mouseenter', function () {
+    gsap.to(bigCircle, {
+      scale: 1.2,
+      opacity: 1.0,
+      duration: 0.5,
+      ease: 'power4.inOut',
+      fill: '#6BE688',
+    });
+    gsap.to(smallCircle, {
+      scale: 0.8,
+      opacity: 1.0,
+      duration: 0.5,
+      ease: 'power4.inOut',
+    });
+    gsap.to(arrowIcon, {
+      strokeWidth: 2,
+      opacity: 1.0,
+      duration: 0.5,
+      ease: 'power4.inOut',
+    });
+    gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.inOut' });
+  });
+
+  backButton.addEventListener('mouseleave', function () {
+    gsap.to(bigCircle, {
+      scale: 1,
+      opacity: 0.5,
+      duration: 0.3,
+      ease: 'power4.inOut',
+      fill: '#A1FCCF',
+    });
+    gsap.to(smallCircle, {
+      scale: 1,
+      opacity: 0.5,
+      duration: 0.3,
+      ease: 'power4.inOut',
+    });
+    gsap.to(arrowIcon, {
+      strokeWidth: 1,
+      opacity: 0.5,
+      duration: 0.3,
+      ease: 'power4.inOut',
+    });
+    gsap.to(strokePath, { opacity: 0.1, duration: 0.3, ease: 'power4.inOut' });
+  });
+
+  // Diamond element hover effect
+  diamondElement.addEventListener('mouseenter', function () {
+    gsap.to(diamondElement, {
+      boxShadow: '0 0 10px 0 rgba(107, 230, 136)',
+      rotation: 225,
+      duration: 0.5,
+      ease: 'power4.inOut',
+    });
+  });
+
+  diamondElement.addEventListener('mouseleave', function () {
+    gsap.to(diamondElement, {
+      boxShadow: 'none',
+      rotation: 45,
+      duration: 0.3,
+      ease: 'power4.inOut',
+    });
+  });
+  
+  function setTextHoverAnimations() {
+    linkContainers.forEach((container) => {
+      container.addEventListener('mouseenter', function () {
+        const originalText = container.querySelector('.is-original-text');
+        const animatedText = container.querySelector('.is-animated-text');
+
+        const originalSplit = new SplitType(originalText, { types: 'chars' });
+        const animatedSplit = new SplitType(animatedText, { types: 'chars' });
+
+        gsap.to(originalSplit.chars, {
+          y: '-100%',
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power4.inOut',
+        });
+        gsap.to(animatedSplit.chars, {
+          y: '-100%',
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power4.inOut',
+        }, 0);
+      });
+
+      container.addEventListener('mouseleave', function () {
+        const originalText = container.querySelector('.is-original-text');
+        const animatedText = container.querySelector('.is-animated-text');
+
+        const originalSplit = new SplitType(originalText, { types: 'chars' });
+        const animatedSplit = new SplitType(animatedText, { types: 'chars' });
+
+        gsap.to(originalSplit.chars, {
+          y: '0%',
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power4.inOut',
+        });
+        gsap.to(animatedSplit.chars, {
+          y: '0%',
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power4.inOut',
+        }, 0);
+      });
+    });
   }
 
-  function handleContainerHover(container, isEnter) {
-    const duration = isEnter ? 0.5 : 0.3;
-    const opacity = isEnter ? 1.0 : 0.5;
-    const strokeOpacity = isEnter ? 0.3 : 0.1;
+  // Apply hover effects
+  setTextHoverAnimations();
 
-    gsap.to([elements.arrowIcon, elements.bigCircle, container, elements.diamondElement], { opacity, duration, ease: 'power4.inOut' });
-    gsap.to(elements.strokePath, { opacity: strokeOpacity, duration, ease: 'power4.inOut' });
+  // Menu click to expand navbar
+  // Initial setup
+  gsap.set(expandedFillPath, { opacity: 0 });
+
+  menuContainer.addEventListener('click', function () {
+    console.log('Menu text click');
+
+    const menuOriginalText = menuContainer.querySelector('.is-original-text');
+    const menuOriginalSplit = new SplitType(menuOriginalText, {
+      types: 'chars',
+    });
+    const menuAnimatedText = menuContainer.querySelector('.is-animated-text');
+    const menuAnimatedSplit = new SplitType(menuAnimatedText, {
+      types: 'chars',
+    });
 
     const originalText = container.querySelector('.is-original-text');
     const animatedText = container.querySelector('.is-animated-text');
 
-    if (!textSplits.has(container)) {
-      textSplits.set(container, {
-        original: new SplitType(originalText, { types: 'chars' }),
-        animated: new SplitType(animatedText, { types: 'chars' })
-      });
-    }
+    const originalSplit = new SplitType(originalText, { types: 'chars' });
+    const animatedSplit = new SplitType(animatedText, { types: 'chars' });
 
-    const splits = textSplits.get(container);
-    gsap.to([splits.original.chars, splits.animated.chars], {
-      y: isEnter ? '-100%' : '0%',
-      stagger: 0.1,
-      duration: 0.5,
-      ease: 'power4.inOut',
-    });
-  }
-
-  function handleBackButtonHover(isEnter) {
-    const duration = isEnter ? 0.5 : 0.3;
-    gsap.to(elements.bigCircle, {
-      scale: isEnter ? 1.2 : 1,
-      opacity: isEnter ? 1.0 : 0.5,
-      duration,
-      ease: 'power4.inOut',
-      fill: isEnter ? '#6BE688' : '#A1FCCF',
-    });
-    gsap.to(elements.smallCircle, {
-      scale: isEnter ? 0.8 : 1,
-      opacity: isEnter ? 1.0 : 0.5,
-      duration,
-      ease: 'power4.inOut',
-    });
-    gsap.to(elements.arrowIcon, {
-      strokeWidth: isEnter ? 2 : 1,
-      opacity: isEnter ? 1.0 : 0.5,
-      duration,
-      ease: 'power4.inOut',
-    });
-    gsap.to(elements.strokePath, { opacity: isEnter ? 0.5 : 0.1, duration, ease: 'power4.inOut' });
-  }
-
-  function handleDiamondHover(isEnter) {
-    gsap.to(elements.diamondElement, {
-      boxShadow: isEnter ? '0 0 10px 0 rgba(107, 230, 136)' : 'none',
-      rotation: isEnter ? 225 : 45,
-      duration: isEnter ? 0.5 : 0.3,
-      ease: 'power4.inOut',
-    });
-  }
-
-  function setupMenuClickListener() {
-    elements.menuContainer.addEventListener('click', handleMenuClick);
-  }
-
-  function handleMenuClick() {
-    const menuTexts = {
-      original: elements.menuContainer.querySelector('.is-original-text'),
-      animated: elements.menuContainer.querySelector('.is-animated-text')
-    };
-
-    const menuSplits = {
-      original: new SplitType(menuTexts.original, { types: 'chars' }),
-      animated: new SplitType(menuTexts.animated, { types: 'chars' })
-    };
-
-    menuOpenTimeline = gsap.timeline()
-      .to([menuSplits.original.chars, menuSplits.animated.chars], {
+    menuOpenTimeline = gsap
+      .timeline()
+      .to(menuOriginalSplit.chars, {
         y: '100%',
         stagger: 0.1,
         duration: 0.5,
         ease: 'power4.out',
       })
+      .to(
+        menuAnimatedSplit.chars,
+        {
+          y: '100%',
+          stagger: 0.1,
+          duration: 0.5,
+          ease: 'power4.out',
+        },
+        0
+      )
       .add(() => {
-        gsap.set(elements.menuContainer, { display: 'none' });
-        gsap.set(elements.iconContainer, { display: 'block', opacity: 0 });
-        elements.linkContainers.forEach((container) => {
-          if (container !== elements.menuContainer) {
+        // Hide menuContainer and show other containers and icons
+        gsap.set(menuContainer, { display: 'none' });
+        gsap.set(iconContainer, { display: 'block', opacity: 0 });
+        linkContainers.forEach((container) => {
+          if (container !== menuContainer) {
             gsap.set(container, { display: 'block', opacity: 0 });
           }
         });
-      }, '-=0.5')
-      .to(elements.navbarContainer, {
-        width: '577px',
-        duration: 1,
-        ease: 'power4.inOut',
-      }, 0)
-      .add(animateSvg(elements.fillSvgElement, elements.defaultFillPath, elements.expandedFillPath, true).play(), 0)
-      .add(animateSvg(elements.strokeSvgElement, elements.defaultStrokePath, elements.expandedStrokePath, true).play(), 0)
-      .to([elements.iconContainer, elements.linkContainers], {
-        opacity: 1,
-        duration: 0.5,
-        ease: 'power4.inOut',
-      }, 0)
+      }, '-=0.5') // Start during the exit animation
+
+      .to(
+        navbarContainer,
+        {
+          width: '577px',
+          duration: 1,
+          ease: 'power4.inOut',
+        },
+        0
+      )
+      .add(animateFillSvg(true).play, 0)
+      .add(animateStrokeSvg(true).play, 0)
+      .to(
+        [iconContainer, linkContainers],
+        {
+          opacity: 1,
+          duration: 0.5,
+          ease: 'power4.inOut',
+        },
+        0
+      ) 
+			
+      // Fading in the containers and icon
       .add(() => {
-        elements.linkContainers.forEach((container) => {
-          if (container !== elements.menuContainer) {
-            const texts = {
-              original: container.querySelector('.is-original-text'),
-              animated: container.querySelector('.is-animated-text')
-            };
-            const splits = {
-              original: new SplitType(texts.original, { types: 'chars' }),
-              animated: new SplitType(texts.animated, { types: 'chars' })
-            };
-            gsap.set(splits.original.chars, { y: '100%' });
-            gsap.to(splits.original.chars, {
+        linkContainers.forEach((container) => {
+          const menuOpenOriginalText = container.querySelector('.is-original-text');
+          const menuOpenAnimatedText = container.querySelector('.is-animated-text');
+      
+          const menuOpenOriginalSplit = new SplitType(menuOriginalText, { types: 'chars' });
+          const menuOpenAnimatedSplit = new SplitType(menuAnimatedText, { types: 'chars' });
+          
+          if (container !== menuContainer) {
+            gsap.set(menuOpenOriginalSplit.chars, { y: '100%' });
+            gsap.to(menuOpenOriginalSplit.chars, {
               y: '0%',
               stagger: 0.1,
               duration: 0.5,
@@ -236,62 +424,81 @@ document.addEventListener('DOMContentLoaded', function () {
             });
           }
         });
-        gsap.fromTo(elements.closeIcon, { scale: 1.1 }, { scale: 1.0, duration: 0.5, ease: 'power4.out' });
+
+        gsap.fromTo(
+          closeIcon,
+          { scale: 1.1 },
+          { scale: 1.0, duration: 0.5, ease: 'power4.out' }
+        );
       }, '-=0.5')
       .add(() => {
-        gsap.set([menuSplits.original.chars, menuSplits.animated.chars], { y: '0%' });
-        setupHoverEffects();
+        gsap.set(menuOriginalSplit.chars, { y: '0%' });
+        gsap.set(menuAnimatedSplit.chars, { y: '0%' });
+        setTextHoverAnimations();
       }, 0);
-  }
+  });
 
-  function setupCloseIconListener() {
-    elements.closeIcon.addEventListener('click', handleCloseClick);
-  }
+  // Close navbar animation
+  console.log('Close Icon before adding event listener:', closeIcon);
 
-  function handleCloseClick() {
-    const linkTexts = document.querySelectorAll('.global-navbar_text-container .is-original-text, .global-navbar_text-container .is-animated-text');
-    const linkTextsSplit = new SplitType(linkTexts, { types: 'chars' });
-    const menuTexts = {
-      original: elements.menuContainer.querySelector('.is-original-text'),
-      animated: elements.menuContainer.querySelector('.is-animated-text')
-    };
-    const menuSplits = {
-      original: new SplitType(menuTexts.original, { types: 'chars' }),
-      animated: new SplitType(menuTexts.animated, { types: 'chars' })
-    };
+  closeIcon.addEventListener('click', function () {
+    const linkOriginalTexts = document.querySelectorAll(
+      '.global-navbar_text-container .is-original-text'
+    );
+    const linkAnimatedTexts = document.querySelectorAll(
+      '.global-navbar_text-container .is-animated-text'
+    );
+    const menuOriginalText = menuContainer.querySelector('.is-original-text');
+    const menuOriginalSplit = new SplitType(menuOriginalText, {
+      types: 'chars',
+    });
+    const menuAnimatedText = menuContainer.querySelector('.is-animated-text');
+    const menuAnimatedSplit = new SplitType(menuAnimatedText, {
+      types: 'chars',
+    });
 
-    gsap.timeline()
-      .to(linkTextsSplit.chars, {
+    // Animate out the texts and the close icon
+    gsap
+      .timeline()
+      .to([linkOriginalTexts, linkAnimatedTexts], {
         y: '100%',
         stagger: 0.1,
         duration: 0.5,
         ease: 'power4.out',
       })
       .add(() => {
-        gsap.set(elements.iconContainer, { display: 'none' });
-        gsap.set(elements.menuContainer, { display: 'block' });
-        elements.linkContainers.forEach((container) => {
-          if (container !== elements.menuContainer) {
+        gsap.set(iconContainer, { display: 'none' });
+        gsap.set(menuContainer, { display: 'block' });
+        linkContainers.forEach((container) => {
+          if (container !== menuContainer) {
             gsap.set(container, { display: 'none' });
           }
         });
       }, '-=0.5')
-      .to(elements.navbarContainer, {
-        width: '114px',
-        duration: 1,
-        ease: 'power4.inOut',
-      }, 0)
-      .add(animateSvg(elements.fillSvgElement, elements.defaultFillPath, elements.expandedFillPath, false).play(), 0)
-      .add(animateSvg(elements.strokeSvgElement, elements.defaultStrokePath, elements.expandedStrokePath, false).play(), 0)
-      .to(elements.menuContainer, {
-        opacity: 1,
-        duration: 0.5,
-        ease: 'power4.inOut',
-      }, 0)
+      .to(
+        navbarContainer,
+        {
+          width: '114px',
+          duration: 1,
+          ease: 'power4.inOut',
+        },
+        0
+      )
+      .add(animateFillSvg(false).play, 0)
+      .add(animateStrokeSvg(false).play, 0)
+      .to(
+        menuContainer,
+        {
+          opacity: 1,
+          duration: 0.5,
+          ease: 'power4.inOut',
+        },
+        0
+      )
       .add(() => {
-        gsap.set(menuSplits.original.chars, { y: '100%' });
-        gsap.set(menuSplits.animated.chars, { y: '0%' });
-        gsap.to(menuSplits.original.chars, {
+        gsap.set(menuOriginalSplit.chars, { y: '100%' });
+        gsap.set(menuAnimatedSplit.chars, { y: '0%' });
+        gsap.to(menuOriginalSplit.chars, {
           y: '0',
           stagger: 0.1,
           duration: 0.5,
@@ -299,23 +506,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       })
       .add(() => {
-        gsap.set([menuSplits.original.chars, menuSplits.animated.chars], { y: '0%' });
-        setupHoverEffects();
+        gsap.set(menuOriginalSplit.chars, { y: '0%' });
+        gsap.set(menuAnimatedSplit.chars, { y: '0%' });
+        setTextHoverAnimations();
       }, 0);
-  }
+  });
 
-  function init() {
-    if (!initializeElements()) return;
-
-    updateNavbarDisplay();
-    setupBackLinkListener();
-    setInitialTextState();
-    setupHoverEffects();
-    setupMenuClickListener();
-    setupCloseIconListener();
-
-    gsap.set(elements.expandedFillPath, { opacity: 0 });
-  }
-
-  init();
+  // Set initial state for text elements
+  setInitialTextState();
 });
