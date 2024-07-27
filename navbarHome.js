@@ -384,15 +384,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
       .add(() => {
         linkContainers.forEach((container) => {
-          const originalText = container.querySelector('.is-original-text');
-          const animatedText = container.querySelector('.is-animated-text');
+          const menuOpenOriginalText = container.querySelector('.is-original-text');
+          const menuOpenAnimatedText = container.querySelector('.is-animated-text');
       
-          const originalSplit = new SplitType(originalText, { types: 'chars' });
-          const animatedSplit = new SplitType(animatedText, { types: 'chars' });
+          const menuOpenOriginalSplit = new SplitType(menuOriginalText, { types: 'chars' });
+          const menuOpenAnimatedSplit = new SplitType(menuAnimatedText, { types: 'chars' });
           
           if (container !== menuContainer) {
-            gsap.set(originalSplit.chars, { y: '100%' });
-            gsap.to(originalSplit.chars, {
+            gsap.set(menuOpenOriginalSplit.chars, { y: '100%' });
+            gsap.to(menuOpenOriginalSplit.chars, {
               y: '0%',
               stagger: 0.1,
               duration: 0.5,
