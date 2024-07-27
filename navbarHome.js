@@ -103,11 +103,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Set initial text state
   function setInitialTextState() {
-    document
-      .querySelectorAll('.is-original-text, .is-animated-text')
-      .forEach((el) => {
-        gsap.set(el, { y: '0%' });
-      });
+    document.querySelectorAll('.is-original-text').forEach((el) => {
+      gsap.set(el, { y: '0%' });
+    });
+    document.querySelectorAll('.is-animated-text').forEach((el) => {
+      gsap.set(el, { y: '100%' });
+    });
   }
 
   // Fill SVG animation function
@@ -313,35 +314,36 @@ document.addEventListener('DOMContentLoaded', function () {
         animated: new SplitType(animatedText, { types: 'chars' }),
       };
 
-      gsap.set([splits.original.chars, splits.animated.chars], { y: '0%' });
+      gsap.set(splits.original.chars, { y: '0%' });
+      gsap.set(splits.animated.chars, { y: '100%' });
 
       const enterHandler = () => {
         gsap.to(splits.original.chars, {
           y: '-100%',
-          stagger: 0.1,
-          duration: 0.5,
-          ease: 'power4.inOut',
+          stagger: 0.02,
+          duration: 0.3,
+          ease: 'power2.inOut',
         });
         gsap.to(splits.animated.chars, {
-          y: '-100%',
-          stagger: 0.1,
-          duration: 0.5,
-          ease: 'power4.inOut',
+          y: '0%',
+          stagger: 0.02,
+          duration: 0.3,
+          ease: 'power2.inOut',
         });
       };
 
       const leaveHandler = () => {
         gsap.to(splits.original.chars, {
           y: '0%',
-          stagger: 0.1,
-          duration: 0.5,
-          ease: 'power4.inOut',
+          stagger: 0.02,
+          duration: 0.3,
+          ease: 'power2.inOut',
         });
         gsap.to(splits.animated.chars, {
-          y: '0%',
-          stagger: 0.1,
-          duration: 0.5,
-          ease: 'power4.inOut',
+          y: '100%',
+          stagger: 0.02,
+          duration: 0.3,
+          ease: 'power2.inOut',
         });
       };
 
@@ -489,12 +491,20 @@ document.addEventListener('DOMContentLoaded', function () {
     // Animate out the texts and the close icon
     gsap
       .timeline()
-      .to([linkOriginalTexts, linkAnimatedTexts], {
-        y: '100%',
-        stagger: 0.1,
+      .to(linkOriginalTexts, {
+        y: '0%',
         duration: 0.5,
         ease: 'power4.out',
       })
+      .to(
+        linkAnimatedTexts,
+        {
+          y: '100%',
+          duration: 0.5,
+          ease: 'power4.out',
+        },
+        0
+      )
       .add(() => {
         gsap.set(iconContainer, { display: 'none' });
         gsap.set(menuContainer, { display: 'block' });
@@ -534,5 +544,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Set initial state for text elements
+  setupTextHoverAnimations();
   setInitialTextState();
 });
