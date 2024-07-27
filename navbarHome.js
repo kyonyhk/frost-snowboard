@@ -375,6 +375,8 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Close navbar animation
+  console.log('Close Icon before adding event listener:', closeIcon);
+
   closeIcon.addEventListener('click', function () {
     const linkOriginalTexts = document.querySelectorAll(
       '.global-navbar_text-container .is-original-text'
