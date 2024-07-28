@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let loadingButtonClicked = false;
   let heroAnimationCompleted = false;
   let pageLoadAnimationComplete = false;
+  let heroAnimationTimerId;
 
   const textSplits = new Map();
 
@@ -67,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const isHomepage = 
       window.location.pathname === 'index.html' ||
       window.location.pathname === '/';
+
+    setInitialNavbarState();
   
     if (isHomepage) {
       // Reset the homepage-specific variables
@@ -77,11 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (document.referrer.includes(window.location.origin)) {
         // We're navigating back to the homepage from another page on the same site
         playNavbarIntro();
-      } else {
-        // We're loading the homepage directly, wait for the loading button click
-        setInitialNavbarState();
-        startHeroAnimationTimer();
-      }
+      } 
     } else {
       // For non-homepage, start the animation after a delay
       const isCollectionsPage = window.location.pathname.includes('collection');
@@ -101,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
     gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
     gsap.set(strokePath, {y: '100%'});
     gsap.set(navbarContainer, {opacity: 0}); // Hide the entire navbar container
+    gsap.set(navbarContainer, {width: '114px'})
   }
 
   function createNavbarTimeline() {
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     if (isHomepage) {
-      if (heroAnimationCompleted) {
+      if (loadingButtonClicked && heroAnimationCompleted) {
         playNavbarIntro(); 
       }
     } else {
@@ -225,9 +225,9 @@ document.addEventListener('DOMContentLoaded', function () {
   // Simulate hero animation completion after 5 seconds
   function startHeroAnimationTimer() {
     console.log('Starting hero animation timer');
-    setTimeout(() => {
+    clearTimeout(heroAnimationTimerId);
+    heroAnimationTimerId setTimeout(() => {
       console.log('Hero animation completed');
-      loadingButtonClicked = true; 
       heroAnimationCompleted = true;
       checkNavbarIntroConditions();
     }, 5000);
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function () {
     loadingButton.addEventListener('click', function() {
       console.log('Loading button clicked');
       loadingButtonClicked = true;
-      checkNavbarIntroConditions();
+      startHeroAnimationTimer();
     });
   }  
 
