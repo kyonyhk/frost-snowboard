@@ -117,9 +117,12 @@ document.addEventListener('DOMContentLoaded', function () {
       .to(fillSvgElement, 
         {opacity: 1, duration: 0.5, ease: 'power4.out'}
       )
-      .to([diamondElement, backLink, menuContainer], 
+      .to([diamondElement, backLink], 
         {opacity: 1, duration: 0.5, ease: 'power4.out'}
-      );
+      )
+      .to(menuContainer, 
+        {opacity: 1, duration: 0.5, ease: 'power4.out'}
+      )
 
     return navbarTimeline;
   }
@@ -421,6 +424,7 @@ document.addEventListener('DOMContentLoaded', function () {
   diamondElement.addEventListener('mouseenter', function () {
     gsap.to(diamondElement, {
       boxShadow: '0 0 10px 0 rgba(107, 230, 136)',
+      opacity: 1,
       rotation: 225,
       duration: 0.5,
       ease: 'power4.inOut',
@@ -430,6 +434,7 @@ document.addEventListener('DOMContentLoaded', function () {
   diamondElement.addEventListener('mouseleave', function () {
     gsap.to(diamondElement, {
       boxShadow: 'none',
+      opacity: 0.5, 
       rotation: 45,
       duration: 0.3,
       ease: 'power4.inOut',
