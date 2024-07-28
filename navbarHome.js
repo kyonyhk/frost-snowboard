@@ -62,6 +62,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   let navbarTimeline;
 
+  function setInitialNavbarState() {
+    gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
+    gsap.set(strokePath, {y: '100%'});
+    gsap.set(navbarContainer, {opacity: 0}); // Hide the entire navbar container
+  }
+
+  setInitialNavbarState();
+
   function createNavbarTimeline() {
     // Set initial state
     gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
@@ -164,6 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (!navbarTimeline) {
         navbarTimeline = createNavbarTimeline();
       }
+      gsap.to(navbarContainer, { opacity: 1, duration: 0.5 });
       navbarTimeline.play();
     }
   }
