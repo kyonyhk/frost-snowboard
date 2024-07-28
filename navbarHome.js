@@ -68,8 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const isHomepage = 
       window.location.pathname === 'index.html' ||
       window.location.pathname === '/';
-
-    setInitialNavbarState();
   
     if (isHomepage) {
       // Reset the homepage-specific variables
@@ -80,7 +78,9 @@ document.addEventListener('DOMContentLoaded', function () {
       if (document.referrer.includes(window.location.origin)) {
         // We're navigating back to the homepage from another page on the same site
         playNavbarIntro();
-      } 
+      } else {
+        setInitialNavbarState();
+      }
     } else {
       // For non-homepage, start the animation after a delay
       const isCollectionsPage = window.location.pathname.includes('collection');
@@ -94,6 +94,8 @@ document.addEventListener('DOMContentLoaded', function () {
         startNavbarAnimationForNonHomepage(0);
       }
     }
+
+    updateNavbarDisplay();
   }
 
   function setInitialNavbarState() {
@@ -164,15 +166,13 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
-  updateNavbarDisplay();
-
   document.querySelectorAll('a[href^="/"]').forEach(link => {
     link.addEventListener('click', function(event) {
       event.preventDefault();
       const href = this.getAttribute('href');
       const introDuration = parseFloat(this.getAttribute('data-intro-duration') || '0');
       history.pushState(null, '', href);
-      updateNavbarDisplay();
+      handleNavigation();
     });
   });
 
