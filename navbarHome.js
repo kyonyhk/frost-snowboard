@@ -124,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
     link.addEventListener('click', function(event) {
       event.preventDefault();
       const href = this.getAttribute('href');
+      const introDuration = parseFloat(this.getAttribute('data-intro-duration') || '0');
       history.pushState(null, '', href);
       updateNavbarDisplay();
     });
