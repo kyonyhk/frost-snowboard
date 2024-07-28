@@ -57,6 +57,46 @@ document.addEventListener('DOMContentLoaded', function () {
     closeIcon,
   });
 
+  let navbarTimeline;
+
+  function createNavbarTimeline() {
+    navbarTimeline = gsap.timeline({paused: true})
+      .fromTo(strokePath, 
+        {opacity: 0, y: '100%'}, 
+        {opacity: 0.3, y: '0%', duration: 0.5, ease: 'power4.out'}
+      )
+      .fromTo(fillSvgElement, 
+        {opacity: 0}, 
+        {opacity: 1, duration: 0.5, ease: 'power4.out'}
+      )
+      .fromTo([diamondElement, backLink, menuContainer], 
+        {opacity: 0}, 
+        {opacity: 1, duration: 0.5, ease: 'power4.out'}
+      );
+
+    return navbarTimeline;
+  }
+
+  function playNavbarIntro(delay = 0) {
+    if (!navbarTimeline) {
+      navbarTimeline = createNavbarTimeline();
+    }
+    navbarTimeline.play().delay(delay);
+  }
+
+  function playNavbarExit(onComplete) {
+    if (!navbarTimeline) {
+      navbarTimeline = createNavbarTimeline();
+    }
+    navbarTimeline.reverse().eventCallback('onReverseComplete', onComplete);
+  }
+
+  function handlePageTransition(newPageUrl, introDuration) {
+    playNavbarExit(() => {
+      window.location.href = newPageUrl;
+    });
+  }
+
   // Ensure paths are correctly selected
   if (!defaultStrokePath || !expandedStrokePath) {
     console.error('SVG paths not found or incorrectly referenced.');
@@ -74,6 +114,8 @@ document.addEventListener('DOMContentLoaded', function () {
       if (backLink) {
         backLink.style.display = isHomepage ? 'none' : 'block';
       }
+
+      playNavbarIntro();
     }
 
   updateNavbarDisplay();
@@ -93,13 +135,13 @@ document.addEventListener('DOMContentLoaded', function () {
     backLink.addEventListener('click', function (event) {
       event.preventDefault(); // Prevent the default anchor behavior if any
 
-      if (history.length > 1) {
-        history.back(); // Navigate to the previous page
-      } else {
-        window.location.href = '/'; // Redirect to the homepage
-      }
-
-      setTimeout(updateNavbarDisplay, 0);
+      playNavbarExit(() => {
+        if (history.length > 1) {
+          history.back(); // Navigate to the previous page
+        } else {
+          window.location.href = '/'; // Redirect to the homepage
+        }
+      })
     });
   }
 
@@ -547,6 +589,8 @@ document.addEventListener('DOMContentLoaded', function () {
         setupTextHoverAnimations();
       }, 0);
   });
+
+  playNavbarIntro();
 
   // Set initial state for text elements
   setupTextHoverAnimations();
