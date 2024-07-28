@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (isCollectionsPage) {
         startNavbarAnimationForNonHomepage(5000); // 5 second delay for Collections page
       } else if (isFrostTechPage) {
-        startNavbarAnimationForNonHomepage(0); // No delay for FrostTech page
+        startNavbarAnimationForNonHomepage(3000); // No delay for FrostTech page
       } else {
         startNavbarAnimationForNonHomepage(0); // No delay for other pages
       }
