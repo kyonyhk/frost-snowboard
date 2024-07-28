@@ -68,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const isHomepage = 
       window.location.pathname === 'index.html' ||
       window.location.pathname === '/';
+
+    setInitialNavbarState();
   
     if (isHomepage) {
       // Reset the homepage-specific variables
@@ -78,9 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (document.referrer.includes(window.location.origin)) {
         // We're navigating back to the homepage from another page on the same site
         playNavbarIntro();
-      } else {
-        setInitialNavbarState();
-      }
+      } 
     } else {
       // For non-homepage, start the animation after a delay
       const isCollectionsPage = window.location.pathname.includes('collection');
