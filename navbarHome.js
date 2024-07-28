@@ -174,20 +174,32 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       gsap.to(navbarContainer, { opacity: 1, duration: 0.5 });
       navbarTimeline.play();
+    } else if (loadingButtonClicked && !heroAnimationCompleted) {
+      console.log('Waiting for hero animation to complete');  
     }
   }
 
-  document.querySelector('.loading_button-container').addEventListener('click', function() {
-    console.log('Loading button clicked');
-    loadingButtonClicked = true;
-    checkNavbarIntroConditions();
-  });
+  // Simulate hero animation completion after 5 seconds
+  function startHeroAnimationTimer() {
+    console.log('Starting hero animation timer');
+    setTimeout(() => {
+      console.log('Hero animation completed');
+      document.dispatchEvent(new Event('heroAnimationComplete'));
+    }, 5000);
+  }
 
-  setTimeout(() => {
+  document.addEventListener('heroAnimationComplete', function() {
     console.log('Hero animation completed');
     heroAnimationCompleted = true;
     checkNavbarIntroConditions();
-  }, 5000); // 5 seconds for hero animation
+  });
+    
+  document.querySelector('.loading_button-container').addEventListener('click', function() {
+    console.log('Loading button clicked');
+    loadingButtonClicked = true;
+    startHeroAnimationTimer();
+    checkNavbarIntroConditions();
+  });
 
   // Set initial text state
   function setInitialTextState() {
