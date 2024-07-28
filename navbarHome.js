@@ -156,6 +156,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  function startNavbarAnimationForNonHomepage(delay = 0) {
+    setTimeout(() => {
+      console.log('Starting navbar animation for non-homepage');
+      loadingButtonClicked = true;
+      heroAnimationCompleted = true;
+      checkNavbarIntroConditions();
+    }, delay);
+  }
+
   function checkNavbarIntroConditions() {
     const isHomepage = 
       window.location.pathname === 'index.html' ||
@@ -167,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
       isHomepage
     });
     
-    if (loadingButtonClicked && heroAnimationCompleted && isHomepage) {
+    if (loadingButtonClicked && heroAnimationCompleted) {
       console.log('Playing navbar intro animation');
       if (!navbarTimeline) {
         navbarTimeline = createNavbarTimeline();
@@ -194,12 +203,27 @@ document.addEventListener('DOMContentLoaded', function () {
     checkNavbarIntroConditions();
   });
     
-  document.querySelector('.loading_button-container').addEventListener('click', function() {
-    console.log('Loading button clicked');
-    loadingButtonClicked = true;
-    startHeroAnimationTimer();
-    checkNavbarIntroConditions();
-  });
+  const loadingButton = document.querySelector('.loading_button-container');
+    if (loadingButton) {
+      loadingButton.addEventListener('click', function() {
+        console.log('Loading button clicked');
+        loadingButtonClicked = true;
+        startHeroAnimationTimer();
+        checkNavbarIntroConditions();
+      });
+    } else {
+      // If we're not on the homepage, start the navbar animation after a delay
+      const isCollectionsPage = window.location.pathname.includes('collection');
+      const isFrostTechPage = window.location.pathname.includes('frost-tech');
+      
+      if (isCollectionsPage) {
+        startNavbarAnimationForNonHomepage(5000); // 5 second delay for Collections page
+      } else if (isFrostTechPage) {
+        startNavbarAnimationForNonHomepage(0); // No delay for FrostTech page
+      } else {
+        startNavbarAnimationForNonHomepage(0); // No delay for other pages
+      }
+  }  
 
   // Set initial text state
   function setInitialTextState() {
