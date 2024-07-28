@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
       } else {
         // We're loading the homepage directly, wait for the loading button click
         setInitialNavbarState();
+        startHeroAnimationTimer();
       }
     } else {
       // For non-homepage, start the animation after a delay
@@ -211,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     if (isHomepage) {
-      if (loadingButtonClicked && heroAnimationCompleted) {
+      if (heroAnimationCompleted) {
         playNavbarIntro(); 
       }
     } else {
@@ -226,6 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('Starting hero animation timer');
     setTimeout(() => {
       console.log('Hero animation completed');
+      loadingButtonClicked = true; 
       heroAnimationCompleted = true;
       checkNavbarIntroConditions();
     }, 5000);
@@ -236,8 +238,7 @@ document.addEventListener('DOMContentLoaded', function () {
     loadingButton.addEventListener('click', function() {
       console.log('Loading button clicked');
       loadingButtonClicked = true;
-      startHeroAnimationTimer();
-      handleNavigation();
+      checkNavbarIntroConditions();
     });
   }  
 
