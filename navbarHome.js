@@ -63,13 +63,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
   let navbarTimeline;
 
+  function handleNavigation() {
+    const isHomepage = 
+      window.location.pathname === 'index.html' ||
+      window.location.pathname === '/';
+  
+    if (isHomepage) {
+      // Reset the homepage-specific variables
+      loadingButtonClicked = false;
+      heroAnimationCompleted = false;
+      
+      // Check if we're coming back to the homepage
+      if (document.referrer.includes(window.location.origin)) {
+        // We're navigating back to the homepage from another page on the same site
+        playNavbarIntro();
+      } else {
+        // We're loading the homepage directly, wait for the loading button click
+        setInitialNavbarState();
+      }
+    } else {
+      // For non-homepage, start the animation after a delay
+      const isCollectionsPage = window.location.pathname.includes('collection');
+      const isFrostTechPage = window.location.pathname.includes('frost-tech');
+      
+      if (isCollectionsPage) {
+        startNavbarAnimationForNonHomepage(5000);
+      } else if (isFrostTechPage) {
+        startNavbarAnimationForNonHomepage(3000);
+      } else {
+        startNavbarAnimationForNonHomepage(0);
+      }
+    }
+  }
+
   function setInitialNavbarState() {
     gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
     gsap.set(strokePath, {y: '100%'});
     gsap.set(navbarContainer, {opacity: 0}); // Hide the entire navbar container
   }
-
-  setInitialNavbarState();
 
   function createNavbarTimeline() {
     // Set initial state
@@ -92,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function playNavbarIntro() {
     console.log('Playing navbar intro animation')
+    setInitialNavbarState();
     if (!navbarTimeline) {
       navbarTimeline = createNavbarTimeline();
     }
@@ -200,24 +232,13 @@ document.addEventListener('DOMContentLoaded', function () {
   }
     
   const loadingButton = document.querySelector('.loading_button-container');
-    if (loadingButton) {
-      loadingButton.addEventListener('click', function() {
-        console.log('Loading button clicked');
-        loadingButtonClicked = true;
-        startHeroAnimationTimer();
-      });
-    } else {
-      // If we're not on the homepage, start the navbar animation after a delay
-      const isCollectionsPage = window.location.pathname.includes('collection');
-      const isFrostTechPage = window.location.pathname.includes('frost-tech');
-      
-      if (isCollectionsPage) {
-        startNavbarAnimationForNonHomepage(5000); // 5 second delay for Collections page
-      } else if (isFrostTechPage) {
-        startNavbarAnimationForNonHomepage(3000); // No delay for FrostTech page
-      } else {
-        startNavbarAnimationForNonHomepage(0); // No delay for other pages
-      }
+  if (loadingButton) {
+    loadingButton.addEventListener('click', function() {
+      console.log('Loading button clicked');
+      loadingButtonClicked = true;
+      startHeroAnimationTimer();
+      handleNavigation();
+    });
   }  
 
   // Set initial text state
@@ -664,6 +685,12 @@ document.addEventListener('DOMContentLoaded', function () {
         setupTextHoverAnimations();
       }, 0);
   });
+
+  // Listen for popstate events (back/forward navigation)
+  window.addEventListener('popstate', handleNavigation);
+  
+  // Call handleNavigation on initial page load
+  handleNavigation();
 
   // Set initial state for text elements
   setupTextHoverAnimations();
