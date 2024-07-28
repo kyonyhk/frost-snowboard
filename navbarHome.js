@@ -455,6 +455,9 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         });
 
+        // Re-setup hover animations for the open menu
+        setupTextHoverAnimations();
+
         gsap.fromTo(
           closeIcon,
           { scale: 1.1 },
