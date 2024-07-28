@@ -373,8 +373,8 @@ document.addEventListener('DOMContentLoaded', function () {
       types: 'chars',
     });
 
-    const originalText = linkContainer.querySelector('.is-original-text');
-    const animatedText = linkContainer.querySelector('.is-animated-text');
+    const originalText = linkContainers.querySelector('.is-original-text');
+    const animatedText = linkContainers.querySelector('.is-animated-text');
 
     const originalSplit = new SplitType(originalText, { types: 'chars' });
     const animatedSplit = new SplitType(animatedText, { types: 'chars' });
