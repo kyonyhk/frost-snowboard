@@ -65,27 +65,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function updateNavbarDisplay() {
     const isHomepage =
-      window.location.hostname === 'frost-snow.com' &&
+      window.location.pathname === 'index.html' ||
       window.location.pathname === '/';
 
-    if (isHomepage) {
       if (diamondElement) {
-        diamondElement.style.display = 'block';
+        diamondElement.style.display = isHomepage ? 'block' : 'none';
       }
       if (backLink) {
-        backLink.style.display = 'none';
-      }
-    } else {
-      if (diamondElement) {
-        diamondElement.style.display = 'none';
-      }
-      if (backLink) {
-        backLink.style.display = 'block';
+        backLink.style.display = isHomepage ? 'none' : 'block';
       }
     }
-  }
 
   updateNavbarDisplay();
+
+  document.querySelectorAll('a[href^="/"]').forEach(link => {
+    link.addEventListener('click', function(event) {
+      event.preventDefault();
+      const href = this.getAttribute('href');
+      history.pushState(null, '', href);
+      updateNavbarDisplay();
+    });
+  });
 
   // Check if the back link element exists
   if (backLink) {
@@ -96,8 +96,10 @@ document.addEventListener('DOMContentLoaded', function () {
       if (history.length > 1) {
         history.back(); // Navigate to the previous page
       } else {
-        window.location.href = 'https://frost-snow.com'; // Redirect to the homepage
+        window.location.href = '/'; // Redirect to the homepage
       }
+
+      setTimeout(updateNavbarDisplay, 0);
     });
   }
 
