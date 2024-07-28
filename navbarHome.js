@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   let loadingButtonClicked = false;
   let heroAnimationCompleted = false;
+  let pageLoadAnimationComplete = false;
 
   const textSplits = new Map();
 
@@ -89,11 +90,13 @@ document.addEventListener('DOMContentLoaded', function () {
     return navbarTimeline;
   }
 
-  function playNavbarIntro(delay = 0) {
+  function playNavbarIntro() {
+    console.log('Playing navbar intro animation')
     if (!navbarTimeline) {
       navbarTimeline = createNavbarTimeline();
     }
-    navbarTimeline.play().delay(delay);
+    gsap.to(navbarContainer, { opacity: 1, duration: 0.5 });
+    navbarTimeline.play();
   }
 
   function playNavbarExit(onComplete) {
@@ -159,8 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function startNavbarAnimationForNonHomepage(delay = 0) {
     setTimeout(() => {
       console.log('Starting navbar animation for non-homepage');
-      loadingButtonClicked = true;
-      heroAnimationCompleted = true;
+      pageLoadAnimationComplete = true;
       checkNavbarIntroConditions();
     }, delay);
   }
@@ -176,15 +178,14 @@ document.addEventListener('DOMContentLoaded', function () {
       isHomepage
     });
     
-    if (loadingButtonClicked && heroAnimationCompleted) {
-      console.log('Playing navbar intro animation');
-      if (!navbarTimeline) {
-        navbarTimeline = createNavbarTimeline();
+    if (isHomepage) {
+      if (loadingButtonClicked && heroAnimationCompleted) {
+        playNavbarIntro(); 
       }
-      gsap.to(navbarContainer, { opacity: 1, duration: 0.5 });
-      navbarTimeline.play();
-    } else if (loadingButtonClicked && !heroAnimationCompleted) {
-      console.log('Waiting for hero animation to complete');  
+    } else {
+      if (pageLoadAnimationComplete) {
+        playNavbarIntro();
+      }
     }
   }
 
@@ -193,15 +194,10 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('Starting hero animation timer');
     setTimeout(() => {
       console.log('Hero animation completed');
-      document.dispatchEvent(new Event('heroAnimationComplete'));
+      heroAnimationCompleted = true;
+      checkNavbarIntroConditions();
     }, 5000);
   }
-
-  document.addEventListener('heroAnimationComplete', function() {
-    console.log('Hero animation completed');
-    heroAnimationCompleted = true;
-    checkNavbarIntroConditions();
-  });
     
   const loadingButton = document.querySelector('.loading_button-container');
     if (loadingButton) {
@@ -209,7 +205,6 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Loading button clicked');
         loadingButtonClicked = true;
         startHeroAnimationTimer();
-        checkNavbarIntroConditions();
       });
     } else {
       // If we're not on the homepage, start the navbar animation after a delay
