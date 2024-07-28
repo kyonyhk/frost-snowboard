@@ -117,8 +117,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (backLink) {
         backLink.style.display = isHomepage ? 'none' : 'block';
       }
-
-      playNavbarIntro();
     }
 
   updateNavbarDisplay();
@@ -150,7 +148,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function checkNavbarIntroConditions() {
-    if (loadingButtonClicked && heroAnimationCompleted) {
+    const isHomepage = 
+      window.location.pathname === 'index.html' ||
+      window.location.pathname === '/';
+    
+    if (loadingButtonClicked && heroAnimationCompleted && isHomepage) {
       playNavbarIntro();
     }
   }
