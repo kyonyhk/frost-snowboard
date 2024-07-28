@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function startHeroAnimationTimer() {
     console.log('Starting hero animation timer');
     clearTimeout(heroAnimationTimerId);
-    heroAnimationTimerId setTimeout(() => {
+    heroAnimationTimerId = setTimeout(() => {
       console.log('Hero animation completed');
       heroAnimationCompleted = true;
       checkNavbarIntroConditions();
