@@ -429,6 +429,7 @@ document.addEventListener('DOMContentLoaded', function () {
       duration: 0.5,
       ease: 'power4.inOut',
     });
+    gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.inOut' });
   });
 
   diamondElement.addEventListener('mouseleave', function () {
@@ -439,6 +440,7 @@ document.addEventListener('DOMContentLoaded', function () {
       duration: 0.3,
       ease: 'power4.inOut',
     });
+    gsap.to(strokePath, { opacity: 0.1, duration: 0.3, ease: 'power4.inOut' });
   });
 
   // Text animation on hover
