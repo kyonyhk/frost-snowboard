@@ -34,6 +34,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   let menuOpenTimeline;
 
+  let loadingButtonClicked = false;
+  let heroAnimationCompleted = false;
+
   const textSplits = new Map();
 
   console.log('Elements:', {
@@ -145,6 +148,22 @@ document.addEventListener('DOMContentLoaded', function () {
       })
     });
   }
+
+  function checkNavbarIntroConditions() {
+    if (loadingButtonClicked && heroAnimationCompleted) {
+      playNavbarIntro();
+    }
+  }
+
+  document.querySelector('.loading_button-container').addEventListener('click', function() {
+    loadingButtonClicked = true;
+    checkNavbarIntroConditions();
+  });
+
+  setTimeout(() => {
+    heroAnimationCompleted = true;
+    checkNavbarIntroConditions();
+  }, 5000); // 5 seconds for hero animation
 
   // Set initial text state
   function setInitialTextState() {
@@ -590,8 +609,6 @@ document.addEventListener('DOMContentLoaded', function () {
         setupTextHoverAnimations();
       }, 0);
   });
-
-  playNavbarIntro();
 
   // Set initial state for text elements
   setupTextHoverAnimations();
