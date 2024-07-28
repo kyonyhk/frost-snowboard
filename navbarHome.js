@@ -63,17 +63,18 @@ document.addEventListener('DOMContentLoaded', function () {
   let navbarTimeline;
 
   function createNavbarTimeline() {
+    // Set initial state
+    gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
+    gsap.set(strokePath, {y: '100%'});
+    
     navbarTimeline = gsap.timeline({paused: true})
-      .fromTo(strokePath, 
-        {opacity: 0, y: '100%'}, 
+      .to(strokePath, 
         {opacity: 0.3, y: '0%', duration: 0.5, ease: 'power4.out'}
       )
-      .fromTo(fillSvgElement, 
-        {opacity: 0}, 
+      .to(fillSvgElement, 
         {opacity: 1, duration: 0.5, ease: 'power4.out'}
       )
-      .fromTo([diamondElement, backLink, menuContainer], 
-        {opacity: 0}, 
+      .to([diamondElement, backLink, menuContainer], 
         {opacity: 1, duration: 0.5, ease: 'power4.out'}
       );
 
@@ -151,18 +152,30 @@ document.addEventListener('DOMContentLoaded', function () {
     const isHomepage = 
       window.location.pathname === 'index.html' ||
       window.location.pathname === '/';
+
+    console.log('Checking navbar intro conditions:', {
+      loadingButtonClicked,
+      heroAnimationCompleted,
+      isHomepage
+    });
     
     if (loadingButtonClicked && heroAnimationCompleted && isHomepage) {
-      playNavbarIntro();
+      console.log('Playing navbar intro animation');
+      if (!navbarTimeline) {
+        navbarTimeline = createNavbarTimeline();
+      }
+      navbarTimeline.play();
     }
   }
 
   document.querySelector('.loading_button-container').addEventListener('click', function() {
+    console.log('Loading button clicked');
     loadingButtonClicked = true;
     checkNavbarIntroConditions();
   });
 
   setTimeout(() => {
+    console.log('Hero animation completed');
     heroAnimationCompleted = true;
     checkNavbarIntroConditions();
   }, 5000); // 5 seconds for hero animation
