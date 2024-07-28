@@ -373,11 +373,11 @@ document.addEventListener('DOMContentLoaded', function () {
       types: 'chars',
     });
 
-    const originalText = linkContainers.querySelector('.is-original-text');
-    const animatedText = linkContainers.querySelector('.is-animated-text');
-
-    const originalSplit = new SplitType(originalText, { types: 'chars' });
-    const animatedSplit = new SplitType(animatedText, { types: 'chars' });
+    const originalTexts = document.querySelectorAll('.global-navbar-link .is-original-text');
+    const animatedTexts = document.querySelectorAll('.global-navbar-link .is-animated-text');
+  
+    const originalSplits = Array.from(originalTexts).map(text => new SplitType(text, { types: 'chars' }));
+    const animatedSplits = Array.from(animatedTexts).map(text => new SplitType(text, { types: 'chars' }));
 
     menuOpenTimeline = gsap
       .timeline()
