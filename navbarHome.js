@@ -1,3 +1,98 @@
+const colorThemes = {
+  default: {
+    textColor: '#A1FCCF',
+    diamondColor: '#002814',
+    diamondStroke: '#6BE688',
+    strokeGradient: 'defaultStrokeGradient',
+    fillGradient: 'defaultGradient',
+    circleColor: '#002814',
+    circleStroke: '#A1FCCF',
+    arrowColor: '#6BE688'
+  },
+  yellow: {
+    textColor: '#FDFDCE',
+    diamondColor: '#3C3312',
+    diamondStroke: '#FDFDCE',
+    strokeGradient: 'yellowDefaultStrokeGradient',
+    fillGradient: 'yellowDefaultGradient',
+    circleColor: '#3C3312',
+    circleStroke: '#FDFDCE',
+    arrowColor: '#FDFDCE'
+  },
+  purple: {
+    textColor: '#877FCB',
+    diamondColor: '#1A0544',
+    diamondStroke: '#877FCB',
+    strokeGradient: 'purpleDefaultStrokeGradient',
+    fillGradient: 'purpleDefaultGradient',
+    circleColor: '#1A0544',
+    circleStroke: '#877FCB',
+    arrowColor: '#877FCB'
+  }
+};
+
+// Function to set the color theme
+function setColorTheme(theme) {
+  const colors = colorThemes[theme] || colorThemes.default;
+
+  // Update text color
+  document.querySelectorAll('.s-s5.is-navbar').forEach(el => {
+    el.style.color = colors.textColor;
+  });
+
+  // Update diamond color
+  if (diamondElement) {
+    diamondElement.style.backgroundColor = colors.diamondColor;
+    diamondElement.style.borderColor = colors.diamondStroke;
+  }
+
+  // Update SVG elements
+  updateSvgColors(colors);
+}
+
+// Function to update SVG colors
+function updateSvgColors(colors) {
+  // Update stroke gradient
+  const strokePath = document.querySelector('#defaultStrokePath');
+  if (strokePath) {
+    strokePath.style.stroke = `url(#${colors.strokeGradient})`;
+  }
+
+  // Update fill gradient
+  const fillPath = document.querySelector('#defaultFillPath');
+  if (fillPath) {
+    fillPath.style.fill = `url(#${colors.fillGradient})`;
+  }
+
+  // Update arrow icon color
+  const arrowIcon = document.querySelector('.navbar-back_arrow-icon path');
+  if (arrowIcon) {
+    arrowIcon.style.stroke = colors.arrowColor;
+  }
+
+  // Update circle colors
+  const bigCircle = document.querySelector('.navbar-back_big-circle path');
+  const smallCircle = document.querySelector('.navbar-back_small-circle path');
+  const backgroundCircle = document.querySelector('.navbar-back_bg');
+  if (bigCircle) bigCircle.style.stroke = colors.circleStroke;
+  if (smallCircle) smallCircle.style.stroke = colors.circleStroke;
+  if (backgroundCircle) backgroundCircle.style.backgroundColor = colors.circleColor;
+}
+
+// Call this function when the page loads or when navigating to a new page
+function updateNavbarColor() {
+  const path = window.location.pathname;
+  if (path.includes('apex-collection')) {
+    setColorTheme('default');
+  } else if (path.includes('ember-collection')) {
+    setColorTheme('yellow');
+  } else if (path.includes('nebula-collection')) {
+    setColorTheme('purple');
+  } else {
+    setColorTheme('default');
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   gsap.registerPlugin(MorphSVGPlugin);
 
@@ -95,6 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     updateNavbarDisplay();
+    updateNavbarColor();
   }
 
   function setInitialNavbarState() {
@@ -700,6 +796,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updateNavbarDisplay();
   });
+
+  updateNavbarColor();
 
   // Listen for popstate events (back/forward navigation)
   window.addEventListener('popstate', handleNavigation);
