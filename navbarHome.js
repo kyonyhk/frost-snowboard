@@ -94,19 +94,15 @@ document.addEventListener('DOMContentLoaded', function () {
         startNavbarAnimationForNonHomepage(0);
       }
     }
+
+    updateNavbarDisplay();
   }
 
   function setInitialNavbarState() {
     gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
     gsap.set(strokePath, {y: '100%'});
     gsap.set(navbarContainer, {opacity: 0}); // Hide the entire navbar container
-    gsap.set(navbarContainer, {width: '114px'});
-    linkContainers.forEach((container) => {
-      if (container !== menuContainer) {
-        gsap.set(container, { display: 'none' });
-      }
-    });
-    gsap.set(menuContainer, { display: 'block' });
+    gsap.set(navbarContainer, {width: '114px'})
   }
 
   function createNavbarTimeline() {
@@ -171,19 +167,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (backLink) {
         backLink.style.display = isHomepage ? 'none' : 'block';
       }
-      if (menuContainer) {
-        menuContainer.style.display = 'block';
-      }
-
-      // Ensure the navbar is in its collapsed state
-      gsap.set(navbarContainer, { width: '114px' });
-      
-      // Hide other link containers
-      linkContainers.forEach((container) => {
-        if (container !== menuContainer) {
-          gsap.set(container, { display: 'none' });
-        }
-      });
     }
 
   document.querySelectorAll('a[href^="/"]').forEach(link => {
@@ -232,10 +215,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     if (isHomepage) {
-      if (document.referrer.includes(window.location.origin)) {
-        // Coming back from another page on the same site
-        playNavbarIntro();
-      } else if (loadingButtonClicked && heroAnimationCompleted) {
+      if (loadingButtonClicked && heroAnimationCompleted) {
         playNavbarIntro(); 
       }
     } else {
@@ -642,10 +622,6 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('Close Icon before adding event listener:', closeIcon);
 
   closeIcon.addEventListener('click', function () {
-    event.preventDefault(); // Prevent any default action
-    event.stopPropagation(); // Stop the event from bubbling up
-  
-    console.log('Close icon clicked'); // Add this for debugging
     const linkOriginalTexts = document.querySelectorAll(
       '.global-navbar_text-container .is-original-text'
     );
@@ -716,20 +692,15 @@ document.addEventListener('DOMContentLoaded', function () {
       .add(() => {
         setupTextHoverAnimations();
       }, 0);
-
-    updateNavbarDisplay();
   });
 
   // Listen for popstate events (back/forward navigation)
-  window.addEventListener('popstate', function(event) {
-    if (event.state !== null) {
-      handleNavigation();
-    }
-  });
+  window.addEventListener('popstate', handleNavigation);
+  
+  // Call handleNavigation on initial page load
+  handleNavigation();
 
   // Set initial state for text elements
   setupTextHoverAnimations();
   setInitialTextState();
-
-  setInitialNavbarState();
 });
