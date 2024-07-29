@@ -116,9 +116,18 @@ function updateSvgColors(colors) {
   const bigCircle = document.querySelector('.navbar-back_big-circle path');
   const smallCircle = document.querySelector('.navbar-back_small-circle path');
   const backgroundCircle = document.querySelector('.navbar-back_bg');
-  if (bigCircle) bigCircle.style.stroke = colors.circleStroke;
-  if (smallCircle) smallCircle.style.stroke = colors.circleStroke;
-  if (backgroundCircle) backgroundCircle.style.backgroundColor = colors.circleColor;
+  
+  bigCirclePaths.forEach(path => {
+    path.style.stroke = colors.circleStroke;
+  });
+
+  smallCirclePaths.forEach(path => {
+    path.style.stroke = colors.circleStroke;
+  });
+
+  if (backgroundCircle) {
+    backgroundCircle.style.backgroundColor = colors.circleColor;
+  }
 }
 
 // Call this function when the page loads or when navigating to a new page
