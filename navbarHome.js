@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
         gsap.set(container, { display: 'none' });
       }
     });
+    gsap.set(menuContainer, { display: 'block' });
   }
 
   function createNavbarTimeline() {
@@ -231,7 +232,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     if (isHomepage) {
-      if (loadingButtonClicked && heroAnimationCompleted) {
+      if (document.referrer.includes(window.location.origin)) {
+        // Coming back from another page on the same site
+        playNavbarIntro();
+      } else if (loadingButtonClicked && heroAnimationCompleted) {
         playNavbarIntro(); 
       }
     } else {
