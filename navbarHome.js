@@ -241,7 +241,7 @@ function handleNavigation() {
   const isHomepage = 
     window.location.pathname === 'index.html' ||
     window.location.pathname === '/';
-    window.location.pathname --- '';
+    window.location.pathname === '';
 
   setInitialNavbarState();
 
