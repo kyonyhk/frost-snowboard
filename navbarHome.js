@@ -180,18 +180,6 @@ function updateSvgColors(colors) {
   }
 }
 
-function updateFrostTechNavbarColor(category) {
-  if (colorThemes[category]) {
-    setColorTheme(category);
-  } else {
-    console.warn(`Category ${category} not found in colorThemes`);
-  }
-}
-
-function updateNavbarColorForFrostTech(theme) {
-  setColorTheme(theme);
-}
-
 // Call this function when the page loads or when navigating to a new page
 function updateNavbarColor() {
   const path = window.location.pathname;
@@ -201,9 +189,6 @@ function updateNavbarColor() {
     setColorTheme('yellow');
   } else if (path.includes('nebula-collection')) {
     setColorTheme('purple');
-  } else if (path.includes('frost-tech')) {
-    // The initial color will be set by frostTechColorThemes.js
-    // We don't need to do anything here
   } else {
     setColorTheme('default');
   }
@@ -665,114 +650,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }  
 
-
-  // // Text container hover effect
-  // linkContainers.forEach((container) => {
-  //   container.addEventListener('mouseenter', function () {
-  //     gsap.to(arrowIcon, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
-  //     gsap.to(bigCircle, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
-  //     gsap.to(container, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
-  //     gsap.to(strokePath, {
-  //       opacity: 0.3,
-  //       duration: 0.5,
-  //       ease: 'power4.inOut',
-  //     });
-  //     gsap.to(diamondElement, {
-  //       opacity: 1.0,
-  //       duration: 0.5,
-  //       ease: 'power4.inOut',
-  //     });
-  //   });
-
-  //   container.addEventListener('mouseleave', function () {
-  //     gsap.to(arrowIcon, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
-  //     gsap.to(bigCircle, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
-  //     gsap.to(container, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
-  //     gsap.to(strokePath, {
-  //       opacity: 0.1,
-  //       duration: 0.3,
-  //       ease: 'power4.inOut',
-  //     });
-  //     gsap.to(diamondElement, {
-  //       opacity: 0.5,
-  //       duration: 0.3,
-  //       ease: 'power4.inOut',
-  //     });
-  //   });
-  // });
-
-  // // Back button hover effect
-  // backButton.addEventListener('mouseenter', function () {
-  //   gsap.to(bigCircle, {
-  //     scale: 1.2,
-  //     opacity: 1.0,
-  //     duration: 0.5,
-  //     ease: 'power4.inOut',
-  //     fill: '#6BE688',
-  //   });
-  //   gsap.to(smallCircle, {
-  //     scale: 0.8,
-  //     opacity: 1.0,
-  //     duration: 0.5,
-  //     ease: 'power4.inOut',
-  //   });
-  //   gsap.to(arrowIcon, {
-  //     strokeWidth: 2,
-  //     opacity: 1.0,
-  //     duration: 0.5,
-  //     ease: 'power4.inOut',
-  //   });
-  //   gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.inOut' });
-  // });
-
-  // backButton.addEventListener('mouseleave', function () {
-  //   gsap.to(bigCircle, {
-  //     scale: 1,
-  //     opacity: 0.5,
-  //     duration: 0.3,
-  //     ease: 'power4.inOut',
-  //     fill: '#A1FCCF',
-  //   });
-  //   gsap.to(smallCircle, {
-  //     scale: 1,
-  //     opacity: 0.5,
-  //     duration: 0.3,
-  //     ease: 'power4.inOut',
-  //   });
-  //   gsap.to(arrowIcon, {
-  //     strokeWidth: 1,
-  //     opacity: 0.5,
-  //     duration: 0.3,
-  //     ease: 'power4.inOut',
-  //   });
-  //   gsap.to(strokePath, { opacity: 0.1, duration: 0.3, ease: 'power4.inOut' });
-  // });
-
-  // // Diamond element hover effect
-  // diamondElement.addEventListener('mouseenter', function () {
-  //   gsap.to(diamondElement, {
-  //     boxShadow: '0 0 10px 0 rgba(107, 230, 136)',
-  //     opacity: 1,
-  //     rotation: 225,
-  //     duration: 0.5,
-  //     ease: 'power4.inOut',
-  //   });
-  //   gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.inOut' });
-  // });
-
-  // diamondElement.addEventListener('mouseleave', function () {
-  //   gsap.to(diamondElement, {
-  //     boxShadow: 'none',
-  //     opacity: 0.5, 
-  //     rotation: 45,
-  //     duration: 0.3,
-  //     ease: 'power4.inOut',
-  //   });
-  //   gsap.to(strokePath, { opacity: 0.1, duration: 0.3, ease: 'power4.inOut' });
-  // });
-
-
-
   // Menu click to expand navbar
   // Initial setup
   gsap.set(expandedFillPath, { opacity: 0 });
@@ -990,6 +867,4 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   }
-
-  window.updateNavbarColorForFrostTech = updateNavbarColorForFrostTech;
 });
