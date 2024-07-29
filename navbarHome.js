@@ -41,6 +41,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const textSplits = new Map();
 
+  if (!window.colorThemes) {
+    console.error('colorThemes is not defined. Ensure navbarColors.js is loaded.');
+    return;
+  }
+
+  // Now you can access colorThemes
+  const { colorThemes } = window;
+
   console.log('Elements:', {
     menuContainer,
     arrowIcon,
