@@ -41,100 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const textSplits = new Map();
 
-  const colorThemes = {
-    default: {
-      primary: '#6BE688',
-      secondary: '#A1FCCF',
-      tertiary: '#002814',
-      fillGradient: {
-        default: 'defaultGradient',
-        expanded: 'expandedGradient'
-      },
-      strokeGradient: {
-        default: 'defaultStrokeGradient',
-        expanded: 'expandedStrokeGradient'
-      }
-    },
-    'apex-collection': {
-      primary: '#6BE688',
-      secondary: '#A1FCCF',
-      tertiary: '#002814',
-      fillGradient: {
-        default: 'defaultGradient',
-        expanded: 'expandedGradient'
-      },
-      strokeGradient: {
-        default: 'defaultStrokeGradient',
-        expanded: 'expandedStrokeGradient'
-      }
-    },
-    'ember-collection': {
-      primary: '#D97848',
-      secondary: '#FDFDCE',
-      tertiary: '#3C3312',
-      fillGradient: {
-        default: 'yellowDefaultGradient',
-        expanded: 'yellowExpandedGradient'
-      },
-      strokeGradient: {
-        default: 'yellowDefaultStrokeGradient',
-        expanded: 'yellowExpandedStrokeGradient'
-      }
-    },
-    'nebula-collection': {
-      primary: '#580DEB',
-      secondary: '#877FCB',
-      tertiary: '#1A0544',
-      fillGradient: {
-        default: 'purpleDefaultGradient',
-        expanded: 'purpleExpandedGradient'
-      },
-      strokeGradient: {
-        default: 'purpleDefaultStrokeGradient',
-        expanded: 'purpleExpandedStrokeGradient'
-      }
-    },
-    'frost-tech-quakeshift': {
-      primary: '#6BE688',
-      secondary: '#A1FCCF',
-      tertiary: '#002814',
-      fillGradient: {
-        default: 'defaultGradient',
-        expanded: 'expandedGradient'
-      },
-      strokeGradient: {
-        default: 'defaultStrokeGradient',
-        expanded: 'expandedStrokeGradient'
-      }
-    },
-    'frost-tech-thermoflux': {
-      primary: '#D97848',
-      secondary: '#FDFDCE',
-      tertiary: '#3C3312',
-      fillGradient: {
-        default: 'yellowDefaultGradient',
-        expanded: 'yellowExpandedGradient'
-      },
-      strokeGradient: {
-        default: 'yellowDefaultStrokeGradient',
-        expanded: 'yellowExpandedStrokeGradient'
-      }
-    },
-    'frost-tech-flexiweave': {
-      primary: '#580DEB',
-      secondary: '#877FCB',
-      tertiary: '#1A0544',
-      fillGradient: {
-        default: 'purpleDefaultGradient',
-        expanded: 'purpleExpandedGradient'
-      },
-      strokeGradient: {
-        default: 'purpleDefaultStrokeGradient',
-        expanded: 'purpleExpandedStrokeGradient'
-      }
-    }
-  };
-
   console.log('Elements:', {
     menuContainer,
     arrowIcon,
@@ -166,12 +72,13 @@ document.addEventListener('DOMContentLoaded', function () {
     setInitialNavbarState();
   
     if (isHomepage) {
+      // Reset the homepage-specific variables
+      loadingButtonClicked = false;
+      heroAnimationCompleted = false;
+
       if (document.referrer.includes(window.location.origin)) {
       // We're navigating back to the homepage from another page on the same site
         playNavbarIntro();
-      } else {
-        loadingButtonClicked = false;
-        heroAnimationCompleted = false;
       }
     } else {
       // For non-homepage, start the animation after a delay
@@ -282,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (history.length > 1) {
           history.back(); // Navigate to the previous page
         } else {
-          window.location.href = '/';
+          window.location.href = '/'; // Redirect to the homepage
         }
       })
     });
@@ -308,9 +215,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     if (isHomepage) {
-      if (loadingButtonClicked && heroAnimationCompleted) {
+      if (document.referrer.includes(window.location.origin) || (loadingButtonClicked && heroAnimationCompleted)) {
         playNavbarIntro(); 
-      } 
+      }
     } else {
       if (pageLoadAnimationComplete) {
         playNavbarIntro();
@@ -348,31 +255,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function updateNavbarColors(category) {
-    const theme = colorThemes[category] || colorThemes.default;
-    const { primary, secondary, tertiary } = theme;
-
-    // Update navbar elements
-    document.querySelectorAll('.global-navbar_diamond').forEach(el => {
-      el.style.backgroundColor = tertiary;
-      el.style.boxShadow = `0 0 10px 0 ${primary}`;
-    });
-    document.querySelectorAll('.global-navbar_text-container h4').forEach(el => el.style.color = secondary);
-    document.querySelectorAll('.navbar-back_arrow-icon path').forEach(el => el.style.stroke = primary);
-    document.querySelectorAll('.navbar-back_big-circle path').forEach(el => el.style.stroke = secondary);
-    document.querySelectorAll('.navbar-back_small-circle path').forEach(el => el.style.stroke = secondary);
-    document.querySelectorAll('.global-navbar_close-icon path').forEach(el => el.style.fill = secondary);
-
-    // Update fill and stroke gradients
-    animateFillSvg(true); // or false based on the desired state
-    animateStrokeSvg(true); // or false based on the desired state
-  }
-
+  // Fill SVG animation function
   function animateFillSvg(forward = true) {
-    const category = getCurrentCategory();
-    const fillGradientId = colorThemes[category]?.fillGradient[forward ? 'expanded' : 'default'];
     const fillTimeline = gsap.timeline();
-
     fillTimeline
       .to(
         defaultFillPath,
@@ -404,7 +289,11 @@ document.addEventListener('DOMContentLoaded', function () {
       .to(
         fillGElement,
         {
-          fill: `url(#${fillGradientId})`,
+          attr: {
+            filter: forward
+              ? 'url(#expandedBackgroundFilter)'
+              : 'url(#defaultBackgroundFilter)',
+          },
           duration: 1,
           ease: 'power4.inOut',
         },
@@ -414,11 +303,9 @@ document.addEventListener('DOMContentLoaded', function () {
     return fillTimeline;
   }
 
+  // Stroke SVG animation function
   function animateStrokeSvg(forward = true) {
-    const category = getCurrentCategory();
-    const strokeGradientId = colorThemes[category]?.strokeGradient[forward ? 'expanded' : 'default'];
     const strokeTimeline = gsap.timeline();
-
     strokeTimeline
       .to(
         defaultStrokePath,
@@ -446,42 +333,9 @@ document.addEventListener('DOMContentLoaded', function () {
           ease: 'power4.inOut',
         },
         0
-      )
-      .to(
-        strokeGElement,
-        {
-          fill: `url(#${strokeGradientId})`,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
       );
 
     return strokeTimeline;
-  }
-
-  // Get current category from the URL or UI interactions
-  function getCurrentCategory() {
-    const path = window.location.pathname;
-    if (path.includes('collection')) {
-      if (path.includes('apex-collection')) return 'apex-collection';
-      if (path.includes('ember-collection')) return 'ember-collection';
-      if (path.includes('nebula-collection')) return 'nebula-collection';
-    } else if (path.includes('frost-tech')) {
-      // Default to quakeshift; you can change this logic if needed.
-      return 'frost-tech-quakeshift';
-    }
-    return 'default';
-  }
-
-  function addFrostTechListeners() {
-    const techOptions = document.querySelectorAll('.tech_description-header-wrap');
-    techOptions.forEach(option => {
-      option.addEventListener('click', function() {
-        const newState = this.closest('.tech_description-container').classList[1].split('-')[1];
-        updateNavbarColors(`frost-tech-${newState}`);
-      });
-    });
   }
 
   // Text container hover effect
@@ -521,51 +375,47 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Back button hover effect
   backButton.addEventListener('mouseenter', function () {
-    gsap.to('.navbar-back_big-circle path', {
+    gsap.to(bigCircle, {
       scale: 1.2,
       opacity: 1.0,
       duration: 0.5,
       ease: 'power4.inOut',
-      stroke: colorThemes[getCurrentCategory()].primary
+      fill: '#6BE688',
     });
-    gsap.to('.navbar-back_small-circle path', {
+    gsap.to(smallCircle, {
       scale: 0.8,
       opacity: 1.0,
       duration: 0.5,
       ease: 'power4.inOut',
-      stroke: colorThemes[getCurrentCategory()].secondary
     });
-    gsap.to('.navbar-back_arrow-icon path', {
+    gsap.to(arrowIcon, {
       strokeWidth: 2,
       opacity: 1.0,
       duration: 0.5,
       ease: 'power4.inOut',
-      stroke: colorThemes[getCurrentCategory()].primary
     });
     gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.inOut' });
   });
 
   backButton.addEventListener('mouseleave', function () {
-    gsap.to('.navbar-back_big-circle path', {
+    gsap.to(bigCircle, {
       scale: 1,
       opacity: 0.5,
       duration: 0.3,
       ease: 'power4.inOut',
-      stroke: colorThemes[getCurrentCategory()].secondary
+      fill: '#A1FCCF',
     });
-    gsap.to('.navbar-back_small-circle path', {
+    gsap.to(smallCircle, {
       scale: 1,
       opacity: 0.5,
       duration: 0.3,
       ease: 'power4.inOut',
-      stroke: colorThemes[getCurrentCategory()].secondary
     });
-    gsap.to('.navbar-back_arrow-icon path', {
+    gsap.to(arrowIcon, {
       strokeWidth: 1,
       opacity: 0.5,
       duration: 0.3,
       ease: 'power4.inOut',
-      stroke: colorThemes[getCurrentCategory()].secondary
     });
     gsap.to(strokePath, { opacity: 0.1, duration: 0.3, ease: 'power4.inOut' });
   });
@@ -573,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Diamond element hover effect
   diamondElement.addEventListener('mouseenter', function () {
     gsap.to(diamondElement, {
-      boxShadow: `0 0 10px 0 ${colorThemes[getCurrentCategory()].secondary}`,
+      boxShadow: '0 0 10px 0 rgba(107, 230, 136)',
       opacity: 1,
       rotation: 225,
       duration: 0.5,
@@ -851,21 +701,8 @@ document.addEventListener('DOMContentLoaded', function () {
     updateNavbarDisplay();
   });
 
-  // Update colors on page load or user interaction
-  function init() {
-    // Call the function to update colors initially
-    updateNavbarColors(getCurrentCategory());
-
-    // Add listeners for Frost Tech interactions
-    addFrostTechListeners();
-  }
-
-  init();
-
   // Listen for popstate events (back/forward navigation)
-  window.addEventListener('popstate', function(event) {
-    handleNavigation();
-  });
+  window.addEventListener('popstate', handleNavigation);
   
   // Call handleNavigation on initial page load
   handleNavigation();
