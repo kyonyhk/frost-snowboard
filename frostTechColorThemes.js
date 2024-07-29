@@ -2,15 +2,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const colorThemes = {
     quakeshift: {
       primary: '#6BE688',
-      secondary: '#A1FCCF'
+      secondary: '#A1FCCF',
+      navbarTheme: 'default'
     },
     thermoflux: {
       primary: '#D97848',
-      secondary: '#FDFDCE'
+      secondary: '#FDFDCE',
+      navbarTheme: 'yellow'
     },
     flexiweave: {
       primary: '#580DEB',
-      secondary: '#877FCB'
+      secondary: '#877FCB',
+      navbarTheme: 'purple'
     }
   };
 
