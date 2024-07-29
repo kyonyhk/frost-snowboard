@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     if (isHomepage) {
-      if (loadingButtonClicked && heroAnimationCompleted)) {
+      if (loadingButtonClicked && heroAnimationCompleted) {
         playNavbarIntro(); 
       }
     } else {
