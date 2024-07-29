@@ -176,6 +176,7 @@ function updateHoverEffects(colors) {
         duration: 0.5,
         ease: 'power4.inOut',
       });
+      gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.out' })
     });
 
     updateListener(diamondElement, 'mouseleave', function () {
@@ -186,6 +187,7 @@ function updateHoverEffects(colors) {
         duration: 0.3,
         ease: 'power4.inOut',
       });
+      gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.out' })
     });
   }
 
@@ -199,6 +201,7 @@ function updateHoverEffects(colors) {
         ease: 'power4.inOut',
         fill: colors.circleStroke,
       });
+      gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.inOut' });
     });
 
     updateListener(backButton, 'mouseleave', function () {
@@ -209,6 +212,7 @@ function updateHoverEffects(colors) {
         ease: 'power4.inOut',
         fill: colors.circleStroke,
       });
+      gsap.to(strokePath, { opacity: 0.1, duration: 0.5, ease: 'power4.inOut' });
     });
   }
 
@@ -216,10 +220,12 @@ function updateHoverEffects(colors) {
   linkContainers.forEach((container) => {
     updateListener(container, 'mouseenter', function () {
       gsap.to(container, { color: colors.textColor, duration: 0.5, ease: 'power4.inOut' });
+      gsap.to(strokePath, { opacity: 0.3, duration: 0.5, ease: 'power4.inOut' });
     });
 
     updateListener(container, 'mouseleave', function () {
-      gsap.to(container, { color: colors.textColor, opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
+      gsap.to(container, { color: colors.textColor, duration: 0.3, ease: 'power4.inOut' });
+      gsap.to(strokePath, { opacity: 0.1, duration: 0.5, ease: 'power4.inOut' });
     });
   });
 }
