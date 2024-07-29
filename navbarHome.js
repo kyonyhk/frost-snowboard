@@ -218,8 +218,8 @@ function updateNavbarColor() {
   } else if (path.includes('nebula-collection')) {
     setColorTheme('purple');
   } else if (path.includes('frost-tech')) {
-    updateFrostTechNavbarColor('quakeshift');
-    setupFrostTechEventListeners();
+    // The initial color will be set by frostTechColorThemes.js
+    // We don't need to do anything here
   } else {
     setColorTheme('default');
   }
