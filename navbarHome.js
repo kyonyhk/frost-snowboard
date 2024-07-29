@@ -241,6 +241,7 @@ function handleNavigation() {
   const isHomepage = 
     window.location.pathname === 'index.html' ||
     window.location.pathname === '/';
+    window.location.pathname --- '';
 
   setInitialNavbarState();
 
@@ -252,6 +253,8 @@ function handleNavigation() {
     if (document.referrer.includes(window.location.origin)) {
     // We're navigating back to the homepage from another page on the same site
       playNavbarIntro();
+    } else {
+      checkNavbarIntroConditions();
     }
   } else {
     // For non-homepage, start the animation after a delay
