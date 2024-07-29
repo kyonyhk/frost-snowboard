@@ -17,7 +17,7 @@ body {
 .cursor-wrapper {
   position: fixed;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 99999;
   left: 0;
   top: 0;
   transform: translate(0, 0);
