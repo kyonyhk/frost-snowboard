@@ -188,24 +188,8 @@ function updateFrostTechNavbarColor(category) {
   }
 }
 
-function setupFrostTechEventListeners() {
-  const techOptions = document.querySelectorAll('.tech_description-header-wrap');
-  if (techOptions.length === 0) {
-    // If we're not on the Frost Tech page, just return
-    return;
-  }
-  
-  techOptions.forEach(option => {
-    option.addEventListener('click', function() {
-      const container = this.closest('.tech_description-container');
-      if (container && container.classList.length > 1) {
-        const newCategory = container.classList[1].split('-')[1];
-        if (newCategory) {
-          updateFrostTechNavbarColor(newCategory);
-        }
-      }
-    });
-  });
+function updateNavbarColorForFrostTech(theme) {
+  setColorTheme(theme);
 }
 
 // Call this function when the page loads or when navigating to a new page
