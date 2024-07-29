@@ -374,47 +374,51 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Back button hover effect
   backButton.addEventListener('mouseenter', function () {
-    gsap.to(bigCircle, {
+    gsap.to('.navbar-back_big-circle path', {
       scale: 1.2,
       opacity: 1.0,
       duration: 0.5,
       ease: 'power4.inOut',
-      fill: '#6BE688',
+      stroke: colorThemes[getCurrentCategory()].primary
     });
-    gsap.to(smallCircle, {
+    gsap.to('.navbar-back_small-circle path', {
       scale: 0.8,
       opacity: 1.0,
       duration: 0.5,
       ease: 'power4.inOut',
+      stroke: colorThemes[getCurrentCategory()].secondary
     });
-    gsap.to(arrowIcon, {
+    gsap.to('.navbar-back_arrow-icon path', {
       strokeWidth: 2,
       opacity: 1.0,
       duration: 0.5,
       ease: 'power4.inOut',
+      stroke: colorThemes[getCurrentCategory()].primary
     });
     gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.inOut' });
   });
 
   backButton.addEventListener('mouseleave', function () {
-    gsap.to(bigCircle, {
+    gsap.to('.navbar-back_big-circle path', {
       scale: 1,
       opacity: 0.5,
       duration: 0.3,
       ease: 'power4.inOut',
-      fill: '#A1FCCF',
+      stroke: colorThemes[getCurrentCategory()].secondary
     });
-    gsap.to(smallCircle, {
+    gsap.to('.navbar-back_small-circle path', {
       scale: 1,
       opacity: 0.5,
       duration: 0.3,
       ease: 'power4.inOut',
+      stroke: colorThemes[getCurrentCategory()].secondary
     });
-    gsap.to(arrowIcon, {
+    gsap.to('.navbar-back_arrow-icon path', {
       strokeWidth: 1,
       opacity: 0.5,
       duration: 0.3,
       ease: 'power4.inOut',
+      stroke: colorThemes[getCurrentCategory()].secondary
     });
     gsap.to(strokePath, { opacity: 0.1, duration: 0.3, ease: 'power4.inOut' });
   });
@@ -422,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Diamond element hover effect
   diamondElement.addEventListener('mouseenter', function () {
     gsap.to(diamondElement, {
-      boxShadow: '0 0 10px 0 rgba(107, 230, 136)',
+      boxShadow: `0 0 10px 0 ${colorThemes[getCurrentCategory()].secondary}`,
       opacity: 1,
       rotation: 225,
       duration: 0.5,
