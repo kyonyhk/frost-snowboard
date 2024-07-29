@@ -306,9 +306,12 @@ function playNavbarIntro() {
     navbarTimeline = createNavbarTimeline();
   }
   gsap.set(navbarContainer, { visibility: 'visible' });
-  gsap.to(navbarContainer, { opacity: 1, duration: 0.5 });
-  navbarTimeline.play();
-  updateNavbarColor();
+  gsap.timeline()
+    .to(navbarContainer, { opacity: 1, duration: 0.5 })
+    .add(navbarTimeline.play())
+    .add(() => {
+      updateNavbarColor();
+    });
 }
 
 function playNavbarExit(onComplete) {
