@@ -86,6 +86,9 @@ function setColorTheme(theme) {
   if (diamondElement) {
     diamondElement.style.backgroundColor = colors.diamondColor;
     diamondElement.style.borderColor = colors.diamondStroke;
+
+    updateSvgColors(colors);
+    updateHoverEffects(colors);
   }
 
   // Update SVG elements
@@ -113,8 +116,8 @@ function updateSvgColors(colors) {
   }
 
   // Update circle colors
-  const bigCircle = document.querySelector('.navbar-back_big-circle path');
-  const smallCircle = document.querySelector('.navbar-back_small-circle path');
+  const bigCirclePaths = document.querySelector('.navbar-back_big-circle path');
+  const smallCirclePaths = document.querySelector('.navbar-back_small-circle path');
   const backgroundCircle = document.querySelector('.navbar-back_bg');
   
   bigCirclePaths.forEach(path => {
@@ -239,7 +242,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     gsap.set(navbarContainer, { visibility: 'visible' });
     gsap.to(navbarContainer, { opacity: 1, duration: 0.5 });
-    navbarTimeline.play();
+    navbarTimeline.play().then(() => {
+      updateNavbarColor();
+    });
   }
 
   function playNavbarExit(onComplete) {
