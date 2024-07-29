@@ -41,6 +41,7 @@ let loadingButtonClicked = false;
 let heroAnimationCompleted = false;
 let pageLoadAnimationComplete = false;
 let heroAnimationTimerId;
+let navbarTimeline;
 
 const textSplits = new Map();
 
@@ -281,20 +282,22 @@ function createNavbarTimeline() {
   // Set initial state
   gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
   gsap.set(strokePath, {y: '100%'});
-  
-  navbarTimeline = gsap.timeline({paused: true})
-    .to(strokePath, 
-      {opacity: 0.3, y: '0%', duration: 0.5, ease: 'power4.out'}
-    )
-    .to(fillSvgElement, 
-      {opacity: 1, duration: 0.5, ease: 'power4.out'}
-    )
-    .to([diamondElement, backLink], 
-      {opacity: 1, duration: 0.5, ease: 'power4.out'}
-    )
-    .to(menuContainer, 
-      {opacity: 1, duration: 0.5, ease: 'power4.out'}
-    )
+
+  if (!navbarTimeline) {
+    navbarTimeline = gsap.timeline({paused: true})
+      .to(strokePath, 
+        {opacity: 0.3, y: '0%', duration: 0.5, ease: 'power4.out'}
+      )
+      .to(fillSvgElement, 
+        {opacity: 1, duration: 0.5, ease: 'power4.out'}
+      )
+      .to([diamondElement, backLink], 
+        {opacity: 1, duration: 0.5, ease: 'power4.out'}
+      )
+      .to(menuContainer, 
+        {opacity: 1, duration: 0.5, ease: 'power4.out'}
+      );
+  }
 
   return navbarTimeline;
 }
@@ -542,8 +545,6 @@ document.addEventListener('DOMContentLoaded', function () {
     iconContainer,
     closeIcon,
   });
-
-  let navbarTimeline;
 
   // Ensure paths are correctly selected
   if (!defaultStrokePath || !expandedStrokePath) {
