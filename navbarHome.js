@@ -981,13 +981,15 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   if (window.location.pathname === 'index.html' || window.location.pathname === '/') {
-  const loadingButton = document.querySelector('.loading_button-container');
-  if (loadingButton) {
-    loadingButton.addEventListener('click', function() {
-      console.log('Loading button clicked');
-      loadingButtonClicked = true;
-      startHeroAnimationTimer();
-    });
+    const loadingButton = document.querySelector('.loading_button-container');
+    if (loadingButton) {
+      loadingButton.addEventListener('click', function() {
+        console.log('Loading button clicked');
+        loadingButtonClicked = true;
+        startHeroAnimationTimer();
+      });
+    }
   }
-}
+
+  window.updateNavbarColorForFrostTech = updateNavbarColorForFrostTech;
 });
