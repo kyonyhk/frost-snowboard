@@ -307,9 +307,8 @@ function playNavbarIntro() {
   }
   gsap.set(navbarContainer, { visibility: 'visible' });
   gsap.to(navbarContainer, { opacity: 1, duration: 0.5 });
-  navbarTimeline.play().then(() => {
-    updateNavbarColor();
-  });
+  navbarTimeline.play();
+  updateNavbarColor();
 }
 
 function playNavbarExit(onComplete) {
