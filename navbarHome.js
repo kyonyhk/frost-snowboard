@@ -187,7 +187,7 @@ function updateHoverEffects(colors) {
         duration: 0.3,
         ease: 'power4.inOut',
       });
-      gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.out' })
+      gsap.to(strokePath, { opacity: 0.1, duration: 0.5, ease: 'power4.out' })
     });
   }
 
