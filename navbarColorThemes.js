@@ -95,6 +95,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
+  window.colorThemes = colorThemes;
+
   function updateNavbarColors(category) {
     const theme = colorThemes[category] || colorThemes.default;
     const { primary, secondary, tertiary } = theme;
