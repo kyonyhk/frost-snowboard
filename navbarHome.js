@@ -238,6 +238,7 @@ function updateNavbarDisplay() {
 }
 
 function handleNavigation() {
+  console.log('Handling navigation');
   const isHomepage = 
     window.location.pathname === 'index.html' ||
     window.location.pathname === '/';
@@ -321,10 +322,13 @@ function playNavbarIntro() {
 }
 
 function playNavbarExit(onComplete) {
+  console.log('Starting navbar exit animation');
   if (!navbarTimeline) {
+    console.log('Creating new navbar timeline');
     navbarTimeline = createNavbarTimeline();
   }
   navbarTimeline.reverse().eventCallback('onReverseComplete', () => {
+    console.log('Navbar exit animation completed');
     if (onComplete) onComplete();
   });
 }
@@ -571,18 +575,20 @@ document.addEventListener('DOMContentLoaded', function () {
   if (backLink) {
     // Add a click event listener
     backLink.addEventListener('click', function (event) {
+      console.log('Back link clicked');
       event.preventDefault(); // Prevent the default anchor behavior if any
 
       playNavbarExit(() => {
+        console.log('Navbar exit animation completed');
         if (history.length > 1) {
+          console.log('Going back in history');
           history.back(); // Navigate to the previous page
         } else {
+          console.log('Redirecting to homepage');
           window.location.href = '/'; // Redirect to the homepage
         }
 
-        setTimeout(() => {
-          handleNavigation();
-        }, 50);
+        handleNavigation();
       })
     });
   }
@@ -907,7 +913,10 @@ document.addEventListener('DOMContentLoaded', function () {
   setInitialTextState();
 
   // Listen for popstate events (back/forward navigation)
-  window.addEventListener('popstate', handleNavigation);
+  window.addEventListener('popstate', function(event) {
+    console.log('popstatee event triggered');
+    handleNavigation();
+  });
 
   if (window.location.pathname === 'index.html' || window.location.pathname === '/') {
   const loadingButton = document.querySelector('.loading_button-container');
