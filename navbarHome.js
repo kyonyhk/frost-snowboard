@@ -13,6 +13,7 @@ const navbarContainer = document.querySelector(
 );
 const iconContainer = document.querySelector('.global-navbar-link.is-icon');
 const closeIcon = document.querySelector('.global-navbar_close-icon');
+const closeIconPath = document.querySelector('.global-navbar_close-icon path');
 
 // Fill SVG constants
 const fillSvgElement = document.querySelector(
@@ -55,7 +56,8 @@ const colorThemes = {
     fillGradient: 'defaultGradient',
     circleColor: '#002814',
     circleStroke: '#A1FCCF',
-    arrowColor: '#6BE688'
+    arrowColor: '#6BE688', 
+    closeIcon: '#A1FCCF'
   },
   yellow: {
     textColor: '#FDFDCE',
@@ -65,7 +67,8 @@ const colorThemes = {
     fillGradient: 'yellowDefaultGradient',
     circleColor: '#3C3312',
     circleStroke: '#FDFDCE',
-    arrowColor: '#FDFDCE'
+    arrowColor: '#FDFDCE',
+    closeIcon: '#FDFDCE'
   },
   purple: {
     textColor: '#877FCB',
@@ -75,7 +78,8 @@ const colorThemes = {
     fillGradient: 'purpleDefaultGradient',
     circleColor: '#1A0544',
     circleStroke: '#877FCB',
-    arrowColor: '#877FCB'
+    arrowColor: '#877FCB',
+    closeIcon: '#877FCB'
   }
 };
 
@@ -119,6 +123,10 @@ function updateSvgColors(colors) {
   const arrowIcon = document.querySelector('.navbar-back_arrow-icon path');
   if (arrowIcon) {
     arrowIcon.style.stroke = colors.arrowColor;
+  }
+
+  if (closeIconPath) {
+    closeIconPath.style.fill = colors.closeIcon;
   }
 
   // Update circle colors
