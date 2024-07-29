@@ -79,6 +79,8 @@ document.addEventListener('DOMContentLoaded', function () {
       if (document.referrer.includes(window.location.origin)) {
       // We're navigating back to the homepage from another page on the same site
         playNavbarIntro();
+      } else {
+        checkNavbarIntroConditions();
       }
     } else {
       // For non-homepage, start the animation after a delay
@@ -189,8 +191,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (history.length > 1) {
           history.back(); // Navigate to the previous page
         } else {
-          window.location.href = '/'; // Redirect to the homepage
+          history.pushState(null, '', '/');
         }
+        handleNavigation();
       })
     });
   }
@@ -215,8 +218,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     if (isHomepage) {
-      if (document.referrer.includes(window.location.origin) || (loadingButtonClicked && heroAnimationCompleted)) {
+      if (document.referrer.includes(window.location.origin)) {
         playNavbarIntro(); 
+      } else if (loadingButtonClicked && heroAnimationCompleted) {
+        playNavbarIntro();
       }
     } else {
       if (pageLoadAnimationComplete) {
