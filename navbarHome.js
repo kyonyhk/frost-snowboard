@@ -80,7 +80,9 @@ document.addEventListener('DOMContentLoaded', function () {
       if (document.referrer.includes(window.location.origin)) {
         // We're navigating back to the homepage from another page on the same site
         playNavbarIntro();
-      } 
+      }  else {
+        checkNavbarIntroConditions();
+      }
     } else {
       // For non-homepage, start the animation after a delay
       const isCollectionsPage = window.location.pathname.includes('collection');
@@ -215,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     if (isHomepage) {
-      if (loadingButtonClicked && heroAnimationCompleted) {
+      if (document.referrer.includes(window.location.origin) || (loadingButtonClicked && heroAnimationCompleted)) {
         playNavbarIntro(); 
       }
     } else {
