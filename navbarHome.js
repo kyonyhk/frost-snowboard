@@ -325,7 +325,7 @@ function handleNavigation() {
     const isFrostTechPage = window.location.pathname.includes('frost-tech');
     
     if (isCollectionsPage) {
-      startNavbarAnimationForNonHomepage(5000);
+      startNavbarAnimationForNonHomepage(4000);
     } else if (isFrostTechPage) {
       startNavbarAnimationForNonHomepage(3000);
     } else {
