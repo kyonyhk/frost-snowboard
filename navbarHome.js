@@ -223,6 +223,19 @@ function updateHoverEffects(colors) {
   });
 }
 
+function updateNavbarDisplay() {
+  const isHomepage =
+    window.location.pathname === 'index.html' ||
+    window.location.pathname === '/';
+
+  if (diamondElement) {
+    diamondElement.style.display = isHomepage ? 'block' : 'none';
+  }
+  if (backLink) {
+    backLink.style.display = isHomepage ? 'none' : 'block';
+  }
+}
+
 function handleNavigation() {
   const isHomepage = 
     window.location.pathname === 'index.html' ||
@@ -535,19 +548,6 @@ document.addEventListener('DOMContentLoaded', function () {
     console.error('SVG paths not found or incorrectly referenced.');
     return;
   }
-
-  function updateNavbarDisplay() {
-    const isHomepage =
-      window.location.pathname === 'index.html' ||
-      window.location.pathname === '/';
-
-      if (diamondElement) {
-        diamondElement.style.display = isHomepage ? 'block' : 'none';
-      }
-      if (backLink) {
-        backLink.style.display = isHomepage ? 'none' : 'block';
-      }
-    }
 
   document.querySelectorAll('a[href^="/"]').forEach(link => {
     link.addEventListener('click', function(event) {
