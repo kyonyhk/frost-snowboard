@@ -48,6 +48,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function updateFrostTechColors(newCategory) {
     const theme = colorThemes[newCategory];
+    if (!theme) {
+      console.error(`Theme not found for category: ${newCategory}`);
+      return;
+    };
 
     // Frost tech constants
     const headers = document.querySelectorAll('.h-h5.is-tech');
@@ -138,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Initialize with the default state
-  // updateColors('quakeshift');
+  setupFrostTechEventListeners();
+  updateFrostTechColors(currentCategory); // Apply the default category colors on load
 });
 
