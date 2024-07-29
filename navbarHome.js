@@ -167,6 +167,19 @@ document.addEventListener('DOMContentLoaded', function () {
       if (backLink) {
         backLink.style.display = isHomepage ? 'none' : 'block';
       }
+      if (menuContainer) {
+        menuContainer.style.display = 'block';
+      }
+
+      // Ensure the navbar is in its collapsed state
+      gsap.set(navbarContainer, { width: '114px' });
+      
+      // Hide other link containers
+      linkContainers.forEach((container) => {
+        if (container !== menuContainer) {
+          gsap.set(container, { display: 'none' });
+        }
+      });
     }
 
   document.querySelectorAll('a[href^="/"]').forEach(link => {
