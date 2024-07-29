@@ -78,7 +78,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (document.referrer.includes(window.location.origin)) {
       // We're navigating back to the homepage from another page on the same site
-      playNavbarIntro();
+        playNavbarIntro();
+      }
     } else {
       // For non-homepage, start the animation after a delay
       const isCollectionsPage = window.location.pathname.includes('collection');
