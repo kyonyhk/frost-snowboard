@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   let currentCategory = 'quakeshift'; // Default category
 
-  function updateColors(newCategory) {
+  function updateFrostTechColors(newCategory) {
     const theme = colorThemes[newCategory];
-
+    
     const headers = document.querySelectorAll('.h-h5.is-tech');
     const borders = document.querySelectorAll('.tech_border-div');
     const counterNumbers = document.querySelectorAll('.h-h3.is-tech-counter');
@@ -44,13 +44,15 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Example usage:
-  const techOptions = document.querySelectorAll('.tech_description-header-wrap');
-  techOptions.forEach(option => {
-    option.addEventListener('click', function() {
-      const newState = this.closest('.tech_description-container').classList[1].split('-')[1];
-      updateColors(newState);
+  function setupFrostTechEventListeners() {
+    const techOptions = document.querySelectorAll('.tech_description-header-wrap');
+    techOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        const newState = this.closest('.tech_description-container').classList[1].split('-')[1];
+        updateFrostTechColors(newState);
+      });
     });
-  });
+  }
 
   // Initialize with the default state
   // updateColors('quakeshift');
