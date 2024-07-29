@@ -94,15 +94,18 @@ document.addEventListener('DOMContentLoaded', function () {
         startNavbarAnimationForNonHomepage(0);
       }
     }
-
-    updateNavbarDisplay();
   }
 
   function setInitialNavbarState() {
     gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
     gsap.set(strokePath, {y: '100%'});
     gsap.set(navbarContainer, {opacity: 0}); // Hide the entire navbar container
-    gsap.set(navbarContainer, {width: '114px'})
+    gsap.set(navbarContainer, {width: '114px'});
+    linkContainers.forEach((container) => {
+      if (container !== menuContainer) {
+        gsap.set(container, { display: 'none' });
+      }
+    });
   }
 
   function createNavbarTimeline() {
@@ -724,6 +727,5 @@ document.addEventListener('DOMContentLoaded', function () {
   setupTextHoverAnimations();
   setInitialTextState();
 
-  // Initialize the navbar on page load
-  updateNavbarDisplay();
+  setInitialNavbarState();
 });
