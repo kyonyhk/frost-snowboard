@@ -75,12 +75,6 @@ document.addEventListener('DOMContentLoaded', function () {
       // Reset the homepage-specific variables
       loadingButtonClicked = false;
       heroAnimationCompleted = false;
-      
-      // Check if we're coming back to the homepage
-      if (document.referrer.includes(window.location.origin)) {
-        // We're navigating back to the homepage from another page on the same site
-        playNavbarIntro();
-      }  
     } else {
       // For non-homepage, start the animation after a delay
       const isCollectionsPage = window.location.pathname.includes('collection');
@@ -101,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function setInitialNavbarState() {
     gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
     gsap.set(strokePath, {y: '100%'});
-    gsap.set(navbarContainer, {opacity: 0}); // Hide the entire navbar container
+    gsap.set(navbarContainer, {opacity: 0, visibility: 'hidden'}); // Hide the entire navbar container
     gsap.set(navbarContainer, {width: '114px'})
   }
 
@@ -133,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!navbarTimeline) {
       navbarTimeline = createNavbarTimeline();
     }
+    gsap.set(navbarContainer, { visibility: 'visible' });
     gsap.to(navbarContainer, { opacity: 1, duration: 0.5 });
     navbarTimeline.play();
   }
@@ -215,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     if (isHomepage) {
-      if (document.referrer.includes(window.location.origin) || (loadingButtonClicked && heroAnimationCompleted)) {
+      if (loadingButtonClicked && heroAnimationCompleted)) {
         playNavbarIntro(); 
       }
     } else {
