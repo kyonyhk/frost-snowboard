@@ -1,3 +1,45 @@
+gsap.registerPlugin(MorphSVGPlugin);
+
+const menuContainer = document.querySelector('.global-navbar-link.is-menu');
+const arrowIcon = document.querySelector('.navbar-back_arrow-icon');
+const bigCircle = document.querySelector('.navbar-back_big-circle');
+const smallCircle = document.querySelector('.navbar-back_small-circle');
+const backButton = document.querySelector('.global-navbar_back-button');
+const backLink = document.querySelector('.global-navbar_back-link');
+const linkContainers = document.querySelectorAll('.global-navbar-link');
+const navbarContainer = document.querySelector(
+  '.global-navbar_navbar-container'
+);
+const iconContainer = document.querySelector('.global-navbar-link.is-icon');
+const closeIcon = document.querySelector('.global-navbar_close-icon');
+
+const fillSvgElement = document.querySelector(
+  '.global-navbar_background-fill svg'
+);
+const fillGElement = fillSvgElement.querySelector('g');
+const defaultFillPath = document.querySelector('#defaultFillPath');
+const expandedFillPath = document.querySelector('#expandedFillPath');
+
+const strokeSvgElement = document.querySelector(
+  '.global-navbar_background-stroke svg'
+);
+const strokeGElement = fillSvgElement.querySelector('g');
+const defaultStrokePath = document.querySelector('#defaultStrokePath');
+const expandedStrokePath = document.querySelector('#expandedStrokePath');
+
+const strokePath = document.querySelector('.global-navbar_background-stroke');
+
+const diamondElement = document.querySelector('.global-navbar_diamond');
+
+let menuOpenTimeline;
+
+let loadingButtonClicked = false;
+let heroAnimationCompleted = false;
+let pageLoadAnimationComplete = false;
+let heroAnimationTimerId;
+
+const textSplits = new Map();
+
 const colorThemes = {
   default: {
     textColor: '#A1FCCF',
@@ -94,48 +136,6 @@ function updateNavbarColor() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  gsap.registerPlugin(MorphSVGPlugin);
-
-  const menuContainer = document.querySelector('.global-navbar-link.is-menu');
-  const arrowIcon = document.querySelector('.navbar-back_arrow-icon');
-  const bigCircle = document.querySelector('.navbar-back_big-circle');
-  const smallCircle = document.querySelector('.navbar-back_small-circle');
-  const backButton = document.querySelector('.global-navbar_back-button');
-  const backLink = document.querySelector('.global-navbar_back-link');
-  const linkContainers = document.querySelectorAll('.global-navbar-link');
-  const navbarContainer = document.querySelector(
-    '.global-navbar_navbar-container'
-  );
-  const iconContainer = document.querySelector('.global-navbar-link.is-icon');
-  const closeIcon = document.querySelector('.global-navbar_close-icon');
-
-  const fillSvgElement = document.querySelector(
-    '.global-navbar_background-fill svg'
-  );
-  const fillGElement = fillSvgElement.querySelector('g');
-  const defaultFillPath = document.querySelector('#defaultFillPath');
-  const expandedFillPath = document.querySelector('#expandedFillPath');
-
-  const strokeSvgElement = document.querySelector(
-    '.global-navbar_background-stroke svg'
-  );
-  const strokeGElement = fillSvgElement.querySelector('g');
-  const defaultStrokePath = document.querySelector('#defaultStrokePath');
-  const expandedStrokePath = document.querySelector('#expandedStrokePath');
-
-  const strokePath = document.querySelector('.global-navbar_background-stroke');
-
-  const diamondElement = document.querySelector('.global-navbar_diamond');
-
-  let menuOpenTimeline;
-
-  let loadingButtonClicked = false;
-  let heroAnimationCompleted = false;
-  let pageLoadAnimationComplete = false;
-  let heroAnimationTimerId;
-
-  const textSplits = new Map();
-
   console.log('Elements:', {
     menuContainer,
     arrowIcon,
