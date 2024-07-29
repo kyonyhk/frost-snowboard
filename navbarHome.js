@@ -692,6 +692,8 @@ document.addEventListener('DOMContentLoaded', function () {
       .add(() => {
         setupTextHoverAnimations();
       }, 0);
+
+    updateNavbarDisplay();
   });
 
   // Listen for popstate events (back/forward navigation)
