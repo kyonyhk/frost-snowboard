@@ -635,6 +635,10 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('Close Icon before adding event listener:', closeIcon);
 
   closeIcon.addEventListener('click', function () {
+    event.preventDefault(); // Prevent any default action
+    event.stopPropagation(); // Stop the event from bubbling up
+  
+    console.log('Close icon clicked'); // Add this for debugging
     const linkOriginalTexts = document.querySelectorAll(
       '.global-navbar_text-container .is-original-text'
     );
@@ -710,12 +714,16 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Listen for popstate events (back/forward navigation)
-  window.addEventListener('popstate', handleNavigation);
-  
-  // Call handleNavigation on initial page load
-  handleNavigation();
+  window.addEventListener('popstate', function(event) {
+    if (event.state !== null) {
+      handleNavigation();
+    }
+  });
 
   // Set initial state for text elements
   setupTextHoverAnimations();
   setInitialTextState();
+
+  // Initialize the navbar on page load
+  updateNavbarDisplay();
 });
