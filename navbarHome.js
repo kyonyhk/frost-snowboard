@@ -116,8 +116,8 @@ function updateSvgColors(colors) {
   }
 
   // Update circle colors
-  const bigCirclePaths = document.querySelector('.navbar-back_big-circle path');
-  const smallCirclePaths = document.querySelector('.navbar-back_small-circle path');
+  const bigCirclePaths = document.querySelectorAll('.navbar-back_big-circle path');
+  const smallCirclePaths = document.querySelectorAll('.navbar-back_small-circle path');
   const backgroundCircle = document.querySelector('.navbar-back_bg');
   
   bigCirclePaths.forEach(path => {
