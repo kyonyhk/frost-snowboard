@@ -152,6 +152,77 @@ function updateNavbarColor() {
   }
 }
 
+function updateHoverEffects(colors) {
+  // Helper function to remove old listeners and add new ones
+  function updateListener(element, eventType, newHandler) {
+    const oldHandler = element.getAttribute(`data-${eventType}-handler`);
+    if (oldHandler) {
+      element.removeEventListener(eventType, window[oldHandler]);
+    }
+    const handlerName = `${eventType}Handler${Date.now()}`;
+    window[handlerName] = newHandler;
+    element.setAttribute(`data-${eventType}-handler`, handlerName);
+    element.addEventListener(eventType, newHandler);
+  }
+
+  // Update diamond hover effect
+  if (diamondElement) {
+    updateListener(diamondElement, 'mouseenter', function () {
+      gsap.to(diamondElement, {
+        boxShadow: `0 0 10px 0 ${colors.diamondStroke}`,
+        opacity: 1,
+        rotation: 225,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      });
+    });
+
+    updateListener(diamondElement, 'mouseleave', function () {
+      gsap.to(diamondElement, {
+        boxShadow: 'none',
+        opacity: 0.5, 
+        rotation: 45,
+        duration: 0.3,
+        ease: 'power4.inOut',
+      });
+    });
+  }
+
+  // Update back button hover effect
+  if (backButton) {
+    updateListener(backButton, 'mouseenter', function () {
+      gsap.to(bigCircle, {
+        scale: 1.2,
+        opacity: 1.0,
+        duration: 0.5,
+        ease: 'power4.inOut',
+        fill: colors.circleStroke,
+      });
+    });
+
+    updateListener(backButton, 'mouseleave', function () {
+      gsap.to(bigCircle, {
+        scale: 1,
+        opacity: 0.5,
+        duration: 0.3,
+        ease: 'power4.inOut',
+        fill: colors.circleStroke,
+      });
+    });
+  }
+
+  // Update text container hover effects
+  linkContainers.forEach((container) => {
+    updateListener(container, 'mouseenter', function () {
+      gsap.to(container, { color: colors.textColor, duration: 0.5, ease: 'power4.inOut' });
+    });
+
+    updateListener(container, 'mouseleave', function () {
+      gsap.to(container, { color: colors.textColor, opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
+    });
+  });
+}
+
 function handleNavigation() {
   const isHomepage = 
     window.location.pathname === 'index.html' ||
@@ -515,110 +586,110 @@ document.addEventListener('DOMContentLoaded', function () {
   }  
 
 
-  // Text container hover effect
-  linkContainers.forEach((container) => {
-    container.addEventListener('mouseenter', function () {
-      gsap.to(arrowIcon, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
-      gsap.to(bigCircle, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
-      gsap.to(container, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
-      gsap.to(strokePath, {
-        opacity: 0.3,
-        duration: 0.5,
-        ease: 'power4.inOut',
-      });
-      gsap.to(diamondElement, {
-        opacity: 1.0,
-        duration: 0.5,
-        ease: 'power4.inOut',
-      });
-    });
+  // // Text container hover effect
+  // linkContainers.forEach((container) => {
+  //   container.addEventListener('mouseenter', function () {
+  //     gsap.to(arrowIcon, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
+  //     gsap.to(bigCircle, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
+  //     gsap.to(container, { opacity: 1.0, duration: 0.5, ease: 'power4.inOut' });
+  //     gsap.to(strokePath, {
+  //       opacity: 0.3,
+  //       duration: 0.5,
+  //       ease: 'power4.inOut',
+  //     });
+  //     gsap.to(diamondElement, {
+  //       opacity: 1.0,
+  //       duration: 0.5,
+  //       ease: 'power4.inOut',
+  //     });
+  //   });
 
-    container.addEventListener('mouseleave', function () {
-      gsap.to(arrowIcon, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
-      gsap.to(bigCircle, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
-      gsap.to(container, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
-      gsap.to(strokePath, {
-        opacity: 0.1,
-        duration: 0.3,
-        ease: 'power4.inOut',
-      });
-      gsap.to(diamondElement, {
-        opacity: 0.5,
-        duration: 0.3,
-        ease: 'power4.inOut',
-      });
-    });
-  });
+  //   container.addEventListener('mouseleave', function () {
+  //     gsap.to(arrowIcon, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
+  //     gsap.to(bigCircle, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
+  //     gsap.to(container, { opacity: 0.5, duration: 0.3, ease: 'power4.inOut' });
+  //     gsap.to(strokePath, {
+  //       opacity: 0.1,
+  //       duration: 0.3,
+  //       ease: 'power4.inOut',
+  //     });
+  //     gsap.to(diamondElement, {
+  //       opacity: 0.5,
+  //       duration: 0.3,
+  //       ease: 'power4.inOut',
+  //     });
+  //   });
+  // });
 
-  // Back button hover effect
-  backButton.addEventListener('mouseenter', function () {
-    gsap.to(bigCircle, {
-      scale: 1.2,
-      opacity: 1.0,
-      duration: 0.5,
-      ease: 'power4.inOut',
-      fill: '#6BE688',
-    });
-    gsap.to(smallCircle, {
-      scale: 0.8,
-      opacity: 1.0,
-      duration: 0.5,
-      ease: 'power4.inOut',
-    });
-    gsap.to(arrowIcon, {
-      strokeWidth: 2,
-      opacity: 1.0,
-      duration: 0.5,
-      ease: 'power4.inOut',
-    });
-    gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.inOut' });
-  });
+  // // Back button hover effect
+  // backButton.addEventListener('mouseenter', function () {
+  //   gsap.to(bigCircle, {
+  //     scale: 1.2,
+  //     opacity: 1.0,
+  //     duration: 0.5,
+  //     ease: 'power4.inOut',
+  //     fill: '#6BE688',
+  //   });
+  //   gsap.to(smallCircle, {
+  //     scale: 0.8,
+  //     opacity: 1.0,
+  //     duration: 0.5,
+  //     ease: 'power4.inOut',
+  //   });
+  //   gsap.to(arrowIcon, {
+  //     strokeWidth: 2,
+  //     opacity: 1.0,
+  //     duration: 0.5,
+  //     ease: 'power4.inOut',
+  //   });
+  //   gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.inOut' });
+  // });
 
-  backButton.addEventListener('mouseleave', function () {
-    gsap.to(bigCircle, {
-      scale: 1,
-      opacity: 0.5,
-      duration: 0.3,
-      ease: 'power4.inOut',
-      fill: '#A1FCCF',
-    });
-    gsap.to(smallCircle, {
-      scale: 1,
-      opacity: 0.5,
-      duration: 0.3,
-      ease: 'power4.inOut',
-    });
-    gsap.to(arrowIcon, {
-      strokeWidth: 1,
-      opacity: 0.5,
-      duration: 0.3,
-      ease: 'power4.inOut',
-    });
-    gsap.to(strokePath, { opacity: 0.1, duration: 0.3, ease: 'power4.inOut' });
-  });
+  // backButton.addEventListener('mouseleave', function () {
+  //   gsap.to(bigCircle, {
+  //     scale: 1,
+  //     opacity: 0.5,
+  //     duration: 0.3,
+  //     ease: 'power4.inOut',
+  //     fill: '#A1FCCF',
+  //   });
+  //   gsap.to(smallCircle, {
+  //     scale: 1,
+  //     opacity: 0.5,
+  //     duration: 0.3,
+  //     ease: 'power4.inOut',
+  //   });
+  //   gsap.to(arrowIcon, {
+  //     strokeWidth: 1,
+  //     opacity: 0.5,
+  //     duration: 0.3,
+  //     ease: 'power4.inOut',
+  //   });
+  //   gsap.to(strokePath, { opacity: 0.1, duration: 0.3, ease: 'power4.inOut' });
+  // });
 
-  // Diamond element hover effect
-  diamondElement.addEventListener('mouseenter', function () {
-    gsap.to(diamondElement, {
-      boxShadow: '0 0 10px 0 rgba(107, 230, 136)',
-      opacity: 1,
-      rotation: 225,
-      duration: 0.5,
-      ease: 'power4.inOut',
-    });
-    gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.inOut' });
-  });
+  // // Diamond element hover effect
+  // diamondElement.addEventListener('mouseenter', function () {
+  //   gsap.to(diamondElement, {
+  //     boxShadow: '0 0 10px 0 rgba(107, 230, 136)',
+  //     opacity: 1,
+  //     rotation: 225,
+  //     duration: 0.5,
+  //     ease: 'power4.inOut',
+  //   });
+  //   gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.inOut' });
+  // });
 
-  diamondElement.addEventListener('mouseleave', function () {
-    gsap.to(diamondElement, {
-      boxShadow: 'none',
-      opacity: 0.5, 
-      rotation: 45,
-      duration: 0.3,
-      ease: 'power4.inOut',
-    });
-    gsap.to(strokePath, { opacity: 0.1, duration: 0.3, ease: 'power4.inOut' });
-  });
+  // diamondElement.addEventListener('mouseleave', function () {
+  //   gsap.to(diamondElement, {
+  //     boxShadow: 'none',
+  //     opacity: 0.5, 
+  //     rotation: 45,
+  //     duration: 0.3,
+  //     ease: 'power4.inOut',
+  //   });
+  //   gsap.to(strokePath, { opacity: 0.1, duration: 0.3, ease: 'power4.inOut' });
+  // });
 
 
 
