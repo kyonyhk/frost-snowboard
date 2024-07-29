@@ -80,6 +80,39 @@ const colorThemes = {
     circleStroke: '#877FCB',
     arrowColor: '#877FCB',
     closeIcon: '#877FCB'
+  },
+  quakeshift: {
+    textColor: '#A1FCCF',
+    diamondColor: '#002814',
+    diamondStroke: '#6BE688',
+    strokeGradient: 'defaultStrokeGradient',
+    fillGradient: 'defaultGradient',
+    circleColor: '#002814',
+    circleStroke: '#A1FCCF',
+    arrowColor: '#6BE688', 
+    closeIcon: '#A1FCCF'
+  },
+  thermoflux: {
+    textColor: '#FDFDCE',
+    diamondColor: '#3C3312',
+    diamondStroke: '#FDFDCE',
+    strokeGradient: 'yellowDefaultStrokeGradient',
+    fillGradient: 'yellowDefaultGradient',
+    circleColor: '#3C3312',
+    circleStroke: '#FDFDCE',
+    arrowColor: '#FDFDCE',
+    closeIcon: '#FDFDCE'
+  },
+  flexiweave: {
+    textColor: '#877FCB',
+    diamondColor: '#1A0544',
+    diamondStroke: '#877FCB',
+    strokeGradient: 'purpleDefaultStrokeGradient',
+    fillGradient: 'purpleDefaultGradient',
+    circleColor: '#1A0544',
+    circleStroke: '#877FCB',
+    arrowColor: '#877FCB',
+    closeIcon: '#877FCB'
   }
 };
 
@@ -147,6 +180,34 @@ function updateSvgColors(colors) {
   }
 }
 
+function updateFrostTechNavbarColor(category) {
+  if (colorThemes[category]) {
+    setColorTheme(category);
+  } else {
+    console.warn(`Category ${category} not found in colorThemes`);
+  }
+}
+
+function setupFrostTechEventListeners() {
+  const techOptions = document.querySelectorAll('.tech_description-header-wrap');
+  if (techOptions.length === 0) {
+    // If we're not on the Frost Tech page, just return
+    return;
+  }
+  
+  techOptions.forEach(option => {
+    option.addEventListener('click', function() {
+      const container = this.closest('.tech_description-container');
+      if (container && container.classList.length > 1) {
+        const newCategory = container.classList[1].split('-')[1];
+        if (newCategory) {
+          updateFrostTechNavbarColor(newCategory);
+        }
+      }
+    });
+  });
+}
+
 // Call this function when the page loads or when navigating to a new page
 function updateNavbarColor() {
   const path = window.location.pathname;
@@ -156,6 +217,9 @@ function updateNavbarColor() {
     setColorTheme('yellow');
   } else if (path.includes('nebula-collection')) {
     setColorTheme('purple');
+  } else if (path.includes('frost-tech')) {
+    updateFrostTechNavbarColor('quakeshift');
+    setupFrostTechEventListeners();
   } else {
     setColorTheme('default');
   }
