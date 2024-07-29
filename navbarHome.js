@@ -72,15 +72,12 @@ document.addEventListener('DOMContentLoaded', function () {
     setInitialNavbarState();
   
     if (isHomepage) {
-      // Reset the homepage-specific variables
-      loadingButtonClicked = false;
-      heroAnimationCompleted = false;
-
       if (document.referrer.includes(window.location.origin)) {
       // We're navigating back to the homepage from another page on the same site
         playNavbarIntro();
       } else {
-        checkNavbarIntroConditions();
+        loadingButtonClicked = false;
+        heroAnimationCompleted = false;
       }
     } else {
       // For non-homepage, start the animation after a delay
@@ -191,9 +188,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (history.length > 1) {
           history.back(); // Navigate to the previous page
         } else {
-          history.pushState(null, '', '/');
+          window.location.href = '/';
         }
-        handleNavigation();
       })
     });
   }
@@ -218,11 +214,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     
     if (isHomepage) {
-      if (document.referrer.includes(window.location.origin)) {
+      if (loadingButtonClicked && heroAnimationCompleted) {
         playNavbarIntro(); 
-      } else if (loadingButtonClicked && heroAnimationCompleted) {
-        playNavbarIntro();
-      }
+      } 
     } else {
       if (pageLoadAnimationComplete) {
         playNavbarIntro();
@@ -707,7 +701,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Listen for popstate events (back/forward navigation)
-  window.addEventListener('popstate', handleNavigation);
+  window.addEventListener('popstate', function(event) {
+    handleNavigation();
+  });
   
   // Call handleNavigation on initial page load
   handleNavigation();
