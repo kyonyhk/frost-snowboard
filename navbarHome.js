@@ -321,7 +321,9 @@ function playNavbarExit(onComplete) {
   if (!navbarTimeline) {
     navbarTimeline = createNavbarTimeline();
   }
-  navbarTimeline.reverse().eventCallback('onReverseComplete', onComplete);
+  navbarTimeline.reverse().eventCallback('onReverseComplete', () => {
+    if (onComplete) onComplete();
+  });
 }
 
 function handlePageTransition(newPageUrl, introDuration) {
@@ -574,6 +576,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
           window.location.href = '/'; // Redirect to the homepage
         }
+
+        setTimeout(() => {
+          handleNavigation();
+        }, 50);
       })
     });
   }
