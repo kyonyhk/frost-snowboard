@@ -80,9 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (document.referrer.includes(window.location.origin)) {
         // We're navigating back to the homepage from another page on the same site
         playNavbarIntro();
-      }  else {
-        checkNavbarIntroConditions();
-      }
+      }  
     } else {
       // For non-homepage, start the animation after a delay
       const isCollectionsPage = window.location.pathname.includes('collection');
@@ -624,6 +622,11 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('Close Icon before adding event listener:', closeIcon);
 
   closeIcon.addEventListener('click', function () {
+    event.preventDefault();
+    event.stopPropagation();
+  
+    console.log('Close icon clicked');
+    
     const linkOriginalTexts = document.querySelectorAll(
       '.global-navbar_text-container .is-original-text'
     );
@@ -707,4 +710,15 @@ document.addEventListener('DOMContentLoaded', function () {
   // Set initial state for text elements
   setupTextHoverAnimations();
   setInitialTextState();
+
+  if (window.location.pathname === 'index.html' || window.location.pathname === '/') {
+  const loadingButton = document.querySelector('.loading_button-container');
+  if (loadingButton) {
+    loadingButton.addEventListener('click', function() {
+      console.log('Loading button clicked');
+      loadingButtonClicked = true;
+      startHeroAnimationTimer();
+    });
+  }
+}
 });
