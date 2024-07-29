@@ -1,5 +1,6 @@
 gsap.registerPlugin(MorphSVGPlugin);
 
+// Navbar constants
 const menuContainer = document.querySelector('.global-navbar-link.is-menu');
 const arrowIcon = document.querySelector('.navbar-back_arrow-icon');
 const bigCircle = document.querySelector('.navbar-back_big-circle');
@@ -13,6 +14,7 @@ const navbarContainer = document.querySelector(
 const iconContainer = document.querySelector('.global-navbar-link.is-icon');
 const closeIcon = document.querySelector('.global-navbar_close-icon');
 
+// Fill SVG constants
 const fillSvgElement = document.querySelector(
   '.global-navbar_background-fill svg'
 );
@@ -20,6 +22,7 @@ const fillGElement = fillSvgElement.querySelector('g');
 const defaultFillPath = document.querySelector('#defaultFillPath');
 const expandedFillPath = document.querySelector('#expandedFillPath');
 
+// Fill stroke constants
 const strokeSvgElement = document.querySelector(
   '.global-navbar_background-stroke svg'
 );
@@ -29,10 +32,11 @@ const expandedStrokePath = document.querySelector('#expandedStrokePath');
 
 const strokePath = document.querySelector('.global-navbar_background-stroke');
 
+// Diamond constants
 const diamondElement = document.querySelector('.global-navbar_diamond');
 
+// Variables
 let menuOpenTimeline;
-
 let loadingButtonClicked = false;
 let heroAnimationCompleted = false;
 let pageLoadAnimationComplete = false;
@@ -40,6 +44,7 @@ let heroAnimationTimerId;
 
 const textSplits = new Map();
 
+// Color themes
 const colorThemes = {
   default: {
     textColor: '#A1FCCF',
@@ -147,6 +152,289 @@ function updateNavbarColor() {
   }
 }
 
+function handleNavigation() {
+  const isHomepage = 
+    window.location.pathname === 'index.html' ||
+    window.location.pathname === '/';
+
+  setInitialNavbarState();
+
+  if (isHomepage) {
+    // Reset the homepage-specific variables
+    loadingButtonClicked = false;
+    heroAnimationCompleted = false;
+
+    if (document.referrer.includes(window.location.origin)) {
+    // We're navigating back to the homepage from another page on the same site
+      playNavbarIntro();
+    }
+  } else {
+    // For non-homepage, start the animation after a delay
+    const isCollectionsPage = window.location.pathname.includes('collection');
+    const isFrostTechPage = window.location.pathname.includes('frost-tech');
+    
+    if (isCollectionsPage) {
+      startNavbarAnimationForNonHomepage(5000);
+    } else if (isFrostTechPage) {
+      startNavbarAnimationForNonHomepage(3000);
+    } else {
+      startNavbarAnimationForNonHomepage(0);
+    }
+  }
+
+  updateNavbarDisplay();
+  updateNavbarColor();
+}
+
+function setInitialNavbarState() {
+  gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
+  gsap.set(strokePath, {y: '100%'});
+  gsap.set(navbarContainer, {opacity: 0, visibility: 'hidden'}); // Hide the entire navbar container
+  gsap.set(navbarContainer, {width: '114px'})
+}
+
+function createNavbarTimeline() {
+  // Set initial state
+  gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
+  gsap.set(strokePath, {y: '100%'});
+  
+  navbarTimeline = gsap.timeline({paused: true})
+    .to(strokePath, 
+      {opacity: 0.3, y: '0%', duration: 0.5, ease: 'power4.out'}
+    )
+    .to(fillSvgElement, 
+      {opacity: 1, duration: 0.5, ease: 'power4.out'}
+    )
+    .to([diamondElement, backLink], 
+      {opacity: 1, duration: 0.5, ease: 'power4.out'}
+    )
+    .to(menuContainer, 
+      {opacity: 1, duration: 0.5, ease: 'power4.out'}
+    )
+
+  return navbarTimeline;
+}
+
+function playNavbarIntro() {
+  console.log('Playing navbar intro animation')
+  setInitialNavbarState();
+  if (!navbarTimeline) {
+    navbarTimeline = createNavbarTimeline();
+  }
+  gsap.set(navbarContainer, { visibility: 'visible' });
+  gsap.to(navbarContainer, { opacity: 1, duration: 0.5 });
+  navbarTimeline.play().then(() => {
+    updateNavbarColor();
+  });
+}
+
+function playNavbarExit(onComplete) {
+  if (!navbarTimeline) {
+    navbarTimeline = createNavbarTimeline();
+  }
+  navbarTimeline.reverse().eventCallback('onReverseComplete', onComplete);
+}
+
+function handlePageTransition(newPageUrl, introDuration) {
+  playNavbarExit(() => {
+    window.location.href = newPageUrl;
+  });
+}
+
+function startNavbarAnimationForNonHomepage(delay = 0) {
+  setTimeout(() => {
+    console.log('Starting navbar animation for non-homepage');
+    pageLoadAnimationComplete = true;
+    checkNavbarIntroConditions();
+  }, delay);
+}
+
+function checkNavbarIntroConditions() {
+  const isHomepage = 
+    window.location.pathname === 'index.html' ||
+    window.location.pathname === '/';
+
+  console.log('Checking navbar intro conditions:', {
+    loadingButtonClicked,
+    heroAnimationCompleted,
+    isHomepage
+  });
+  
+  if (isHomepage) {
+    if (document.referrer.includes(window.location.origin) || (loadingButtonClicked && heroAnimationCompleted)) {
+      playNavbarIntro(); 
+    }
+  } else {
+    if (pageLoadAnimationComplete) {
+      playNavbarIntro();
+    }
+  }
+}
+
+// Simulate hero animation completion after 5 seconds
+function startHeroAnimationTimer() {
+  console.log('Starting hero animation timer');
+  clearTimeout(heroAnimationTimerId);
+  heroAnimationTimerId = setTimeout(() => {
+    console.log('Hero animation completed');
+    heroAnimationCompleted = true;
+    checkNavbarIntroConditions();
+  }, 5000);
+}
+
+// Set initial text state
+function setInitialTextState() {
+  document.querySelectorAll('.is-original-text').forEach((el) => {
+    gsap.set(el, { y: '0%' });
+  });
+  document.querySelectorAll('.is-animated-text').forEach((el) => {
+    gsap.set(el, { y: '0%' });
+  });
+}
+
+// Fill SVG animation function
+function animateFillSvg(forward = true) {
+  const fillTimeline = gsap.timeline();
+  fillTimeline
+    .to(
+      defaultFillPath,
+      {
+        morphSVG: forward ? expandedFillPath : defaultFillPath,
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      fillSvgElement,
+      {
+        attr: { viewBox: forward ? '0 0 640 64' : '0 0 180 64' },
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      fillSvgElement,
+      {
+        width: forward ? 640 : 180,
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      fillGElement,
+      {
+        attr: {
+          filter: forward
+            ? 'url(#expandedBackgroundFilter)'
+            : 'url(#defaultBackgroundFilter)',
+        },
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    );
+
+  return fillTimeline;
+}
+
+// Stroke SVG animation function
+function animateStrokeSvg(forward = true) {
+  const strokeTimeline = gsap.timeline();
+  strokeTimeline
+    .to(
+      defaultStrokePath,
+      {
+        morphSVG: forward ? expandedStrokePath : defaultStrokePath,
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      strokeSvgElement,
+      {
+        attr: { viewBox: forward ? '0 0 640 64' : '0 0 180 64' },
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    )
+    .to(
+      strokeSvgElement,
+      {
+        width: forward ? 640 : 180,
+        duration: 1,
+        ease: 'power4.inOut',
+      },
+      0
+    );
+
+  return strokeTimeline;
+}
+
+// Text animation on hover
+function setupTextHoverAnimations() {
+  linkContainers.forEach((container) => {
+    const originalText = container.querySelector('.is-original-text');
+    const animatedText = container.querySelector('.is-animated-text');
+
+    // Remove existing event listeners
+    const oldInstance = textSplits.get(container);
+    if (oldInstance) {
+      container.removeEventListener('mouseenter', oldInstance.enterHandler);
+      container.removeEventListener('mouseleave', oldInstance.leaveHandler);
+    }
+
+    // Create new SplitType instances
+    const splits = {
+      original: new SplitType(originalText, { types: 'chars' }),
+      animated: new SplitType(animatedText, { types: 'chars' }),
+    };
+
+    gsap.set(splits.original.chars, { y: '0%' });
+    gsap.set(splits.animated.chars, { y: '0%' });
+
+    const enterHandler = () => {
+      gsap.to(splits.original.chars, {
+        y: '-100%',
+        stagger: 0.02,
+        duration: 0.3,
+        ease: 'power2.inOut',
+      });
+      gsap.to(splits.animated.chars, {
+        y: '-100%',
+        stagger: 0.02,
+        duration: 0.3,
+        ease: 'power2.inOut',
+      });
+    };
+
+    const leaveHandler = () => {
+      gsap.to(splits.original.chars, {
+        y: '0%',
+        stagger: 0.02,
+        duration: 0.3,
+        ease: 'power2.inOut',
+      });
+      gsap.to(splits.animated.chars, {
+        y: '0%',
+        stagger: 0.02,
+        duration: 0.3,
+        ease: 'power2.inOut',
+      });
+    };
+
+    container.addEventListener('mouseenter', enterHandler);
+    container.addEventListener('mouseleave', leaveHandler);
+
+    // Store the new instance and handlers
+    textSplits.set(container, { splits, enterHandler, leaveHandler });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   console.log('Elements:', {
     menuContainer,
@@ -170,95 +458,6 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   let navbarTimeline;
-
-  function handleNavigation() {
-    const isHomepage = 
-      window.location.pathname === 'index.html' ||
-      window.location.pathname === '/';
-
-    setInitialNavbarState();
-  
-    if (isHomepage) {
-      // Reset the homepage-specific variables
-      loadingButtonClicked = false;
-      heroAnimationCompleted = false;
-
-      if (document.referrer.includes(window.location.origin)) {
-      // We're navigating back to the homepage from another page on the same site
-        playNavbarIntro();
-      }
-    } else {
-      // For non-homepage, start the animation after a delay
-      const isCollectionsPage = window.location.pathname.includes('collection');
-      const isFrostTechPage = window.location.pathname.includes('frost-tech');
-      
-      if (isCollectionsPage) {
-        startNavbarAnimationForNonHomepage(5000);
-      } else if (isFrostTechPage) {
-        startNavbarAnimationForNonHomepage(3000);
-      } else {
-        startNavbarAnimationForNonHomepage(0);
-      }
-    }
-
-    updateNavbarDisplay();
-    updateNavbarColor();
-  }
-
-  function setInitialNavbarState() {
-    gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
-    gsap.set(strokePath, {y: '100%'});
-    gsap.set(navbarContainer, {opacity: 0, visibility: 'hidden'}); // Hide the entire navbar container
-    gsap.set(navbarContainer, {width: '114px'})
-  }
-
-  function createNavbarTimeline() {
-    // Set initial state
-    gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
-    gsap.set(strokePath, {y: '100%'});
-    
-    navbarTimeline = gsap.timeline({paused: true})
-      .to(strokePath, 
-        {opacity: 0.3, y: '0%', duration: 0.5, ease: 'power4.out'}
-      )
-      .to(fillSvgElement, 
-        {opacity: 1, duration: 0.5, ease: 'power4.out'}
-      )
-      .to([diamondElement, backLink], 
-        {opacity: 1, duration: 0.5, ease: 'power4.out'}
-      )
-      .to(menuContainer, 
-        {opacity: 1, duration: 0.5, ease: 'power4.out'}
-      )
-
-    return navbarTimeline;
-  }
-
-  function playNavbarIntro() {
-    console.log('Playing navbar intro animation')
-    setInitialNavbarState();
-    if (!navbarTimeline) {
-      navbarTimeline = createNavbarTimeline();
-    }
-    gsap.set(navbarContainer, { visibility: 'visible' });
-    gsap.to(navbarContainer, { opacity: 1, duration: 0.5 });
-    navbarTimeline.play().then(() => {
-      updateNavbarColor();
-    });
-  }
-
-  function playNavbarExit(onComplete) {
-    if (!navbarTimeline) {
-      navbarTimeline = createNavbarTimeline();
-    }
-    navbarTimeline.reverse().eventCallback('onReverseComplete', onComplete);
-  }
-
-  function handlePageTransition(newPageUrl, introDuration) {
-    playNavbarExit(() => {
-      window.location.href = newPageUrl;
-    });
-  }
 
   // Ensure paths are correctly selected
   if (!defaultStrokePath || !expandedStrokePath) {
@@ -305,46 +504,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function startNavbarAnimationForNonHomepage(delay = 0) {
-    setTimeout(() => {
-      console.log('Starting navbar animation for non-homepage');
-      pageLoadAnimationComplete = true;
-      checkNavbarIntroConditions();
-    }, delay);
-  }
-
-  function checkNavbarIntroConditions() {
-    const isHomepage = 
-      window.location.pathname === 'index.html' ||
-      window.location.pathname === '/';
-
-    console.log('Checking navbar intro conditions:', {
-      loadingButtonClicked,
-      heroAnimationCompleted,
-      isHomepage
-    });
-    
-    if (isHomepage) {
-      if (document.referrer.includes(window.location.origin) || (loadingButtonClicked && heroAnimationCompleted)) {
-        playNavbarIntro(); 
-      }
-    } else {
-      if (pageLoadAnimationComplete) {
-        playNavbarIntro();
-      }
-    }
-  }
-
-  // Simulate hero animation completion after 5 seconds
-  function startHeroAnimationTimer() {
-    console.log('Starting hero animation timer');
-    clearTimeout(heroAnimationTimerId);
-    heroAnimationTimerId = setTimeout(() => {
-      console.log('Hero animation completed');
-      heroAnimationCompleted = true;
-      checkNavbarIntroConditions();
-    }, 5000);
-  }
     
   const loadingButton = document.querySelector('.loading_button-container');
   if (loadingButton) {
@@ -355,98 +514,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }  
 
-  // Set initial text state
-  function setInitialTextState() {
-    document.querySelectorAll('.is-original-text').forEach((el) => {
-      gsap.set(el, { y: '0%' });
-    });
-    document.querySelectorAll('.is-animated-text').forEach((el) => {
-      gsap.set(el, { y: '0%' });
-    });
-  }
-
-  // Fill SVG animation function
-  function animateFillSvg(forward = true) {
-    const fillTimeline = gsap.timeline();
-    fillTimeline
-      .to(
-        defaultFillPath,
-        {
-          morphSVG: forward ? expandedFillPath : defaultFillPath,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        fillSvgElement,
-        {
-          attr: { viewBox: forward ? '0 0 640 64' : '0 0 180 64' },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        fillSvgElement,
-        {
-          width: forward ? 640 : 180,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        fillGElement,
-        {
-          attr: {
-            filter: forward
-              ? 'url(#expandedBackgroundFilter)'
-              : 'url(#defaultBackgroundFilter)',
-          },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      );
-
-    return fillTimeline;
-  }
-
-  // Stroke SVG animation function
-  function animateStrokeSvg(forward = true) {
-    const strokeTimeline = gsap.timeline();
-    strokeTimeline
-      .to(
-        defaultStrokePath,
-        {
-          morphSVG: forward ? expandedStrokePath : defaultStrokePath,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        strokeSvgElement,
-        {
-          attr: { viewBox: forward ? '0 0 640 64' : '0 0 180 64' },
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      )
-      .to(
-        strokeSvgElement,
-        {
-          width: forward ? 640 : 180,
-          duration: 1,
-          ease: 'power4.inOut',
-        },
-        0
-      );
-
-    return strokeTimeline;
-  }
 
   // Text container hover effect
   linkContainers.forEach((container) => {
@@ -553,67 +620,7 @@ document.addEventListener('DOMContentLoaded', function () {
     gsap.to(strokePath, { opacity: 0.1, duration: 0.3, ease: 'power4.inOut' });
   });
 
-  // Text animation on hover
-  function setupTextHoverAnimations() {
-    linkContainers.forEach((container) => {
-      const originalText = container.querySelector('.is-original-text');
-      const animatedText = container.querySelector('.is-animated-text');
 
-      // Remove existing event listeners
-      const oldInstance = textSplits.get(container);
-      if (oldInstance) {
-        container.removeEventListener('mouseenter', oldInstance.enterHandler);
-        container.removeEventListener('mouseleave', oldInstance.leaveHandler);
-      }
-
-      // Create new SplitType instances
-      const splits = {
-        original: new SplitType(originalText, { types: 'chars' }),
-        animated: new SplitType(animatedText, { types: 'chars' }),
-      };
-
-      gsap.set(splits.original.chars, { y: '0%' });
-      gsap.set(splits.animated.chars, { y: '0%' });
-
-      const enterHandler = () => {
-        gsap.to(splits.original.chars, {
-          y: '-100%',
-          stagger: 0.02,
-          duration: 0.3,
-          ease: 'power2.inOut',
-        });
-        gsap.to(splits.animated.chars, {
-          y: '-100%',
-          stagger: 0.02,
-          duration: 0.3,
-          ease: 'power2.inOut',
-        });
-      };
-
-      const leaveHandler = () => {
-        gsap.to(splits.original.chars, {
-          y: '0%',
-          stagger: 0.02,
-          duration: 0.3,
-          ease: 'power2.inOut',
-        });
-        gsap.to(splits.animated.chars, {
-          y: '0%',
-          stagger: 0.02,
-          duration: 0.3,
-          ease: 'power2.inOut',
-        });
-      };
-
-      container.addEventListener('mouseenter', enterHandler);
-      container.addEventListener('mouseleave', leaveHandler);
-
-      // Store the new instance and handlers
-      textSplits.set(container, { splits, enterHandler, leaveHandler });
-    });
-  }
-
-  setupTextHoverAnimations();
 
   // Menu click to expand navbar
   // Initial setup
@@ -811,17 +818,13 @@ document.addEventListener('DOMContentLoaded', function () {
     updateNavbarDisplay();
   });
 
+  setupTextHoverAnimations();
   updateNavbarColor();
+  handleNavigation();
+  setInitialTextState();
 
   // Listen for popstate events (back/forward navigation)
   window.addEventListener('popstate', handleNavigation);
-  
-  // Call handleNavigation on initial page load
-  handleNavigation();
-
-  // Set initial state for text elements
-  setupTextHoverAnimations();
-  setInitialTextState();
 
   if (window.location.pathname === 'index.html' || window.location.pathname === '/') {
   const loadingButton = document.querySelector('.loading_button-container');
