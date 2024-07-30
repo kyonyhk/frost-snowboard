@@ -91,36 +91,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const hoverElements = document.querySelectorAll(
       "a, button, [data-cursor='hover'], .loading_button-container, .tech_description-header-wrap"
     );
+    const navbarLinks = document.querySelectorAll('.global-navbar-link, .global-navbar_back-link');
+  
     const emberElement = document.querySelector(
       '.collections-main_heading.link.is-clickable.is-ember'
     );
     const nebulaElement = document.querySelector(
       '.collections-main_heading.link.is-clickable.is-nebula'
     );
-
+  
+    function handleMouseEnter(element) {
+      cursor.classList.remove('hover', 'blur-default', 'blur-navbar');
+      cursor.classList.add('hover');
+      innerCursor.classList.add('hover');
+      defaultCursor.style.opacity = '0';
+      isHovering = true;
+  
+      if (element.classList.contains('global-navbar-link') || element.classList.contains('global-navbar_back-link')) {
+        cursor.classList.add('blur-navbar');
+      } else if (hoverElements || emberElements || nebulaElements) {
+        cursor.classList.add('blur-default');
+      }
+  
+      if (element === emberElement) {
+        setCursorColor('#FDFDCE');
+      } else if (element === nebulaElement) {
+        setCursorColor('#877FCB');
+      }
+    }
+  
+    function handleMouseLeave() {
+      cursor.classList.remove('hover', 'blur-default', 'blur-navbar');
+      innerCursor.classList.remove('hover');
+      defaultCursor.style.opacity = '1';
+      isHovering = false;
+      resetCursorColor();
+    }
+  
     hoverElements.forEach((element) => {
-      element.addEventListener('mouseenter', () => {
-        cursor.classList.add('hover');
-        innerCursor.classList.add('hover');
-        defaultCursor.style.opacity = '0';
-
-        isHovering = true;
-
-        if (emberElement) {
-          emberElement.addEventListener('mouseenter', () => setCursorColor('#FDFDCE'));
-        }
-        if (nebulaElement) {
-          nebulaElement.addEventListener('mouseenter', () => setCursorColor('#877FCB'));
-        }
-      });
-
-      element.addEventListener('mouseleave', () => {
-        cursor.classList.remove('hover');
-        innerCursor.classList.remove('hover');
-        defaultCursor.style.opacity = '1';
-        isHovering = false;
-        resetCursorColor();
-      });
+      element.addEventListener('mouseenter', () => handleMouseEnter(element));
+      element.addEventListener('mouseleave', handleMouseLeave);
+    });
+  
+    navbarLinks.forEach((link) => {
+      link.addEventListener('mouseenter', () => handleMouseEnter(link));
+      link.addEventListener('mouseleave', handleMouseLeave);
     });
   }
 
