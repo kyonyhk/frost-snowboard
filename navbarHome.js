@@ -616,7 +616,7 @@ function setupNavbarScrollTrigger() {
         gsap.to(navbar, {
           opacity: 0,
           duration: 0.5,
-          ease: 'power4.out'
+          ease: 'power4.out',
           onComplete: () => {
             navbar.style.display = 'none';
           }
