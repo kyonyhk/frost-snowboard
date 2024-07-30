@@ -1,4 +1,5 @@
 gsap.registerPlugin(MorphSVGPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
 // Navbar constants
 const menuContainer = document.querySelector('.global-navbar-link.is-menu');
@@ -8,10 +9,10 @@ const smallCircle = document.querySelector('.navbar-back_small-circle');
 const backButton = document.querySelector('.global-navbar_back-button');
 const backLink = document.querySelector('.global-navbar_back-link');
 const linkContainers = document.querySelectorAll('.global-navbar-link');
+const navbar = document.querySelector('.global-navbar');
 const navbarContainer = document.querySelector(
   '.global-navbar_navbar-container'
 );
-const navbarGroup = document.querySelect('.global-navbar');
 const iconContainer = document.querySelector('.global-navbar-link.is-icon');
 const closeIcon = document.querySelector('.global-navbar_close-icon');
 const closeIconPath = document.querySelector('.global-navbar_close-icon path');
@@ -285,12 +286,12 @@ function updateNavbarDisplay() {
 
   if (isMobile()) {
     if (isHomepage) {
-      gsap.set(navbarGroup, { display: 'none' });
+      gsap.set(navbar, { display: 'none' });
     } else if (isCollectionsPage || isFrostTechPage) {
-      gsap.set(navbarGroup, { display: 'flex' });
+      gsap.set(navbar, { display: 'flex' });
     } 
   } else {
-    gsap.set(navbarGroup, { display: 'flex' });
+    gsap.set(navbar, { display: 'flex' });
   }
   
   if (diamondElement) {
@@ -333,6 +334,11 @@ function handleNavigation() {
     } else {
       startNavbarAnimationForNonHomepage(0);
     }
+  }
+
+  if (navbar) {
+    navbar.style.display: 'flex';
+    gsap.to(navbar, { opacity: 1, duration: 0.5, ease: 'power4.out' });
   }
 
   updateNavbarDisplay();
@@ -595,6 +601,36 @@ function setupTextHoverAnimations() {
     // Store the new instance and handlers
     textSplits.set(container, { splits, enterHandler, leaveHandler });
   });
+}
+
+function setupNavbarScrollTrigger() {
+  const footer = document.querySelector('.section.is-footer');
+
+  if (footer && navbar) {
+    ScrollTrigger.create({
+      trigger: footer,
+      start: 'top 80%',
+      end: 'bottom bottom',
+      onEnter: () => {
+        gsap.to(navbar, {
+          opacity: 0,
+          duration: 0.5,
+          ease: 'power4.out'
+          onComplete: () => {
+            navbar.style.display = 'none';
+          }
+        });
+      },
+      onLeaveBack: () => {
+        navbar.style.display = 'flex';
+        gsap.to(navbar, {
+          opacity: 1,
+          duration: 0.5,
+          ease: 'power4.out'
+        });
+      }
+    });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -870,6 +906,7 @@ document.addEventListener('DOMContentLoaded', function () {
   handleNavigation();
   setInitialTextState();
   updateNavbarDisplay();
+  setupNavbarScrollTrigger();
 
   // Listen for popstate events (back/forward navigation)
   window.addEventListener('popstate', function(event) {
