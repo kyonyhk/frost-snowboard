@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     navbarLinks.forEach((link) => {
       link.addEventListener('mouseenter', () => handleMouseEnter(link));
-      element.addEventListener('mouseleave', handleMouseLeave);
+      link.addEventListener('mouseleave', handleMouseLeave);
     });
   }
 
