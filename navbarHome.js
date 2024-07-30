@@ -337,7 +337,7 @@ function handleNavigation() {
   }
 
   if (navbar) {
-    navbar.style.display: 'flex';
+    navbar.style.display = 'flex';
     gsap.to(navbar, { opacity: 1, duration: 0.5, ease: 'power4.out' });
   }
 
