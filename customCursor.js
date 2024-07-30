@@ -108,8 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
       isHovering = true;
   
       if (element.classList.contains('global-navbar-link') || element.classList.contains('global-navbar_back-link')) {
-        cursor.style.backdropFilter = 'blur(2px)';
-        cursor.style.webkitBackdropFilter = 'blur(2px)';
+        cursor.style.backdropFilter = 'blur(1px)';
+        cursor.style.webkitBackdropFilter = 'blur(1px)';
       } else {
         cursor.style.backdropFilter = 'blur(4px)';
         cursor.style.webkitBackdropFilter = 'blur(4px)';
