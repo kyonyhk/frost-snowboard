@@ -68,8 +68,8 @@ body {
   border-color: #A1FCCF;
   border-width: 2px;
   background: rgba(161, 252, 207, 0.20);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+/*   backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px); */
 }
 
 .cursor.hover-navbar {
