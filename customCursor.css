@@ -62,8 +62,7 @@ body {
   transition: all 0.2s cubic-bezier(0.87, 0, 0.13, 1), background-color 0.2s cubic-bezier(0.87, 0, 0.13, 1), transform 0.2s cubic-bezier(0.87, 0, 0.13, 1);
 }
 
-.cursor.hover,
-.cursor.hover-navbar {
+.cursor.hover {
   width: 40px;
   height: 40px;
   border-color: #A1FCCF;
@@ -71,12 +70,12 @@ body {
   background: rgba(161, 252, 207, 0.20);
 }
 
-.cursor.hover {
+.cursor.blur-default {
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
 
-.cursor.hover-navbar {
+.cursor.blur-navbar {
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
 }
