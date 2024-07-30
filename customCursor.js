@@ -98,6 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
       '.collections-main_heading.link.is-clickable.is-nebula'
     );
 
+    const navbarElements = document.querySelectorAll('.global-navbar a')
+
     hoverElements.forEach((element) => {
       element.addEventListener('mouseenter', () => {
         cursor.classList.add('hover');
@@ -112,10 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (nebulaElement) {
           nebulaElement.addEventListener('mouseenter', () => setCursorColor('#877FCB'));
         }
+        if (element.closest('.global-navbar')) {
+          cursor.classList.add('hover-navbar');
+        }
       });
 
       element.addEventListener('mouseleave', () => {
         cursor.classList.remove('hover');
+        cursor.classList.remove('hover-navbar');
         innerCursor.classList.remove('hover');
         defaultCursor.style.opacity = '1';
         isHovering = false;
