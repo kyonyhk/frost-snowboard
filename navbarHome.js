@@ -11,6 +11,7 @@ const linkContainers = document.querySelectorAll('.global-navbar-link');
 const navbarContainer = document.querySelector(
   '.global-navbar_navbar-container'
 );
+const navbarGroup = document.querySelect('.global-navbar');
 const iconContainer = document.querySelector('.global-navbar-link.is-icon');
 const closeIcon = document.querySelector('.global-navbar_close-icon');
 const closeIconPath = document.querySelector('.global-navbar_close-icon path');
@@ -271,11 +272,27 @@ function updateHoverEffects(colors) {
   });
 }
 
+function isMobile() {
+  return window.innerWidth <= 479;
+}
+
 function updateNavbarDisplay() {
   const isHomepage =
     window.location.pathname === 'index.html' ||
     window.location.pathname === '/';
+  const isCollectionsPage = window.location.pathname.includes('/collections/');
+  const isFrostTechPage = window.location.pathname.includes('/frost-tech/');
 
+  if (isMobile()) {
+    if (isHomepage) {
+      gsap.set(navbarGroup, { display: 'none' });
+    } else if (isCollectionsPage || isFrostTechPage) {
+      gsap.set(navbarGroup, { display: 'flex' });
+    } 
+  } else {
+    gsap.set(navbarGroup, { display: 'flex' });
+  }
+  
   if (diamondElement) {
     diamondElement.style.display = isHomepage ? 'block' : 'none';
   }
@@ -602,6 +619,8 @@ document.addEventListener('DOMContentLoaded', function () {
     closeIcon,
   });
 
+  window.addEventListener('resize', updateNavbarDisplay);
+
   // Ensure paths are correctly selected
   if (!defaultStrokePath || !expandedStrokePath) {
     console.error('SVG paths not found or incorrectly referenced.');
@@ -850,6 +869,7 @@ document.addEventListener('DOMContentLoaded', function () {
   updateNavbarColor();
   handleNavigation();
   setInitialTextState();
+  updateNavbarDisplay();
 
   // Listen for popstate events (back/forward navigation)
   window.addEventListener('popstate', function(event) {
