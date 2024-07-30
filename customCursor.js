@@ -120,8 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     function handleMouseLeave() {
-      cursor.classList.remove('hover');
-      cursor.classList.remove('hover-navbar');
+      cursor.classList.remove('hover', 'hover-navbar');
       innerCursor.classList.remove('hover');
       defaultCursor.style.opacity = '1';
       isHovering = false;
