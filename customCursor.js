@@ -101,15 +101,16 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   
     function handleMouseEnter(element) {
-      cursor.classList.remove('hover', 'hover-navbar');
+      cursor.classList.remove('hover', 'blur-default', 'blur-navbar');
+      cursor.classList.add('hover');
       innerCursor.classList.add('hover');
       defaultCursor.style.opacity = '0';
       isHovering = true;
   
       if (element.classList.contains('global-navbar-link') || element.classList.contains('global-navbar_back-link')) {
-        cursor.classList.add('hover-navbar');
+        cursor.classList.add('blur-navbar');
       } else {
-        cursor.classList.add('hover');
+        cursor.classList.add('blur-default');
       }
   
       if (element === emberElement) {
@@ -120,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   
     function handleMouseLeave() {
-      cursor.classList.remove('hover', 'hover-navbar');
+      cursor.classList.remove('hover', 'blur-default', 'blur-navbar');
       innerCursor.classList.remove('hover');
       defaultCursor.style.opacity = '1';
       isHovering = false;
@@ -134,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     navbarLinks.forEach((link) => {
       link.addEventListener('mouseenter', () => handleMouseEnter(link));
-      link.addEventListener('mouseleave', handleMouseLeave);
+      element.addEventListener('mouseleave', handleMouseLeave);
     });
   }
 
