@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     function handleMouseEnter(element) {
       cursor.classList.remove('hover', 'hover-navbar');
-      innerCursor.classList.remove('hover');
+      innerCursor.classList.add('hover');
       defaultCursor.style.opacity = '0';
       isHovering = true;
   
