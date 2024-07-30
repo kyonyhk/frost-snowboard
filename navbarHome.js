@@ -605,8 +605,9 @@ function setupTextHoverAnimations() {
 
 function setupNavbarScrollTrigger() {
   const footer = document.querySelector('.section.is-footer');
+  const isHomepage = window.location.pathname === 'index.html' || window.location.pathname === '/';
 
-  if (footer && navbar) {
+  if (footer && navbar && isHomepage) {
     ScrollTrigger.create({
       trigger: footer,
       start: 'top 80%',
