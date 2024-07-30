@@ -137,6 +137,16 @@ document.addEventListener('DOMContentLoaded', () => {
       link.addEventListener('mouseenter', () => handleMouseEnter(link));
       link.addEventListener('mouseleave', handleMouseLeave);
     });
+
+    if (emberElement) {
+      emberElement.addEventListener('mouseenter', () => handleMouseEnter(emberElement));
+      emberElement.addEventListener('mouseleave', handleMouseLeave);
+    }
+  
+    if (nebulaElement) {
+      nebulaElement.addEventListener('mouseenter', () => handleMouseEnter(nebulaElement));
+      nebulaElement.addEventListener('mouseleave', handleMouseLeave);
+    }
   }
 
   function updateCursorPosition() {
