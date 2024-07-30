@@ -101,13 +101,15 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   
     function handleMouseEnter(element) {
-      cursor.classList.add('hover');
-      innerCursor.classList.add('hover');
+      cursor.classList.remove('hover', 'hover-navbar');
+      innerCursor.classList.remove('hover');
       defaultCursor.style.opacity = '0';
       isHovering = true;
   
       if (element.classList.contains('global-navbar-link') || element.classList.contains('global-navbar_back-link')) {
         cursor.classList.add('hover-navbar');
+      } else {
+        cursor.classList.add('hover');
       }
   
       if (element === emberElement) {
