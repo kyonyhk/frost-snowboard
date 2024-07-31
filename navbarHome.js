@@ -4,6 +4,7 @@ gsap.registerPlugin(ScrollTrigger);
 // Navbar constants
 const menuContainer = document.querySelector('.global-navbar-link.is-menu');
 const arrowIcon = document.querySelector('.navbar-back_arrow-icon');
+const arrowIconPath = document.querySelector('.navbar-back_arrow-icon svg path');
 const bigCircle = document.querySelector('.navbar-back_big-circle');
 const smallCircle = document.querySelector('.navbar-back_small-circle');
 const backButton = document.querySelector('.global-navbar_back-button');
@@ -244,6 +245,18 @@ function updateHoverEffects(colors) {
         ease: 'power4.inOut',
         fill: colors.circleStroke,
       });
+      gsap.to(smallCircle, {
+        scale: 0.9,
+        opacity: 1.0,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      });
+      gsap.to(arrowIconPath, {
+        attr: { 'stroke-width': 2 },
+        opacity: 1.0,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      })
       gsap.to(strokePath, { opacity: 0.5, duration: 0.5, ease: 'power4.inOut' });
     });
 
@@ -255,6 +268,18 @@ function updateHoverEffects(colors) {
         ease: 'power4.inOut',
         fill: colors.circleStroke,
       });
+      gsap.to(smallCircle, {
+        scale: 1.0,
+        opacity: 0.5,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      });
+      gsap.to(arrowIconPath, {
+        attr: { 'stroke-width': 1 },
+        opacity: 1.0,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      })
       gsap.to(strokePath, { opacity: 0.1, duration: 0.5, ease: 'power4.inOut' });
     });
   }
