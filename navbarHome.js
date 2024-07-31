@@ -331,7 +331,7 @@ function handleNavigation() {
   console.log('Handling navigation');
   const isHomepage = 
     window.location.pathname === 'index.html' ||
-    window.location.pathname === '/';
+    window.location.pathname === '/'; ||
     window.location.pathname === '';
 
   setInitialNavbarState();
@@ -675,49 +675,26 @@ function setupNavbarScrollTrigger() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  console.log('Elements:', {
-    menuContainer,
-    arrowIcon,
-    bigCircle,
-    smallCircle,
-    strokePath,
-    backButton,
-    linkContainers,
-    fillSvgElement,
-    fillGElement,
-    defaultFillPath,
-    expandedFillPath,
-    strokeSvgElement,
-    strokeGElement,
-    defaultStrokePath,
-    expandedStrokePath,
-    strokePath,
-    iconContainer,
-    closeIcon,
-  });
-
+function setupEventListeners() {
+  // Resize event listeners
   window.addEventListener('resize', updateNavbarDisplay);
-
-  // Ensure paths are correctly selected
-  if (!defaultStrokePath || !expandedStrokePath) {
-    console.error('SVG paths not found or incorrectly referenced.');
-    return;
-  }
-
+  
   document.querySelectorAll('a[href^="/"]').forEach(link => {
     link.addEventListener('click', function(event) {
       event.preventDefault();
       const href = this.getAttribute('href');
       const introDuration = parseFloat(this.getAttribute('data-intro-duration') || '0');
-      history.pushState(null, '', href);
-      handleNavigation();
+
+      playNavbarExit(() => {
+        history.pushState(null, '', href);
+        loadContent(href);
+      })
     });
   });
 
+  // Back button event listener
   // Check if the back link element exists
   if (backLink) {
-    // Add a click event listener
     backLink.addEventListener('click', function (event) {
       console.log('Back link clicked');
       event.preventDefault(); // Prevent the default anchor behavior if any
@@ -729,13 +706,13 @@ document.addEventListener('DOMContentLoaded', function () {
           window.history.back();
         } else {
           console.log('Redirecting to homepage');
-          window.location.href = '/';
+          loadContent('/');
         }
       })
     });
   }
 
-    
+  // Loading button event listener
   const loadingButton = document.querySelector('.loading_button-container');
   if (loadingButton) {
     loadingButton.addEventListener('click', function() {
@@ -861,7 +838,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Close navbar animation
   console.log('Close Icon before adding event listener:', closeIcon);
 
-  closeIcon.addEventListener('click', function () {
+  closeIcon.addEventListener('click', function (event) {
     event.preventDefault();
     event.stopPropagation();
   
@@ -941,17 +918,10 @@ document.addEventListener('DOMContentLoaded', function () {
     updateNavbarDisplay();
   });
 
-  setupTextHoverAnimations();
-  updateNavbarColor();
-  handleNavigation();
-  setInitialTextState();
-  updateNavbarDisplay();
-  setupNavbarScrollTrigger();
-
   // Listen for popstate events (back/forward navigation)
   window.addEventListener('popstate', function(event) {
     console.log('popstate event triggered');
-    handleNavigation();
+    loadContent(window.location.pathname);
   });
 
   if (window.location.pathname === 'index.html' || window.location.pathname === '/') {
@@ -964,4 +934,59 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   }
+}
+
+function loadContent(url) {
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      response.text()
+    })
+    .then(html => {
+      const parser = new DOMParser();
+      const newDocument = parser.parseFromString(html, 'text/html');
+      document.body.innerHTML = newDocument.body.innerHTML;
+      handleNavigation();
+      setupEventListeners(); // Re-attach event listeners to new DOM elements
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  console.log('Elements:', {
+    menuContainer,
+    arrowIcon,
+    bigCircle,
+    smallCircle,
+    strokePath,
+    backButton,
+    linkContainers,
+    fillSvgElement,
+    fillGElement,
+    defaultFillPath,
+    expandedFillPath,
+    strokeSvgElement,
+    strokeGElement,
+    defaultStrokePath,
+    expandedStrokePath,
+    strokePath,
+    iconContainer,
+    closeIcon,
+  });
+
+  // Ensure paths are correctly selected
+  if (!defaultStrokePath || !expandedStrokePath) {
+    console.error('SVG paths not found or incorrectly referenced.');
+    return;
+  }
+
+  setupEventListeners();
+  setupTextHoverAnimations();
+  updateNavbarColor();
+  handleNavigation();
+  setInitialTextState();
+  updateNavbarDisplay();
+  setupNavbarScrollTrigger();
 });
