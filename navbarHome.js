@@ -936,7 +936,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Listen for popstate events (back/forward navigation)
   window.addEventListener('popstate', function(event) {
-    console.log('popstatee event triggered');
+    console.log('popstate event triggered');
     handleNavigation();
   });
 
