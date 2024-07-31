@@ -714,6 +714,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
           console.log('Redirecting to homepage');
           window.location.href = '/';
+        }
 
         handleNavigation();
       })
