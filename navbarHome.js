@@ -343,6 +343,7 @@ function handleNavigation() {
 
     if (document.referrer.includes(window.location.origin)) {
     // We're navigating back to the homepage from another page on the same site
+      console.log('Returning to homepage from internal link');
       playNavbarIntro();
     } else {
       checkNavbarIntroConditions();
@@ -409,13 +410,11 @@ function playNavbarIntro() {
   if (!navbarTimeline) {
     navbarTimeline = createNavbarTimeline();
   }
-  gsap.set(navbarContainer, { visibility: 'visible' });
-  gsap.timeline()
-    .to(navbarContainer, { opacity: 1, duration: 0.5 })
-    .add(navbarTimeline.play())
-    .add(() => {
-      updateNavbarColor();
-    });
+  gsap.set(navbarContainer, { visibility: 'visible', opacity: 0 });
+  gsap.to(navbarContainer, { opacity: 1, duration: 0.5, onComplete: () => {
+    navbarTimeline.play();
+    updateNavbarColor();
+  }});
 }
 
 function playNavbarExit(onComplete) {
@@ -441,6 +440,8 @@ function playNavbarExit(onComplete) {
       onComplete();
     };
   });
+
+  navbarTimeline.reverse(0);
 }
 
 function handlePageTransition(newPageUrl, introDuration) {
@@ -730,8 +731,6 @@ document.addEventListener('DOMContentLoaded', function () {
           console.log('Redirecting to homepage');
           window.location.href = '/';
         }
-
-        handleNavigation();
       })
     });
   }
