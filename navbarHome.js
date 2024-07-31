@@ -708,13 +708,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
       playNavbarExit(() => {
         console.log('Navbar exit animation completed');
-        if (history.length > 1) {
+        if (document.referrer && document.referrer.includes(window.location.origin)) {
           console.log('Going back in history');
-          history.back(); // Navigate to the previous page
+          window.history.back();
         } else {
           console.log('Redirecting to homepage');
-          window.location.href = '/'; // Redirect to the homepage
-        }
+          window.location.href = '/';
 
         handleNavigation();
       })
