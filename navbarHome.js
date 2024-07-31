@@ -378,6 +378,7 @@ function setInitialNavbarState() {
 }
 
 function createNavbarTimeline() {
+  console.log('Creating navbar timeline');
   // Set initial state
   gsap.set([strokePath, fillSvgElement, diamondElement, backLink, menuContainer], {opacity: 0});
   gsap.set(strokePath, {y: '100%'});
@@ -398,6 +399,7 @@ function createNavbarTimeline() {
       );
   }
 
+  console.log('Navbar timeline created'); 
   return navbarTimeline;
 }
 
@@ -424,7 +426,10 @@ function playNavbarExit(onComplete) {
   }
   navbarTimeline.reverse().eventCallback('onReverseComplete', () => {
     console.log('Navbar exit animation completed');
-    if (onComplete) onComplete();
+    if (onComplete) {
+      console.log('Calling onComplete callback');
+      onComplete();
+    };
   });
 }
 
@@ -707,7 +712,7 @@ document.addEventListener('DOMContentLoaded', function () {
       event.preventDefault(); // Prevent the default anchor behavior if any
 
       playNavbarExit(() => {
-        console.log('Navbar exit animation completed');
+        console.log('Inside onComplete callback');
         if (document.referrer && document.referrer.includes(window.location.origin)) {
           console.log('Going back in history');
           window.history.back();
