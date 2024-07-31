@@ -424,8 +424,18 @@ function playNavbarExit(onComplete) {
     console.log('Creating new navbar timeline');
     navbarTimeline = createNavbarTimeline();
   }
+
+  const timeoutId = setTimeout(() => {
+    console.log('Failsafe: Navbar exit animation timed out');
+    if (onComplete) {
+      console.log('Calling onComplete callback (from failsafe)');
+      onComplete();
+    }
+  }, 2000);
+  
   navbarTimeline.reverse().eventCallback('onReverseComplete', () => {
     console.log('Navbar exit animation completed');
+    clearTimeout(timeoutId);
     if (onComplete) {
       console.log('Calling onComplete callback');
       onComplete();
