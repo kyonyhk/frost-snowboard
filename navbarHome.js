@@ -132,13 +132,13 @@ function setColorTheme(theme) {
   if (diamondElement) {
     diamondElement.style.backgroundColor = colors.diamondColor;
     diamondElement.style.borderColor = colors.diamondStroke;
-
-    updateSvgColors(colors);
-    updateHoverEffects(colors);
   }
 
   // Update SVG elements
   updateSvgColors(colors);
+
+  // Update hover effects
+  updateHoverEffects(colors);
 }
 
 // Function to update SVG colors
@@ -194,6 +194,27 @@ function updateNavbarColor() {
     setColorTheme('purple');
   } else {
     setColorTheme('default');
+  }
+}
+
+function setupCollectionHeadingHoverEffects() {
+  const apexHeading = document.querySelector('.collections-main-heading.is-apex');
+  const emberHeading = document.querySelector('.collections-main-heading.is-ember');
+  const nebulaHeading = document.querySelector('.collections-main-heading.is-nebula');
+
+  if (apexHeading || emberHeading || nebulaHeading) {
+    if (apexHeading) {
+      apexHeading.addEventListener('mouseenter', () => setColorTheme('default'));
+      apexHeading.addEventListener('mouseleave', () => setColorTheme('default'));
+    }
+    if (emberHeading) {
+      emberHeading.addEventListener('mouseenter', () => setColorTheme('yellow'));
+      emberHeading.addEventListener('mouseleave', () => setColorTheme('default'));
+    }
+    if (nebulaHeading) {
+      nebulaHeading.addEventListener('mouseenter', () => setColorTheme('purple'));
+      nebulaHeading.addEventListener('mouseleave', () => setColorTheme('default'));
+    }
   }
 }
 
@@ -348,6 +369,7 @@ function handleNavigation() {
     } else {
       checkNavbarIntroConditions();
     }
+    setupCollectionHeadingHoverEffects();
   } else {
     // For non-homepage, start the animation after a delay
     const isCollectionsPage = window.location.pathname.includes('collection');
