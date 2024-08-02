@@ -199,9 +199,9 @@ function updateNavbarColor() {
 
 function setupCollectionHeadingHoverEffects() {
   console.log('Setting up collection heading hover effects');
-  const apexHeading = document.querySelector('.collections-main-heading.is-apex');
-  const emberHeading = document.querySelector('.collections-main-heading.is-ember');
-  const nebulaHeading = document.querySelector('.collections-main-heading.is-nebula');
+  const apexHeading = document.querySelector('.collections-main_heading.is-apex');
+  const emberHeading = document.querySelector('.collections-main_heading.is-ember');
+  const nebulaHeading = document.querySelector('.collections-main_heading.is-nebula');
 
   console.log('Headings found:', { apexHeading, emberHeading, nebulaHeading });
 
