@@ -55,6 +55,7 @@ const colorThemes = {
     textColor: '#A1FCCF',
     diamondColor: '#002814',
     diamondStroke: '#6BE688',
+    diamondShadow: '#6BE688',
     strokeGradient: 'defaultStrokeGradient',
     fillGradient: 'defaultGradient',
     circleColor: '#002814',
@@ -66,6 +67,7 @@ const colorThemes = {
     textColor: '#FDFDCE',
     diamondColor: '#3C3312',
     diamondStroke: '#FDFDCE',
+    diamondShadow: '#FDFDCE',
     strokeGradient: 'yellowDefaultStrokeGradient',
     fillGradient: 'yellowDefaultGradient',
     circleColor: '#3C3312',
@@ -77,6 +79,7 @@ const colorThemes = {
     textColor: '#877FCB',
     diamondColor: '#1A0544',
     diamondStroke: '#877FCB',
+    diamondShadow: '#877FCB',
     strokeGradient: 'purpleDefaultStrokeGradient',
     fillGradient: 'purpleDefaultGradient',
     circleColor: '#1A0544',
@@ -88,6 +91,7 @@ const colorThemes = {
     textColor: '#A1FCCF',
     diamondColor: '#002814',
     diamondStroke: '#6BE688',
+    diamondShadow: '#6BE688',
     strokeGradient: 'defaultStrokeGradient',
     fillGradient: 'defaultGradient',
     circleColor: '#002814',
@@ -99,6 +103,7 @@ const colorThemes = {
     textColor: '#FDFDCE',
     diamondColor: '#3C3312',
     diamondStroke: '#FDFDCE',
+    diamondShadow: '#FDFDCE',
     strokeGradient: 'yellowDefaultStrokeGradient',
     fillGradient: 'yellowDefaultGradient',
     circleColor: '#3C3312',
@@ -110,6 +115,7 @@ const colorThemes = {
     textColor: '#877FCB',
     diamondColor: '#1A0544',
     diamondStroke: '#877FCB',
+    diamondShadow: '#877FCB',
     strokeGradient: 'purpleDefaultStrokeGradient',
     fillGradient: 'purpleDefaultGradient',
     circleColor: '#1A0544',
@@ -132,6 +138,7 @@ function setColorTheme(theme) {
   if (diamondElement) {
     diamondElement.style.backgroundColor = colors.diamondColor;
     diamondElement.style.borderColor = colors.diamondStroke;
+    diamondElement.style.boxShadow = 'none';
   }
 
   // Update SVG elements
