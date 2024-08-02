@@ -198,23 +198,46 @@ function updateNavbarColor() {
 }
 
 function setupCollectionHeadingHoverEffects() {
+  console.log('Setting up collection heading hover effects');
   const apexHeading = document.querySelector('.collections-main-heading.is-apex');
   const emberHeading = document.querySelector('.collections-main-heading.is-ember');
   const nebulaHeading = document.querySelector('.collections-main-heading.is-nebula');
 
+  console.log('Headings found:', { apexHeading, emberHeading, nebulaHeading });
+
   if (apexHeading || emberHeading || nebulaHeading) {
     if (apexHeading) {
-      apexHeading.addEventListener('mouseenter', () => setColorTheme('default'));
-      apexHeading.addEventListener('mouseleave', () => setColorTheme('default'));
+      apexHeading.addEventListener('mouseenter', () => {
+        console.log('Apex heading mouseenter');
+        setColorTheme('default');
+      });
+      apexHeading.addEventListener('mouseleave', () => {
+        console.log('Apex heading mouseleave');
+        setColorTheme('default');
+      });
     }
     if (emberHeading) {
-      emberHeading.addEventListener('mouseenter', () => setColorTheme('yellow'));
-      emberHeading.addEventListener('mouseleave', () => setColorTheme('default'));
+      emberHeading.addEventListener('mouseenter', () => {
+        console.log('Ember heading mouseenter');
+        setColorTheme('yellow');
+      });
+      emberHeading.addEventListener('mouseleave', () => {
+        console.log('Ember heading mouseleave');
+        setColorTheme('default');
+      });
     }
     if (nebulaHeading) {
-      nebulaHeading.addEventListener('mouseenter', () => setColorTheme('purple'));
-      nebulaHeading.addEventListener('mouseleave', () => setColorTheme('default'));
+      nebulaHeading.addEventListener('mouseenter', () => {
+        console.log('Nebula heading mouseenter');
+        setColorTheme('purple');
+      });
+      nebulaHeading.addEventListener('mouseleave', () => {
+        console.log('Nebula heading mouseleave');
+        setColorTheme('default');
+      });
     }
+  } else {
+    console.log('No collection headings found');
   }
 }
 
@@ -972,6 +995,7 @@ function loadContent(url) {
       document.body.innerHTML = newDocument.body.innerHTML;
       handleNavigation();
       setupEventListeners(); // Re-attach event listeners to new DOM elements
+      setupCollectionHeadingHoverEffects()
     })
     .catch(error => console.error('Error:', error));
 }
@@ -1011,4 +1035,5 @@ document.addEventListener('DOMContentLoaded', function () {
   setInitialTextState();
   updateNavbarDisplay();
   setupNavbarScrollTrigger();
+  setupCollectionHeadingHoverEffects()
 });
