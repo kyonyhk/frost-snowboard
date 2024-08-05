@@ -1,0 +1,22 @@
+.hover-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12px, 1fr));
+    gap: 12px; /* Adjust the spacing between circles */
+    /* padding: 5px; */
+    justify-content: center;
+    align-content: start;
+    width: 100%; /* Set to the width of your container */
+    height: 100vh; /* Set to the height you want for your grid */
+    overflow: hidden;
+  }
+
+  .circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 100px; /* Initially full roundness to make it circle */
+    border-style: solid;
+    border-width: 0.5px;
+    border-color: #A1FCCF;
+    opacity: 0.2; /* Default low opacity */
+    transition: transform 0.5s, opacity 0.2s, border-radius 0.2s, box-shadow 0.2s, background-color 0.2s; /* Smooth transition for hover effects */
+    transition-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
