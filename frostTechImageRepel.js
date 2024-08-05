@@ -1,31 +1,38 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Select all image containers
+function handleMouseMove(event) {
+  const container = event.currentTarget;
+  const image = container.querySelector('img');
+  
+  const { left, top, width, height } = container.getBoundingClientRect();
+  const x = (event.clientX - left) / width - 0.5;
+  const y = (event.clientY - top) / height - 0.5;
+  
+  const maxMove = 10; // Maximum pixel movement
+  
+  image.style.transform = `
+    translate(${-x * maxMove}px, ${-y * maxMove}px)
+    scale(1.05)
+  `;
+}
+
+function handleMouseLeave(event) {
+  const container = event.currentTarget;
+  const image = container.querySelector('img');
+  
+  image.style.transform = 'translate(0, 0) scale(1)';
+}
+
+function initRepelEffect() {
   const imageContainers = document.querySelectorAll('.tech_image-container');
-
+  
   imageContainers.forEach(container => {
-    container.addEventListener('mouseenter', function(event) {
-      const { clientX, clientY, target } = event;
-      const { top, left, width, height } = target.getBoundingClientRect();
-      
-      // Calculate the distance to repel
-      const xDistance = clientX - (left + width / 2);
-      const yDistance = clientY - (top + height / 2);
-
-      gsap.to(container, {
-        x: xDistance * 0.1, // Adjust this multiplier to control the amount of repelling
-        y: yDistance * 0.1,
-        duration: 0.01,
-        ease: 'power4.out'
-      });
-    });
-
-    container.addEventListener('mouseleave', function() {
-      gsap.to(container, {
-        x: 0,
-        y: 0,
-        duration: 0.01,
-        ease: 'power4.out'
-      });
-    });
+    container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mouseleave', handleMouseLeave);
+    
+    // Add a transition for smoother movement
+    const image = container.querySelector('img');
+    image.style.transition = 'transform 0.1s ease-out';
   });
-});
+}
+
+// Initialize the effect when the DOM is loaded
+document.addEventListener('DOMContentLoaded', initRepelEffect);
