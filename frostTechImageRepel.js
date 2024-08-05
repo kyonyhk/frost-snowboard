@@ -10,7 +10,7 @@ function handleMouseMove(event) {
   
   image.style.transform = `
     translate(${-x * maxMove}px, ${-y * maxMove}px)
-    scale(1.05)
+    scale(1.03)
   `;
 }
 
