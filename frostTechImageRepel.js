@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
       gsap.to(container, {
         x: xDistance * 0.1, // Adjust this multiplier to control the amount of repelling
         y: yDistance * 0.1,
-        duration: 0.5,
+        duration: 0.01,
         ease: 'power4.out'
       });
     });
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
       gsap.to(container, {
         x: 0,
         y: 0,
-        duration: 0.2,
+        duration: 0.01,
         ease: 'power4.out'
       });
     });
