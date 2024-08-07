@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",(function(){const e=document.querySelector(".loading_button-container"),t=document.querySelector(".s-s4.is-loading.is-preloader"),n=[...t.textContent];e.addEventListener("mouseover",(function(){n.forEach(((e,n)=>{scrambleCharacter(t.childNodes[n],e)}))}))}));
