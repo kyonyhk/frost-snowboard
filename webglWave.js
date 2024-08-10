@@ -6,7 +6,7 @@ const TWO_PI = 2 * Math.PI;
 
 gsap.registerPlugin(ScrollTrigger);
 
-function initializeParticleSystem() => {
+function initializeParticleSystem() {
   if (typeof THREE === 'undefined') {
     console.error('THREE.js is not loaded. Please ensure it is included before this script.');
   }
