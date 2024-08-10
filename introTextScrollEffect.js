@@ -2,13 +2,8 @@ const text = document.querySelector(".h-h2.is-intro");
 const span = document.querySelector(".h-h2.is-intro.is-span");
 const splineElement = document.querySelector(".three-d-element.is-intro");
 
-console.log(text)
-console.log(splineElement)
-
 const splitType = new SplitType(text);
 const splitTypeSpan = new SplitType(span);
-
-console.log(splitType.words)
 
 document.addEventListener("DOMContentLoaded", (event) => {
   gsap.registerPlugin(ScrollTrigger)
