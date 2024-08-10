@@ -70,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cursor.classList.add('clicking');
     innerCursor.classList.add('clicking');
     innerCursor.style.transform = 'translate(-50%, -50%) rotate(225deg)';
-    console.log('Mouse down'); // Debugging line
   }
 
   function handleMouseUp(e) {
@@ -78,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cursor.classList.remove('clicking');
     innerCursor.classList.remove('clicking');
     innerCursor.style.transform = 'translate(-50%, -50%) rotate(45deg)';
-    console.log('Mouse up'); // Debugging line
   }
 
   // Attach event listeners to the document
