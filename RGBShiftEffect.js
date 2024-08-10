@@ -13,7 +13,7 @@ class RGBShiftEffect extends EffectShell {
   init() {
     this.position = new THREE.Vector3(0, 0, 0);
     this.scale = new THREE.Vector3(1, 1, 1);
-    this.geometry = new THREE.PlaneBufferGeometry(1, 1, 32, 32);
+    this.geometry = new THREE.PlaneGeometry(1, 1, 32, 32);
     this.uniforms = {
       uTime: { value: 0 },
       uTexture: { value: null },
