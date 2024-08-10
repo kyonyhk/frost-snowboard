@@ -41,14 +41,22 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.render(scene, camera);
   }
 
-  animate(); // Start the animation
-
-  setupScrollTrigger(canvas, () => {
+  function stopAnimation() {
     if (animationId) {
       cancelAnimationFrame(animationId);
       animationId = null;
     }
-  }, animate);
+  }
+
+  function startAnimation() {
+    if (!animationId) {
+      animate();
+    }
+  }
+
+  animate(); // Start the animation
+
+  setupScrollTrigger(canvas, stopAnimation, startAnimation);
 });
 
 function createCircleTexture(radius, color) {
@@ -143,7 +151,7 @@ function updateParticles(particleSystem, raycaster, mouse, camera) {
   particleSystem.geometry.attributes.opacity.needsUpdate = true;
 }
 
-function setupScrollTrigger(canvas, animationId, animate) {
+function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
   ScrollTrigger.create({
     trigger: '.section.is-collections-main',
     start: 'bottom bottom',
