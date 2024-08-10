@@ -22,13 +22,12 @@ function initializeParticleSystem() {
   }
 
   // Clean up existing THREE.js objects
-  if (scene) {
-    scene.clear();
+  if (renderer) {
     renderer.dispose();
   }
   
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   scene.background = new THREE.Color(0x060e08);
 
   const canvas = document.querySelector('.hero_webgl-element');
@@ -47,7 +46,7 @@ function initializeParticleSystem() {
   });
 
   const circleTexture = createCircleTexture(128, '#6BE688');
-  const particleSystem = setupParticleSystem(scene, circleTexture);
+  particleSystem = setupParticleSystem(scene, circleTexture);
   camera.position.z = 120;
 
   const mouse = new THREE.Vector2();
@@ -220,7 +219,7 @@ function fragmentShader() {
 
 function setupParticleSystem() {
   if (document.readyState === 'complete') {
-    reinitializeParticleSystem();
+    initializeParticleSystem();
   } else {
     window.addEventListener('load', reinitializeParticleSystem);
   }
