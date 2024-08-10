@@ -46,7 +46,6 @@ class Sketch {
 
     this.paused = true;
     this.initiate(() => {
-      console.log(this.textures);
       this.setupResize();
       // this.settings();
       this.addObjects();
@@ -289,7 +288,6 @@ class Sketch {
       value: 1,
       ease: Power2[this.easing],
       onComplete: () => {
-        console.log('FINISH');
         this.current = (this.current + 1) % len;
         this.material.uniforms.texture1.value = nextTexture;
         this.material.uniforms.progress.value = 0;
@@ -319,20 +317,14 @@ class Sketch {
 document.addEventListener('DOMContentLoaded', function() {
   const canvasContainer = document.getElementById('main-image-canvas');
   const mainImage = document.querySelector('.cp_main-image-container img');
-
-  console.log('Main Image src:', mainImage ? mainImage.src : 'No image found');
-  
-
   
   if (mainImage && canvasContainer) {
       // Set the data-images attribute dynamically based on the img src
       const imageSrc = mainImage.src;
       canvasContainer.setAttribute('data-images', JSON.stringify([imageSrc]));
-      console.log('Set data-images:', canvasContainer.getAttribute('data-images'));
 
       const dispUrl = 'https://uploads-ssl.webflow.com/65de4d4aa58a7df7f5ea205b/6694cc523ddbd2f97e5e4386_disp1.webp';
       canvasContainer.setAttribute('data-disp', dispUrl);
-      console.log('Set data-disp:', canvasContainer.getAttribute('data-disp'));
   }
 
   if (mainImage) {
