@@ -16,15 +16,7 @@ function initializeParticleSystem() {
   }
 
   // Clean up existing animation if it's running
-  if (animationId) {
-    cancelAnimationFrame(animationId);
-    animationId = null;
-  }
-
-  // Clean up existing THREE.js objects
-  if (renderer) {
-    renderer.dispose();
-  }
+  cleanupResources();
   
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -39,11 +31,7 @@ function initializeParticleSystem() {
   renderer = new THREE.WebGLRenderer({ canvas });
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
+  window.addEventListener('resize', onWindowResize);
 
   const circleTexture = createCircleTexture(128, '#6BE688');
   particleSystem = setupParticleSystem(scene, circleTexture);
@@ -52,14 +40,37 @@ function initializeParticleSystem() {
   mouse = new THREE.Vector2();
   raycaster = new THREE.Raycaster();
 
-  document.addEventListener('mousemove', (event) => {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  });
+  document.addEventListener('mousemove', onDocumentMouseMove);
 
   animate(); // Start the animation
 
   setupScrollTrigger(canvas, stopAnimation, startAnimation);
+}
+
+function cleanupResources() {
+  if (animationId) {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+  }
+  if (renderer) {
+    renderer.dispose();
+  }
+  if (scene) {
+    scene.clear();
+  }
+  window.removeEventListener('resize', onWindowResize);
+  document.removeEventListener('mousemove', onDocumentMouseMove);
+}
+
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function onDocumentMouseMove(event) {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
 function animate() {
@@ -217,31 +228,17 @@ function fragmentShader() {
   `;
 }
 
-function setupParticleSystem() {
-  if (document.readyState === 'complete') {
-    initializeParticleSystem();
-  } else {
-    window.addEventListener('load', initializeParticleSystem);
-  }
+// Initial setup
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeParticleSystem);
+} else {
+  initializeParticleSystem();
 }
 
-setupParticleSystem();
-
+// If you're using a front-end framework or need to reinitialize
 function reinitializeParticleSystem() {
   console.log('Reinitializing particle system');
-  // Clean up existing resources
-  if (scene) {
-    scene.clear();
-  }
-  if (renderer) {
-    renderer.dispose();
-  }
-  if (animationId) {
-    cancelAnimationFrame(animationId);
-    animationId = null;
-  }
-  
-  // Reinitialize
+  cleanupResources();
   initializeParticleSystem();
 }
 
