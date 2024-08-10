@@ -9,13 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     var paths = svg.querySelectorAll('path'); // Select all path elements within each SVG
     if (currentUrl.includes('ember-collection')) {
       paths.forEach(path => path.style.fill = '#D97848');
-      console.log("Color set to #D97848 for all paths");
     } else if (currentUrl.includes('nebula-collection')) {
       paths.forEach(path => path.style.fill = '#580DEB');
-      console.log("Color set to #580DEB for all paths");
     } else if (currentUrl.includes('apex-collection')) {
       paths.forEach(path => path.style.fill = '#6BE688');
-      console.log("Color set to #6BE688 for all paths");
     }
   });
 });
