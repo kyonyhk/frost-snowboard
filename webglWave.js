@@ -205,19 +205,19 @@ function fragmentShader() {
   `;
 }
 
-// Wait for DOM content to be loaded and then initialize
-document.addEventListener('DOMContentLoaded', () => {
-  // Check if THREE is available
+// Replace the DOMContentLoaded event listener at the end of your file with this:
+function checkAndInitialize(attempts = 0) {
   if (typeof THREE !== 'undefined') {
     initializeParticleSystem();
+  } else if (attempts < 20) { // Try for up to 10 seconds (20 * 500ms)
+    console.log(`Waiting for THREE.js to load... Attempt ${attempts + 1}`);
+    setTimeout(() => checkAndInitialize(attempts + 1), 500);
   } else {
-    // If THREE is not available, wait a bit and try again
-    setTimeout(() => {
-      if (typeof THREE !== 'undefined') {
-        initializeParticleSystem();
-      } else {
-        console.error('THREE.js is not loaded after waiting. Please check your script inclusion.');
-      }
-    }, 1000); // Wait for 1 second before retrying
+    console.error('THREE.js is not loaded after multiple attempts. Please check your script inclusion.');
   }
+}
+
+// Use 'load' event instead of 'DOMContentLoaded' to ensure all resources are loaded
+window.addEventListener('load', () => {
+  checkAndInitialize();
 });
