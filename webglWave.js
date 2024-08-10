@@ -6,10 +6,25 @@ const TWO_PI = 2 * Math.PI;
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Global variables for easy cleanup and reinitialization
+let scene, camera, renderer, particleSystem, animationId, mouse, raycaster;
+
 function initializeParticleSystem() {
   if (typeof THREE === 'undefined') {
     console.error('THREE.js is not loaded. Please ensure it is included before this script.');
     return;
+  }
+
+  // Clean up existing animation if it's running
+  if (animationId) {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+  }
+
+  // Clean up existing THREE.js objects
+  if (scene) {
+    scene.clear();
+    renderer.dispose();
   }
   
   const scene = new THREE.Scene();
@@ -43,30 +58,28 @@ function initializeParticleSystem() {
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
   });
 
-  let animationId = null;
-
-  function animate() {
-    animationId = requestAnimationFrame(animate);
-    updateParticles(particleSystem, raycaster, mouse, camera);
-    renderer.render(scene, camera);
-  }
-
-  function stopAnimation() {
-    if (animationId) {
-      cancelAnimationFrame(animationId);
-      animationId = null;
-    }
-  }
-
-  function startAnimation() {
-    if (!animationId) {
-      animate();
-    }
-  }
-
   animate(); // Start the animation
 
   setupScrollTrigger(canvas, stopAnimation, startAnimation);
+}
+
+function animate() {
+  animationId = requestAnimationFrame(animate);
+  updateParticles(particleSystem, raycaster, mouse, camera);
+  renderer.render(scene, camera);
+}
+
+function stopAnimation() {
+  if (animationId) {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+  }
+}
+
+function startAnimation() {
+  if (!animationId) {
+    animate();
+  }
 }
 
 function createCircleTexture(radius, color) {
@@ -205,19 +218,38 @@ function fragmentShader() {
   `;
 }
 
-// Replace the DOMContentLoaded event listener at the end of your file with this:
-function checkAndInitialize(attempts = 0) {
-  if (typeof THREE !== 'undefined') {
-    initializeParticleSystem();
-  } else if (attempts < 20) { // Try for up to 10 seconds (20 * 500ms)
-    console.log(`Waiting for THREE.js to load... Attempt ${attempts + 1}`);
-    setTimeout(() => checkAndInitialize(attempts + 1), 500);
+function setupParticleSystem() {
+  if (document.readyState === 'complete') {
+    reinitializeParticleSystem();
   } else {
-    console.error('THREE.js is not loaded after multiple attempts. Please check your script inclusion.');
+    window.addEventListener('load', reinitializeParticleSystem);
   }
 }
 
-// Use 'load' event instead of 'DOMContentLoaded' to ensure all resources are loaded
-window.addEventListener('load', () => {
-  checkAndInitialize();
+setupParticleSystem();
+
+function reinitializeParticleSystem() {
+  console.log('Reinitializing particle system');
+  // Clean up existing resources
+  if (scene) {
+    scene.clear();
+  }
+  if (renderer) {
+    renderer.dispose();
+  }
+  if (animationId) {
+    cancelAnimationFrame(animationId);
+    animationId = null;
+  }
+  
+  // Reinitialize
+  initializeParticleSystem();
+}
+
+// If you're not using a front-end framework, you can use the 'popstate' event
+// to detect when the user navigates back to the homepage
+window.addEventListener('popstate', (event) => {
+  if (window.location.pathname === '/') {  // Adjust this condition based on your homepage URL
+    reinitializeParticleSystem();
+  }
 });
