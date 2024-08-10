@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
   });
 
-  let animationId = animate();
+  let animationId = null;
 
   function animate() {
     animationId = requestAnimationFrame(animate);
@@ -41,7 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.render(scene, camera);
   }
 
-  setupScrollTrigger(canvas, animationId, animate);
+  animate(); // Start the animation
+
+  setupScrollTrigger(canvas, () => {
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
+    }
+  }, animate);
 });
 
 function createCircleTexture(radius, color) {
@@ -142,15 +149,12 @@ function setupScrollTrigger(canvas, animationId, animate) {
     start: 'bottom bottom',
     end: 'bottom 80%',
     onLeave: () => {
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      }
+      stopAnimation();
       canvas.style.display = 'none';
     },
     onEnterBack: () => {
       canvas.style.display = 'block';
-      if (!animationId) animationId = animate();
+      startAnimation();
     },
   });
 }
