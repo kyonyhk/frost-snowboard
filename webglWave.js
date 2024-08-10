@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 function initializeParticleSystem() {
   if (typeof THREE === 'undefined') {
     console.error('THREE.js is not loaded. Please ensure it is included before this script.');
+    return;
   }
   
   const scene = new THREE.Scene();
@@ -66,7 +67,7 @@ function initializeParticleSystem() {
   animate(); // Start the animation
 
   setupScrollTrigger(canvas, stopAnimation, startAnimation);
-});
+}
 
 function createCircleTexture(radius, color) {
   const size = radius * 2;
