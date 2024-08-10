@@ -36,7 +36,7 @@ function initializeParticleSystem() {
     return;
   }
   
-  const renderer = new THREE.WebGLRenderer({ canvas });
+  renderer = new THREE.WebGLRenderer({ canvas });
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   window.addEventListener('resize', () => {
@@ -49,8 +49,8 @@ function initializeParticleSystem() {
   particleSystem = setupParticleSystem(scene, circleTexture);
   camera.position.z = 120;
 
-  const mouse = new THREE.Vector2();
-  const raycaster = new THREE.Raycaster();
+  mouse = new THREE.Vector2();
+  raycaster = new THREE.Raycaster();
 
   document.addEventListener('mousemove', (event) => {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -221,7 +221,7 @@ function setupParticleSystem() {
   if (document.readyState === 'complete') {
     initializeParticleSystem();
   } else {
-    window.addEventListener('load', reinitializeParticleSystem);
+    window.addEventListener('load', initializeParticleSystem);
   }
 }
 
