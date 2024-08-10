@@ -6,12 +6,21 @@ const TWO_PI = 2 * Math.PI;
 
 gsap.registerPlugin(ScrollTrigger);
 
-document.addEventListener('DOMContentLoaded', () => {
+function initializeParticleSystem() => {
+  if (typeof THREE === 'undefined') {
+    console.error('THREE.js is not loaded. Please ensure it is included before this script.');
+  }
+  
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   scene.background = new THREE.Color(0x060e08);
 
   const canvas = document.querySelector('.hero_webgl-element');
+  if (!canvas) {
+    console.error('Canvas element not found');
+    return;
+  }
+  
   const renderer = new THREE.WebGLRenderer({ canvas });
   renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -194,3 +203,20 @@ function fragmentShader() {
     }
   `;
 }
+
+// Wait for DOM content to be loaded and then initialize
+document.addEventListener('DOMContentLoaded', () => {
+  // Check if THREE is available
+  if (typeof THREE !== 'undefined') {
+    initializeParticleSystem();
+  } else {
+    // If THREE is not available, wait a bit and try again
+    setTimeout(() => {
+      if (typeof THREE !== 'undefined') {
+        initializeParticleSystem();
+      } else {
+        console.error('THREE.js is not loaded after waiting. Please check your script inclusion.');
+      }
+    }, 1000); // Wait for 1 second before retrying
+  }
+});
