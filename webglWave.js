@@ -130,7 +130,7 @@ function setupParticleSystem(scene, texture) {
     uniforms: {
       color: { value: new THREE.Color(0xffffff) },
       pointTexture: { value: texture },
-      time: { value: 0 }.
+      time: { value: 0 },
       mousePosition: { value: new THREE.Vector2() },
     },
     vertexShader: vertexShader(),
