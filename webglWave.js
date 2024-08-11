@@ -145,7 +145,7 @@ function setupParticleSystem(scene, texture) {
 }
 
 function updateParticles(particleSystem, raycaster, mouse, camera) {
-  articleSystem.material.uniforms.time.value = Date.now() * 0.005;
+  particleSystem.material.uniforms.time.value = Date.now() * 0.005;
   particleSystem.material.uniforms.mousePosition.value.copy(mouse);
 
   raycaster.setFromCamera(mouse, camera);
