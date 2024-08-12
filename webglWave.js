@@ -70,11 +70,11 @@ function onWindowResize() {
 }
 
 function onDocumentMouseMove(event) {
-  // Convert mouse position to clip space (-1 to 1)
+  // Store mouse position in normalized device coordinates (-1 to +1)
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-  // Update debug uniform
+  // Update debug uniform (in screen space coordinates)
   particleSystem.material.uniforms.debugMousePos.value.set(
     event.clientX / window.innerWidth,
     1 - (event.clientY / window.innerHeight)
@@ -195,7 +195,7 @@ function vertexShader() {
       
       // Mouse interaction
       float aspectRatio = resolution.x / resolution.y;
-      vec2 mousePos = mousePosition * vec2(aspectRatio, 1.0) * 120.0;
+      vec2 mousePos = mousePosition * vec2(aspectRatio, 1.0) * 60.0;
       float distanceToMouse = distance(initialPosition.xy, mousePos);
       float interactionRadius = 20.0;
       float scale;
@@ -208,7 +208,8 @@ function vertexShader() {
       }
       
       // Debug coloring
-      float debugDistance = distance(initialPosition.xy / 120.0, debugMousePos * 2.0 - 1.0);
+      vec2 particleNDC = initialPosition.xy / 60.0;
+      float debugDistance = distance(particleNDC, mousePosition);
       vColor = debugDistance < 0.05 ? vec3(1.0, 0.0, 0.0) : vec3(1.0);
       
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
