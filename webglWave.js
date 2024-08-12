@@ -70,8 +70,8 @@ function onWindowResize() {
 }
 
 function onDocumentMouseMove(event) {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  mouse.x = event.clientX / window.innerWidth;
+  mouse.y = 1 - (event.clientY / window.innerHeight);
 }
 
 function animate() {
@@ -169,12 +169,11 @@ function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
 
 function vertexShader() {
   return `
-        attribute vec3 initialPosition;
+    attribute vec3 initialPosition;
     uniform float time;
     uniform vec2 mousePosition;
     uniform vec2 resolution;
     varying float vOpacity;
-    varying float vScale;
     
     void main() {
       vec3 pos = initialPosition;
@@ -185,22 +184,22 @@ function vertexShader() {
               7.0 * cos(time * 2.5 + initialPosition.x * 0.01);
       
       // Convert mouse position to same coordinate system as particles
-      vec2 mousePos = (mousePosition * 2.0 - 1.0) * vec2(resolution.x / resolution.y, 1.0) * 120.0;
+      vec2 mousePos = mousePosition * vec2(resolution.x / resolution.y, 1.0) * 120.0;
       
       // Mouse interaction
       float distanceToMouse = distance(initialPosition.xy, mousePos);
       float interactionRadius = 20.0;
+      float scale;
       if (distanceToMouse < interactionRadius) {
-        vScale = 1.0 + (1.0 - distanceToMouse / interactionRadius) * 1.5;
+        scale = 1.0 + (1.0 - distanceToMouse / interactionRadius) * 1.5;
         vOpacity = 1.0 - (distanceToMouse / interactionRadius) * 0.5;
-        pos.z += 5.0 * (1.0 - distanceToMouse / interactionRadius);
       } else {
-        vScale = 1.0;
+        scale = 1.0;
         vOpacity = 0.5;
       }
       
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-      gl_PointSize = vScale * (300.0 / -mvPosition.z);
+      gl_PointSize = scale * (300.0 / -mvPosition.z);
       gl_Position = projectionMatrix * mvPosition;
     }
   `;
