@@ -70,8 +70,15 @@ function onWindowResize() {
 }
 
 function onDocumentMouseMove(event) {
-  mouse.x = event.clientX / window.innerWidth;
-  mouse.y = 1 - (event.clientY / window.innerHeight);
+  // Convert mouse position to clip space (-1 to 1)
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  // Update debug uniform
+  particleSystem.material.uniforms.debugMousePos.value.set(
+    event.clientX / window.innerWidth,
+    1 - (event.clientY / window.innerHeight)
+  );
 }
 
 function animate() {
@@ -134,6 +141,7 @@ function setupParticleSystem(scene, texture) {
       time: { value: 0 },
       mousePosition: { value: new THREE.Vector2() },
       resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+      debugMousePos: { value: new THREE.Vector2() }, // Add this line
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader(),
@@ -173,7 +181,9 @@ function vertexShader() {
     uniform float time;
     uniform vec2 mousePosition;
     uniform vec2 resolution;
+    uniform vec2 debugMousePos;
     varying float vOpacity;
+    varying vec3 vColor;
     
     void main() {
       vec3 pos = initialPosition;
@@ -183,10 +193,9 @@ function vertexShader() {
               30.0 * sin(time * 0.5 + initialPosition.y * 0.01) +
               7.0 * cos(time * 2.5 + initialPosition.x * 0.01);
       
-      // Convert mouse position to same coordinate system as particles
-      vec2 mousePos = mousePosition * vec2(resolution.x / resolution.y, 1.0) * 120.0;
-      
       // Mouse interaction
+      float aspectRatio = resolution.x / resolution.y;
+      vec2 mousePos = mousePosition * vec2(aspectRatio, 1.0) * 120.0;
       float distanceToMouse = distance(initialPosition.xy, mousePos);
       float interactionRadius = 20.0;
       float scale;
@@ -197,6 +206,10 @@ function vertexShader() {
         scale = 1.0;
         vOpacity = 0.5;
       }
+      
+      // Debug coloring
+      float debugDistance = distance(initialPosition.xy / 120.0, debugMousePos * 2.0 - 1.0);
+      vColor = debugDistance < 0.05 ? vec3(1.0, 0.0, 0.0) : vec3(1.0);
       
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
       gl_PointSize = scale * (300.0 / -mvPosition.z);
@@ -210,8 +223,9 @@ function fragmentShader() {
     uniform vec3 color;
     uniform sampler2D pointTexture;
     varying float vOpacity;
+    varying vec3 vColor;
     void main() {
-      gl_FragColor = vec4(color, vOpacity) * texture2D(pointTexture, gl_PointCoord);
+      gl_FragColor = vec4(vColor, vOpacity) * texture2D(pointTexture, gl_PointCoord);
     }
   `;
 }
