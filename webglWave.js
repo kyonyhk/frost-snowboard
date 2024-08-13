@@ -153,6 +153,22 @@ function setupParticleSystem(scene, texture) {
   return particleSystem;
 }
 
+function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
+  ScrollTrigger.create({
+    trigger: '.section.is-collections-main',
+    start: 'bottom bottom',
+    end: 'bottom 80%',
+    onLeave: () => {
+      stopAnimation();
+      canvas.style.display = 'none';
+    },
+    onEnterBack: () => {
+      canvas.style.display = 'block';
+      startAnimation();
+    },
+  });
+}
+
 function vertexShader() {
   return `
     uniform float time;
