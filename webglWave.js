@@ -111,6 +111,8 @@ function createCircleTexture(radius, color) {
 function setupParticleSystem(scene, texture) {
   const particles = new THREE.BufferGeometry();
   const positions = new Float32Array(TOTAL_PARTICLES * 3);
+  const scales = new Float32Array(TOTAL_PARTICLES);
+  const opacities = new Float32Array(TOTAL_PARTICLES);
 
   for (let i = 0; i < TOTAL_PARTICLES; i++) {
     const x = ((i % PARTICLES_X) - PARTICLES_X / 2) * 2;
@@ -119,9 +121,13 @@ function setupParticleSystem(scene, texture) {
     positions[i3] = x;
     positions[i3 + 1] = y;
     positions[i3 + 2] = 0;
+    scales[i] = 1;
+    opacities[i] = 0.5;
   }
 
   particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  particles.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
+  particles.setAttribute('opacity', new THREE.BufferAttribute(opacities, 1));
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
@@ -141,7 +147,8 @@ function setupParticleSystem(scene, texture) {
 }
 
 function updateParticles(particleSystem, raycaster, mouse, camera) {
-  particleSystem.material.uniforms.time.value += 0.005;
+  const time = Date.now() * 0.005;
+  particleSystem.material.uniforms.time.value = time;
 }
 
 function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
@@ -162,9 +169,12 @@ function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
 
 function vertexShader() {
   return `
-     uniform float time;
-    
+    attribute float scale;
+    attribute float opacity;
+    uniform float time;
+    varying float vOpacity;
     void main() {
+      vOpacity = opacity;
       vec3 pos = position;
       
       // Wave animation
@@ -173,7 +183,7 @@ function vertexShader() {
               7.0 * cos(time * 0.5 + position.x * 0.01);
       
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-      gl_PointSize = 300.0 / -mvPosition.z;
+      gl_PointSize = scale * (300.0 / -mvPosition.z);
       gl_Position = projectionMatrix * mvPosition;
     }
   `;
@@ -183,9 +193,9 @@ function fragmentShader() {
   return `
     uniform vec3 color;
     uniform sampler2D pointTexture;
-    
+    varying float vOpacity;
     void main() {
-      gl_FragColor = vec4(color, 1.0) * texture2D(pointTexture, gl_PointCoord);
+      gl_FragColor = vec4(color, vOpacity) * texture2D(pointTexture, gl_PointCoord);
     }
   `;
 }
