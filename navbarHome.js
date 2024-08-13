@@ -361,10 +361,8 @@ function updateNavbarDisplay() {
   if (isMobile()) {
     if (isHomepage) {
       gsap.set(navbar, { display: 'none' });
-    } else if (isCollectionsPage || isFrostTechPage) {
-      gsap.set(navbar, { display: 'flex' });
     } else {
-      gsap.set(navbar, { display: 'none' }); // Hide on other pages for mobile
+      gsap.set(navbar, { display: 'flex' }); // Hide on other pages for mobile
     }
   } else {
     gsap.set(navbar, { display: 'flex' });
@@ -686,6 +684,8 @@ function setupTextHoverAnimations() {
 function setupNavbarScrollTrigger() {
   const footer = document.querySelector('.section.is-footer');
   const isHomepage = window.location.pathname === 'index.html' || window.location.pathname === '/';
+  const isCollectionsPage = window.location.pathname.includes('/collections/');
+  const isFrostTechPage = window.location.pathname.includes('/frost-tech/');
 
   function isDesktop() {
     return window.innerWidth > 991; // Adjust this breakpoint as needed
@@ -701,7 +701,7 @@ function setupNavbarScrollTrigger() {
       });
 
       if (isDesktop()) {
-        // Desktop behavior
+        // Desktop behavior for homepage
         ScrollTrigger.create({
           trigger: footer,
           start: 'top 80%',
@@ -726,7 +726,7 @@ function setupNavbarScrollTrigger() {
           }
         });
       } else {
-        // Mobile behavior
+        // Mobile behavior for homepage
         ScrollTrigger.create({
           trigger: footer,
           start: 'bottom bottom',
@@ -751,6 +751,14 @@ function setupNavbarScrollTrigger() {
           }
         });
       }
+    } else if ((isCollectionsPage || isFrostTechPage) && navbar) {
+      // For collections and frost-tech pages, ensure navbar is always visible
+      navbar.style.display = 'flex';
+      gsap.to(navbar, {
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power4.out'
+      });
     }
   }
 
