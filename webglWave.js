@@ -135,14 +135,16 @@ function setupParticleSystem(scene, texture) {
     uniforms: {
       color: { value: new THREE.Color(0xffffff) },
       pointTexture: { value: texture },
-      time: { value: 0 }, // Add this line
+      time: { value: 0 },
+      mousePosition: { value: new THREE.Vector2() }, // Add this line
+      resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }, // Add this line
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader(),
     depthTest: false,
     transparent: true,
   });
-
+  
   const particleSystem = new THREE.Points(particles, material);
   scene.add(particleSystem);
   return particleSystem;
