@@ -128,8 +128,6 @@ function setupParticleSystem(scene, texture) {
       color: { value: new THREE.Color(0xffffff) },
       pointTexture: { value: texture },
       time: { value: 0 },
-      mouse: { value: new THREE.Vector2() },
-      resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader(),
@@ -143,8 +141,7 @@ function setupParticleSystem(scene, texture) {
 }
 
 function updateParticles(particleSystem, raycaster, mouse, camera) {
-  particleSystem.material.uniforms.time.value = Date.now() * 0.005;
-  particleSystem.material.uniforms.mouse.value.copy(mouse);
+  particleSystem.material.uniforms.time.value += 0.005;
 }
 
 function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
@@ -165,11 +162,7 @@ function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
 
 function vertexShader() {
   return `
-    uniform float time;
-    uniform vec2 mouse;
-    uniform vec2 resolution;
-    
-    varying float vOpacity;
+     uniform float time;
     
     void main() {
       vec3 pos = position;
@@ -179,21 +172,8 @@ function vertexShader() {
               30.0 * sin(time * 0.1 + position.y * 0.01) +
               7.0 * cos(time * 0.5 + position.x * 0.01);
       
-      // Calculate distance to mouse in world space
-      vec2 mousePos = mouse * resolution * 0.5;
-      float distanceToMouse = distance(position.xy * 60.0, mousePos);
-      
-      // Hover effect
-      float scale = 1.0;
-      vOpacity = 0.5;
-      
-      if (distanceToMouse < 10.0) {
-        scale = 1.0 + ((10.0 - distanceToMouse) / 10.0) * 1.5;
-        vOpacity = 1.0 - (distanceToMouse / 10.0) * 0.5;
-      }
-      
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-      gl_PointSize = scale * (300.0 / -mvPosition.z);
+      gl_PointSize = 300.0 / -mvPosition.z;
       gl_Position = projectionMatrix * mvPosition;
     }
   `;
@@ -203,10 +183,9 @@ function fragmentShader() {
   return `
     uniform vec3 color;
     uniform sampler2D pointTexture;
-    varying float vOpacity;
     
     void main() {
-      gl_FragColor = vec4(color, vOpacity) * texture2D(pointTexture, gl_PointCoord);
+      gl_FragColor = vec4(color, 1.0) * texture2D(pointTexture, gl_PointCoord);
     }
   `;
 }
