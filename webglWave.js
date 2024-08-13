@@ -39,7 +39,9 @@ function initializeParticleSystem() {
 
   mouse = new THREE.Vector2();
   raycaster = new THREE.Raycaster();
-
+  
+  window.removeEventListener('resize', onWindowResize);
+  window.addEventListener('resize', onWindowResize);
   document.addEventListener('mousemove', onDocumentMouseMove);
 
   animate(); // Start the animation
@@ -60,13 +62,15 @@ function cleanupResources() {
   }
   window.removeEventListener('resize', onWindowResize);
   document.removeEventListener('mousemove', onDocumentMouseMove);
+
+  camera = null;
+  renderer = null;
 }
 
 function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  particleSystem.material.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
 }
 
 function onDocumentMouseMove(event) {
