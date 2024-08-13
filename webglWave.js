@@ -166,7 +166,6 @@ function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
 function vertexShader() {
   return `
     uniform float time;
-    uniform float time;
     uniform vec2 mouse;
     uniform vec2 resolution;
     
