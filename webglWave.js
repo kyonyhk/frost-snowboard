@@ -73,15 +73,6 @@ function onDocumentMouseMove(event) {
   // Calculate mouse position in normalized device coordinates (-1 to +1)
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  // Convert to world coordinates
-  const vector = new THREE.Vector3(mouse.x, mouse.y, 0);
-  vector.unproject(camera);
-  const dir = vector.sub(camera.position).normalize();
-  const distance = -camera.position.z / dir.z;
-  const pos = camera.position.clone().add(dir.multiplyScalar(distance));
-
-  particleSystem.material.uniforms.mousePosition.value.set(pos.x, pos.y);
 }
 
 function animate() {
@@ -120,6 +111,7 @@ function createCircleTexture(radius, color) {
 function setupParticleSystem(scene, texture) {
   const particles = new THREE.BufferGeometry();
   const positions = new Float32Array(TOTAL_PARTICLES * 3);
+  const initialPositions = new Float32Array(TOTAL_PARTICLES * 3);
   const scales = new Float32Array(TOTAL_PARTICLES);
   const opacities = new Float32Array(TOTAL_PARTICLES);
 
@@ -130,11 +122,15 @@ function setupParticleSystem(scene, texture) {
     positions[i3] = x;
     positions[i3 + 1] = y;
     positions[i3 + 2] = 0;
+    initialPositions[i3] = x;
+    initialPositions[i3 + 1] = y;
+    initialPositions[i3 + 2] = 0;
     scales[i] = 1;
     opacities[i] = 0.5;
   }
 
   particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  particles.setAttribute('initialPosition', new THREE.BufferAttribute(initialPositions, 3));
   particles.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
   particles.setAttribute('opacity', new THREE.BufferAttribute(opacities, 1));
 
@@ -143,6 +139,8 @@ function setupParticleSystem(scene, texture) {
       color: { value: new THREE.Color(0xffffff) },
       pointTexture: { value: texture },
       time: { value: 0 },
+      mousePosition: { value: new THREE.Vector2() },
+      resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader(),
@@ -158,36 +156,7 @@ function setupParticleSystem(scene, texture) {
 function updateParticles(particleSystem, raycaster, mouse, camera) {
   const time = Date.now() * 0.005;
   particleSystem.material.uniforms.time.value = time;
-
-  const positions = particleSystem.geometry.attributes.position.array;
-  const scales = particleSystem.geometry.attributes.scale.array;
-  const opacities = particleSystem.geometry.attributes.opacity.array;
-
-  raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObject(particleSystem);
-
-  for (let i = 0; i < TOTAL_PARTICLES; i++) {
-    const i3 = i * 3;
-    const x = positions[i3];
-    const y = positions[i3 + 1];
-
-    let scale = 1;
-    let opacity = 0.5;
-
-    if (intersects.length > 0) {
-      const distance = Math.hypot(x - intersects[0].point.x, y - intersects[0].point.y);
-      if (distance < 10) {
-        scale = 1 + ((10 - distance) / 10) * 1.5;
-        opacity = 1.0 - (distance / 10) * 0.5;
-      }
-    }
-    
-    scales[i] = scale;
-    opacities[i] = opacity;
-  }
-
-  particleSystem.geometry.attributes.scale.needsUpdate = true;
-  particleSystem.geometry.attributes.opacity.needsUpdate = true;
+  particleSystem.material.uniforms.mousePosition.value.copy(mouse);
 }
 
 function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
@@ -208,23 +177,39 @@ function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
 
 function vertexShader() {
   return `
+    attribute vec3 initialPosition;
     attribute float scale;
     attribute float opacity;
     uniform float time;
+    uniform vec2 mousePosition;
+    uniform vec2 resolution;
     varying float vOpacity;
     
     void main() {
       vOpacity = opacity;
-      vec3 pos = position;
+      vec3 pos = initialPosition;
       
       // Wave animation
-      pos.z = 10.0 * sin(time * 0.1 + position.x * 0.07) +
-              30.0 * sin(time * 0.1 + position.y * 0.01) +
-              7.0 * cos(time * 0.5 + position.x * 0.01);
+      pos.z = 10.0 * sin(time * 0.1 + initialPosition.x * 0.07) +
+              30.0 * sin(time * 0.1 + initialPosition.y * 0.01) +
+              7.0 * cos(time * 0.5 + initialPosition.x * 0.01);
+      
+      // Mouse interaction (calculation done in JavaScript)
+      vec2 aspectRatio = vec2(resolution.x / resolution.y, 1.0);
+      float distanceToMouse = distance(initialPosition.xy * aspectRatio, mousePosition * aspectRatio * 60.0);
+      float interactionRadius = 10.0;
+      float scaleFactor = 1.0;
+      float opacityFactor = 1.0;
+      
+      if (distanceToMouse < interactionRadius) {
+        scaleFactor = 1.0 + (1.0 - distanceToMouse / interactionRadius) * 1.5;
+        opacityFactor = 1.0 - (distanceToMouse / interactionRadius) * 0.5;
+      }
       
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-      gl_PointSize = scale * (300.0 / -mvPosition.z);
+      gl_PointSize = scale * scaleFactor * (300.0 / -mvPosition.z);
       gl_Position = projectionMatrix * mvPosition;
+      vOpacity *= opacityFactor;
     }
   `;
 }
