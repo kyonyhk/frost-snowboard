@@ -700,22 +700,47 @@ function setupNavbarScrollTrigger() {
   const footer = document.querySelector('.section.is-footer');
   const isHomepage = window.location.pathname === 'index.html' || window.location.pathname === '/';
 
-  if (footer && navbar && isHomepage) {
-    ScrollTrigger.create({
-      trigger: footer,
-      start: 'top 80%',
-      end: 'bottom bottom',
-      onEnter: () => {
-        gsap.to(navbar, {
-          opacity: 0,
-          duration: 0.5,
-          ease: 'power4.out',
-          onComplete: () => {
-            navbar.style.display = 'none';
+  // Function to check if the device is desktop
+  function isDesktop() {
+    return window.innerWidth > 991; // Adjust this breakpoint as needed
+  }
+
+  // Function to handle the ScrollTrigger setup or removal
+  function handleScrollTrigger() {
+    if (footer && navbar && isHomepage) {
+      if (isDesktop()) {
+        // Set up ScrollTrigger for desktop
+        ScrollTrigger.create({
+          trigger: footer,
+          start: 'top 80%',
+          end: 'bottom bottom',
+          onEnter: () => {
+            gsap.to(navbar, {
+              opacity: 0,
+              duration: 0.5,
+              ease: 'power4.out',
+              onComplete: () => {
+                navbar.style.display = 'none';
+              }
+            });
+          },
+          onLeaveBack: () => {
+            navbar.style.display = 'flex';
+            gsap.to(navbar, {
+              opacity: 1,
+              duration: 0.5,
+              ease: 'power4.out'
+            });
           }
         });
-      },
-      onLeaveBack: () => {
+      } else {
+        // Remove ScrollTrigger for mobile
+        ScrollTrigger.getAll().forEach(trigger => {
+          if (trigger.vars.trigger === footer) {
+            trigger.kill();
+          }
+        });
+        // Ensure navbar is visible on mobile when scrolling up
         navbar.style.display = 'flex';
         gsap.to(navbar, {
           opacity: 1,
@@ -723,8 +748,14 @@ function setupNavbarScrollTrigger() {
           ease: 'power4.out'
         });
       }
-    });
+    }
   }
+
+    // Initial setup
+  handleScrollTrigger();
+
+  // Update on window resize
+  window.addEventListener('resize', handleScrollTrigger);
 }
 
 function setupEventListeners() {
