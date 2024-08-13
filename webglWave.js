@@ -70,15 +70,9 @@ function onWindowResize() {
 }
 
 function onDocumentMouseMove(event) {
-  // Store mouse position in normalized device coordinates (-1 to +1)
+  // Convert mouse position to normalized device coordinates (-1 to +1)
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  // Update debug uniform (in screen space coordinates)
-  particleSystem.material.uniforms.debugMousePos.value.set(
-    event.clientX / window.innerWidth,
-    1 - (event.clientY / window.innerHeight)
-  );
 }
 
 function animate() {
@@ -141,7 +135,6 @@ function setupParticleSystem(scene, texture) {
       time: { value: 0 },
       mousePosition: { value: new THREE.Vector2() },
       resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-      debugMousePos: { value: new THREE.Vector2() }, // Add this line
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader(),
@@ -181,7 +174,6 @@ function vertexShader() {
     uniform float time;
     uniform vec2 mousePosition;
     uniform vec2 resolution;
-    uniform vec2 debugMousePos;
     varying float vOpacity;
     varying vec3 vColor;
     
@@ -189,13 +181,14 @@ function vertexShader() {
       vec3 pos = initialPosition;
       
       // Wave animation
-      pos.z = 10.0 * sin(time * 0.5 + initialPosition.x * 0.07) +
-              30.0 * sin(time * 0.5 + initialPosition.y * 0.01) +
-              7.0 * cos(time * 2.5 + initialPosition.x * 0.01);
+      float waveZ = 10.0 * sin(time * 0.5 + initialPosition.x * 0.07) +
+                    30.0 * sin(time * 0.5 + initialPosition.y * 0.01) +
+                    7.0 * cos(time * 2.5 + initialPosition.x * 0.01);
       
-      // Mouse interaction
-      float aspectRatio = resolution.x / resolution.y;
-      vec2 mousePos = mousePosition * vec2(aspectRatio, 1.0) * 60.0;
+      // Convert mousePosition from NDC to same space as particles
+      vec2 mousePos = mousePosition * resolution * 0.5;
+      
+      // Mouse interaction (in 2D, before applying wave)
       float distanceToMouse = distance(initialPosition.xy, mousePos);
       float interactionRadius = 20.0;
       float scale;
@@ -207,10 +200,12 @@ function vertexShader() {
         vOpacity = 0.5;
       }
       
+      // Apply wave after calculating mouse interaction
+      pos.z = waveZ;
+      
       // Debug coloring
-      vec2 particleNDC = initialPosition.xy / 60.0;
-      float debugDistance = distance(particleNDC, mousePosition);
-      vColor = debugDistance < 0.05 ? vec3(1.0, 0.0, 0.0) : vec3(1.0);
+      float debugDistance = distance(initialPosition.xy, mousePos);
+      vColor = debugDistance < 10.0 ? vec3(1.0, 0.0, 0.0) : vec3(1.0);
       
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
       gl_PointSize = scale * (300.0 / -mvPosition.z);
