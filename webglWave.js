@@ -75,6 +75,11 @@ function onDocumentMouseMove(event) {
 
 function animate() {
   animationId = requestAnimationFrame(animate);
+  
+  // Update wave animation uniform
+  const time = Date.now() * 0.005;
+  particleSystem.material.uniforms.time.value = time;
+  
   updateParticles(particleSystem, raycaster, mouse, camera);
   renderer.render(scene, camera);
 }
@@ -152,17 +157,11 @@ function updateParticles(particleSystem, raycaster, mouse, camera) {
 
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObject(particleSystem);
-  const time = Date.now() * 0.005;
 
   for (let i = 0; i < TOTAL_PARTICLES; i++) {
     const i3 = i * 3;
     const x = positions[i3];
     const y = positions[i3 + 1];
-
-    positions[i3 + 2] = 
-      10 * Math.sin(time * 0.1 + x * 0.07) +
-      30 * Math.sin(time * 0.1 + y * 0.01) +
-      7 * Math.cos(time * 0.5 + x * 0.01);
 
     let scale = 1;
     let opacity = 0.5;
@@ -179,7 +178,6 @@ function updateParticles(particleSystem, raycaster, mouse, camera) {
     opacities[i] = opacity;
   }
 
-  particleSystem.geometry.attributes.position.needsUpdate = true;
   particleSystem.geometry.attributes.scale.needsUpdate = true;
   particleSystem.geometry.attributes.opacity.needsUpdate = true;
 }
@@ -202,14 +200,19 @@ function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
 
 function vertexShader() {
   return `
+    uniform float time;
     attribute float scale;
     attribute float opacity;
-    varying vec2 vUv;
     varying float vOpacity;
     void main() {
-      vUv = uv;
-      vOpacity = opacity;
       vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+
+      // Apply wave animation to the z position
+      mvPosition.z += 10.0 * sin(time * 0.1 + mvPosition.x * 0.07) +
+                      30.0 * sin(time * 0.1 + mvPosition.y * 0.01) +
+                      7.0 * cos(time * 0.5 + mvPosition.x * 0.01);
+
+      vOpacity = opacity;
       gl_PointSize = scale * (300.0 / -mvPosition.z);
       gl_Position = projectionMatrix * mvPosition;
     }
@@ -220,7 +223,6 @@ function fragmentShader() {
   return `
     uniform vec3 color;
     uniform sampler2D pointTexture;
-    varying vec2 vUv;
     varying float vOpacity;
     void main() {
       gl_FragColor = vec4(color, vOpacity) * texture2D(pointTexture, gl_PointCoord);
