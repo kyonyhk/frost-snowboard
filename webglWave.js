@@ -22,14 +22,10 @@ function initializeParticleSystem() {
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   scene.background = new THREE.Color(0x060e08);
 
-  const canvas = document.querySelector('.hero_webgl-element');
-  if (!canvas) {
-    console.error('Canvas element not found');
-    return;
-  }
-  
+  const canvas = document.querySelector('.hero_webgl-element');  
   renderer = new THREE.WebGLRenderer({ canvas });
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
 
   window.addEventListener('resize', onWindowResize);
 
@@ -112,7 +108,7 @@ function createCircleTexture(radius, color) {
 }
 
 function setupParticleSystem(scene, texture) {
-  const particles = new THREE.BufferGeometry();
+  const particles = new THREE.InstancedBufferGeometry();
   const positions = new Float32Array(TOTAL_PARTICLES * 3);
   const scales = new Float32Array(TOTAL_PARTICLES);
   const opacities = new Float32Array(TOTAL_PARTICLES);
@@ -130,14 +126,15 @@ function setupParticleSystem(scene, texture) {
     }
   }
 
-  particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  particles.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
-  particles.setAttribute('opacity', new THREE.BufferAttribute(opacities, 1));
+  particles.setAttribute('position', new THREE.InstancedBufferAttribute(positions, 3));
+  particles.setAttribute('scale', new THREE.InstancedBufferAttribute(scales, 1));
+  particles.setAttribute('opacity', new THREE.InstancedBufferAttribute(opacities, 1));
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
       color: { value: new THREE.Color(0xffffff) },
       pointTexture: { value: texture },
+      time: { value: 0 },
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader(),
@@ -151,7 +148,6 @@ function setupParticleSystem(scene, texture) {
 }
 
 function updateParticles(particleSystem, raycaster, mouse, camera) {
-  const positions = particleSystem.geometry.attributes.position.array;
   const scales = particleSystem.geometry.attributes.scale.array;
   const opacities = particleSystem.geometry.attributes.opacity.array;
 
@@ -167,6 +163,8 @@ function updateParticles(particleSystem, raycaster, mouse, camera) {
     let opacity = 0.5;
 
     if (intersects.length > 0) {
+      const x = particleSystem.geometry.attributes.position.array[i * 3];
+      const y = particleSystem.geometry.attributes.position.array[i * 3 + 1];
       const distance = Math.hypot(x - intersects[0].point.x, y - intersects[0].point.y);
       if (distance < 10) {
         scale = 1 + ((10 - distance) / 10) * 1.5;
