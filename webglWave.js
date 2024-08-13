@@ -80,6 +80,7 @@ function onDocumentMouseMove(event) {
 function animate() {
   animationId = requestAnimationFrame(animate);
   updateParticles(particleSystem, raycaster, mouse, camera);
+  particleSystem.geometry.attributes.position.needsUpdate = true; // Add this line
   renderer.render(scene, camera);
 }
 
@@ -145,13 +146,17 @@ function setupParticleSystem(scene, texture) {
   });
 
   const particleSystem = new THREE.Points(particles, material);
+  particleSystem.position.z = 0; // Ensure it's at z=0
   scene.add(particleSystem);
+  
+  console.log('Particle system added to scene:', particleSystem); // Add this line
   return particleSystem;
 }
 
 function updateParticles(particleSystem, raycaster, mouse, camera) {
   const time = Date.now() * 0.005;
   particleSystem.material.uniforms.time.value = time;
+  console.log('Time:', time); // Add this line for debugging
 }
 
 function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
@@ -177,8 +182,10 @@ function vertexShader() {
     uniform float time;
     uniform vec2 resolution;
     varying float vOpacity;
+    varying float vDebugTime; // Add this line for debugging
     void main() {
       vOpacity = opacity;
+      vDebugTime = time; // Add this line for debugging
       vec3 pos = position;
       
       // Wave animation
@@ -198,8 +205,10 @@ function fragmentShader() {
     uniform vec3 color;
     uniform sampler2D pointTexture;
     varying float vOpacity;
+    varying float vDebugTime; // Add this line for debugging
     void main() {
-      gl_FragColor = vec4(color, vOpacity) * texture2D(pointTexture, gl_PointCoord);
+      vec4 texColor = texture2D(pointTexture, gl_PointCoord);
+      gl_FragColor = vec4(color * vDebugTime, vOpacity) * texColor; // Modify this line for debugging
     }
   `;
 }
