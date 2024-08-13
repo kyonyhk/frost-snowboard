@@ -40,8 +40,6 @@ function initializeParticleSystem() {
   mouse = new THREE.Vector2();
   raycaster = new THREE.Raycaster();
 
-  checkWebGLContext();
-
   document.addEventListener('mousemove', onDocumentMouseMove);
 
   animate(); // Start the animation
@@ -68,15 +66,22 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  if (particleSystem && particleSystem.material.uniforms.resolution) {
-    particleSystem.material.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
-  }
+  particleSystem.material.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
 }
 
 function onDocumentMouseMove(event) {
-  // Convert mouse position to normalized device coordinates (-1 to +1)
+   // Calculate mouse position in normalized device coordinates (-1 to +1)
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  // Convert to world coordinates
+  const vector = new THREE.Vector3(mouse.x, mouse.y, 0);
+  vector.unproject(camera);
+  const dir = vector.sub(camera.position).normalize();
+  const distance = -camera.position.z / dir.z;
+  const pos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+  particleSystem.material.uniforms.mousePosition.value.set(pos.x, pos.y);
 }
 
 function animate() {
@@ -115,30 +120,27 @@ function createCircleTexture(radius, color) {
 function setupParticleSystem(scene, texture) {
   const particles = new THREE.BufferGeometry();
   const positions = new Float32Array(TOTAL_PARTICLES * 3);
-  const scales = new Float32Array(TOTAL_PARTICLES);
-  const opacities = new Float32Array(TOTAL_PARTICLES);
 
   for (let i = 0; i < TOTAL_PARTICLES; i++) {
-    const x = ((i % PARTICLES_X) - PARTICLES_X / 2) * 2;
-    const y = (Math.floor(i / PARTICLES_X) - PARTICLES_Y / 2) * 2;
+    const x = ((i % PARTICLES_X) / PARTICLES_X - 0.5) * window.innerWidth;
+    const y = (Math.floor(i / PARTICLES_X) / PARTICLES_Y - 0.5) * window.innerHeight;
     const i3 = i * 3;
     positions[i3] = x;
     positions[i3 + 1] = y;
     positions[i3 + 2] = 0;
-    scales[i] = 1;
-    opacities[i] = 0.5;
   }
 
   particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  particles.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
-  particles.setAttribute('opacity', new THREE.BufferAttribute(opacities, 1));
+  particles.setAttribute('initialPosition', new THREE.BufferAttribute(positions.slice(), 3));
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
       color: { value: new THREE.Color(0xffffff) },
       pointTexture: { value: texture },
       time: { value: 0 },
+      mousePosition: { value: new THREE.Vector2() },
       resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+      debugMousePos: { value: new THREE.Vector2() }, // Add this line
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader(),
@@ -147,17 +149,13 @@ function setupParticleSystem(scene, texture) {
   });
 
   const particleSystem = new THREE.Points(particles, material);
-  particleSystem.position.z = 0; // Ensure it's at z=0
   scene.add(particleSystem);
-  
-  console.log('Particle system added to scene:', particleSystem); // Add this line
   return particleSystem;
 }
 
 function updateParticles(particleSystem, raycaster, mouse, camera) {
-  const time = Date.now() * 0.001; // Changed to 0.001 for slower animation
-  particleSystem.material.uniforms.time.value = time;
-  console.log('Time:', time);
+  particleSystem.material.uniforms.time.value += 0.005;
+  particleSystem.material.uniforms.mousePosition.value.copy(mouse);
 }
 
 function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
@@ -176,38 +174,33 @@ function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
   });
 }
 
-function checkWebGLContext() {
-  const canvas = document.querySelector('.hero_webgl-element');
-  if (!canvas) {
-    console.error('Canvas element not found');
-    return;
-  }
-  
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-  if (!gl) {
-    console.error('WebGL not supported');
-  } else {
-    console.log('WebGL is supported');
-  }
-}
-
 function vertexShader() {
   return `
-    attribute float scale;
-    attribute float opacity;
+    attribute vec3 initialPosition;
     uniform float time;
+    uniform vec2 mousePosition;
     uniform vec2 resolution;
     varying float vOpacity;
-    varying vec3 vColor;
+    
     void main() {
-      vOpacity = opacity;
-      vec3 pos = position;
+      vec3 pos = initialPosition;
       
-      // Simplified wave animation
-      pos.z = 20.0 * sin(time * 0.1 + position.x * 0.1);
+      // Wave animation
+      pos.z = 10.0 * sin(time * 0.5 + initialPosition.x * 0.07) +
+              30.0 * sin(time * 0.5 + initialPosition.y * 0.01) +
+              7.0 * cos(time * 2.5 + initialPosition.x * 0.01);
       
-      // Debug color based on time
-      vColor = vec3(sin(time * 0.1) * 0.5 + 0.5, cos(time * 0.1) * 0.5 + 0.5, 0.5);
+      // Mouse interaction
+      float distanceToMouse = distance(initialPosition.xy, mousePosition);
+      float interactionRadius = 20.0;
+      float scale;
+      if (distanceToMouse < interactionRadius) {
+        scale = 1.0 + (1.0 - distanceToMouse / interactionRadius) * 1.5;
+        vOpacity = 1.0 - (distanceToMouse / interactionRadius) * 0.5;
+      } else {
+        scale = 1.0;
+        vOpacity = 0.5;
+      }
       
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
       gl_PointSize = scale * (300.0 / -mvPosition.z);
@@ -218,12 +211,12 @@ function vertexShader() {
 
 function fragmentShader() {
   return `
+    uniform vec3 color;
     uniform sampler2D pointTexture;
     varying float vOpacity;
     varying vec3 vColor;
     void main() {
-      vec4 texColor = texture2D(pointTexture, gl_PointCoord);
-      gl_FragColor = vec4(vColor, vOpacity) * texColor;
+      gl_FragColor = vec4(vColor, vOpacity) * texture2D(pointTexture, gl_PointCoord);
     }
   `;
 }
