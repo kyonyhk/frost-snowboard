@@ -143,8 +143,7 @@ function setupParticleSystem(scene, texture) {
 }
 
 function updateParticles(particleSystem, raycaster, mouse, camera) {
-  const time = Date.now() * 0.005;
-  particleSystem.material.uniforms.time.value = time;
+  particleSystem.material.uniforms.time.value += 0.005; // Increment time instead of setting it
   particleSystem.material.uniforms.mousePosition.value.copy(mouse);
 }
 
@@ -166,7 +165,7 @@ function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
 
 function vertexShader() {
   return `
-    uniform float time;
+uniform float time;
     uniform vec2 mousePosition;
     uniform vec2 resolution;
     
@@ -176,9 +175,9 @@ function vertexShader() {
       vec3 pos = position;
       
       // Wave animation
-      pos.z = 10.0 * sin(time * 0.1 + position.x * 0.07) +
-              30.0 * sin(time * 0.1 + position.y * 0.01) +
-              7.0 * cos(time * 0.5 + position.x * 0.01);
+      float waveX = sin(time * 0.3 + position.x * 0.05) * 5.0;
+      float waveY = cos(time * 0.3 + position.y * 0.05) * 5.0;
+      pos.z = waveX + waveY;
       
       // Calculate distance to mouse in world space
       vec2 mouseWorld = mousePosition * resolution * 0.5;
@@ -188,9 +187,9 @@ function vertexShader() {
       float scale = 1.0;
       vOpacity = 0.5;
       
-      if (distanceToMouse < 10.0) {
-        scale = 1.0 + ((10.0 - distanceToMouse) / 10.0) * 1.5;
-        vOpacity = 1.0 - (distanceToMouse / 10.0) * 0.5;
+      if (distanceToMouse < 20.0) {
+        scale = 1.0 + ((20.0 - distanceToMouse) / 20.0) * 1.5;
+        vOpacity = 1.0 - (distanceToMouse / 20.0) * 0.5;
       }
       
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
