@@ -109,7 +109,7 @@ function createCircleTexture(radius, color) {
 }
 
 function setupParticleSystem(scene, texture) {
-    const particles = new THREE.BufferGeometry();
+  const particles = new THREE.BufferGeometry();
   const positions = new Float32Array(TOTAL_PARTICLES * 3);
 
   for (let i = 0; i < TOTAL_PARTICLES; i++) {
@@ -174,14 +174,14 @@ function vertexShader() {
     void main() {
       vec3 pos = position;
       
-      // Wave animation (exactly as in the original code)
+      // Wave animation
       pos.z = 10.0 * sin(time * 0.1 + position.x * 0.07) +
               30.0 * sin(time * 0.1 + position.y * 0.01) +
               7.0 * cos(time * 0.5 + position.x * 0.01);
       
       // Calculate distance to mouse in world space
       vec2 mousePos = mouse * resolution * 0.5;
-      float distanceToMouse = distance(position.xy * 120.0, mousePos);
+      float distanceToMouse = distance(position.xy * 60.0, mousePos);
       
       // Hover effect
       float scale = 1.0;
