@@ -115,32 +115,27 @@ function setupParticleSystem(scene, texture) {
   const scales = new Float32Array(TOTAL_PARTICLES);
   const opacities = new Float32Array(TOTAL_PARTICLES);
 
-  for (let i = 0; i < TOTAL_PARTICLES; i++) {
-    const x = ((i % PARTICLES_X) - PARTICLES_X / 2) * 2;
-    const y = (Math.floor(i / PARTICLES_X) - PARTICLES_Y / 2) * 2;
-    const i3 = i * 3;
-    positions[i3] = x;
-    positions[i3 + 1] = y;
-    positions[i3 + 2] = 0;
-    initialPositions[i3] = x;
-    initialPositions[i3 + 1] = y;
-    initialPositions[i3 + 2] = 0;
-    scales[i] = 1;
-    opacities[i] = 0.5;
+  for (let i = 0; i < PARTICLES_X; i++) {
+    for (let j = 0; j < PARTICLES_Y; j++) {
+      const index = i * PARTICLES_Y + j;
+      const x = (i - PARTICLES_X / 2) * 2;
+      const y = (j - PARTICLES_Y / 2) * 2;
+      positions[index * 3] = x;
+      positions[index * 3 + 1] = y;
+      positions[index * 3 + 2] = 0;
+      scales[index] = 1;
+      opacities[index] = 0.5;
+    }
   }
 
   particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  particles.setAttribute('initialPosition', new THREE.BufferAttribute(initialPositions, 3));
-  particles.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
-  particles.setAttribute('opacity', new THREE.BufferAttribute(opacities, 1));
+  particles.setAttribute('initialPosition', new THREE.BufferAttribute(positions, 3)); // Add this line
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
       color: { value: new THREE.Color(0xffffff) },
       pointTexture: { value: texture },
-      time: { value: 0 },
-      mousePosition: { value: new THREE.Vector2() },
-      resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+      time: { value: 0 }, // Add this line
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader(),
@@ -181,12 +176,13 @@ function vertexShader() {
     attribute float scale;
     attribute float opacity;
     uniform float time;
-    uniform vec2 mousePosition;
-    uniform vec2 resolution;
+    varying vec2 vUv;
     varying float vOpacity;
     
     void main() {
+      vUv = uv;
       vOpacity = opacity;
+      
       vec3 pos = initialPosition;
       
       // Wave animation
@@ -194,22 +190,9 @@ function vertexShader() {
               30.0 * sin(time * 0.1 + initialPosition.y * 0.01) +
               7.0 * cos(time * 0.5 + initialPosition.x * 0.01);
       
-      // Mouse interaction (calculation done in JavaScript)
-      vec2 aspectRatio = vec2(resolution.x / resolution.y, 1.0);
-      float distanceToMouse = distance(initialPosition.xy * aspectRatio, mousePosition * aspectRatio * 60.0);
-      float interactionRadius = 10.0;
-      float scaleFactor = 1.0;
-      float opacityFactor = 1.0;
-      
-      if (distanceToMouse < interactionRadius) {
-        scaleFactor = 1.0 + (1.0 - distanceToMouse / interactionRadius) * 1.5;
-        opacityFactor = 1.0 - (distanceToMouse / interactionRadius) * 0.5;
-      }
-      
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-      gl_PointSize = scale * scaleFactor * (300.0 / -mvPosition.z);
+      gl_PointSize = scale * (300.0 / -mvPosition.z);
       gl_Position = projectionMatrix * mvPosition;
-      vOpacity *= opacityFactor;
     }
   `;
 }
