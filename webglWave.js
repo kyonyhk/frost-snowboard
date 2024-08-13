@@ -1,6 +1,6 @@
 // Constants
 const PARTICLES_X = 250;
-const PARTICLES_Y = 100;
+const PARTICLES_Y = 150;
 const TOTAL_PARTICLES = PARTICLES_X * PARTICLES_Y;
 const TWO_PI = 2 * Math.PI;
 
