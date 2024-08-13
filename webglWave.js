@@ -40,6 +40,8 @@ function initializeParticleSystem() {
   mouse = new THREE.Vector2();
   raycaster = new THREE.Raycaster();
 
+  checkWebGLContext();
+
   document.addEventListener('mousemove', onDocumentMouseMove);
 
   animate(); // Start the animation
@@ -80,7 +82,6 @@ function onDocumentMouseMove(event) {
 function animate() {
   animationId = requestAnimationFrame(animate);
   updateParticles(particleSystem, raycaster, mouse, camera);
-  particleSystem.geometry.attributes.position.needsUpdate = true; // Add this line
   renderer.render(scene, camera);
 }
 
@@ -154,9 +155,9 @@ function setupParticleSystem(scene, texture) {
 }
 
 function updateParticles(particleSystem, raycaster, mouse, camera) {
-  const time = Date.now() * 0.005;
+  const time = Date.now() * 0.001; // Changed to 0.001 for slower animation
   particleSystem.material.uniforms.time.value = time;
-  console.log('Time:', time); // Add this line for debugging
+  console.log('Time:', time);
 }
 
 function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
@@ -175,6 +176,21 @@ function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
   });
 }
 
+function checkWebGLContext() {
+  const canvas = document.querySelector('.hero_webgl-element');
+  if (!canvas) {
+    console.error('Canvas element not found');
+    return;
+  }
+  
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) {
+    console.error('WebGL not supported');
+  } else {
+    console.log('WebGL is supported');
+  }
+}
+
 function vertexShader() {
   return `
     attribute float scale;
@@ -182,16 +198,16 @@ function vertexShader() {
     uniform float time;
     uniform vec2 resolution;
     varying float vOpacity;
-    varying float vDebugTime; // Add this line for debugging
+    varying vec3 vColor;
     void main() {
       vOpacity = opacity;
-      vDebugTime = time; // Add this line for debugging
       vec3 pos = position;
       
-      // Wave animation
-      pos.z = 10.0 * sin(time * 0.1 + position.x * 0.07) +
-              30.0 * sin(time * 0.1 + position.y * 0.01) +
-              7.0 * cos(time * 0.5 + position.x * 0.01);
+      // Simplified wave animation
+      pos.z = 20.0 * sin(time * 0.1 + position.x * 0.1);
+      
+      // Debug color based on time
+      vColor = vec3(sin(time * 0.1) * 0.5 + 0.5, cos(time * 0.1) * 0.5 + 0.5, 0.5);
       
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
       gl_PointSize = scale * (300.0 / -mvPosition.z);
@@ -202,13 +218,12 @@ function vertexShader() {
 
 function fragmentShader() {
   return `
-    uniform vec3 color;
     uniform sampler2D pointTexture;
     varying float vOpacity;
-    varying float vDebugTime; // Add this line for debugging
+    varying vec3 vColor;
     void main() {
       vec4 texColor = texture2D(pointTexture, gl_PointCoord);
-      gl_FragColor = vec4(color * vDebugTime, vOpacity) * texColor; // Modify this line for debugging
+      gl_FragColor = vec4(vColor, vOpacity) * texColor;
     }
   `;
 }
