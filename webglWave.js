@@ -9,6 +9,10 @@ gsap.registerPlugin(ScrollTrigger);
 // Global variables for easy cleanup and reinitialization
 let scene, camera, renderer, particleSystem, animationId, mouse, raycaster;
 
+function isDesktop() {
+  return window.innerWidth > 991;
+}
+
 function initializeParticleSystem() {
   if (typeof THREE === 'undefined') {
     console.error('THREE.js is not loaded. Please ensure it is included before this script.');
@@ -39,8 +43,11 @@ function initializeParticleSystem() {
 
   mouse = new THREE.Vector2();
   raycaster = new THREE.Raycaster();
-
-  document.addEventListener('mousemove', onDocumentMouseMove);
+  
+  
+  if (isDesktop()) {
+    document.addEventListener('mousemove', onDocumentMouseMove);
+  }
 
   animate(); // Start the animation
 
@@ -60,6 +67,10 @@ function cleanupResources() {
   }
   window.removeEventListener('resize', onWindowResize);
   document.removeEventListener('mousemove', onDocumentMouseMove);
+
+  if (isDesktop()) {
+    document.removeEventListener('mousemove', onDocumentMouseMove);
+  }
 }
 
 function onWindowResize() {
@@ -75,7 +86,11 @@ function onDocumentMouseMove(event) {
 
 function animate() {
   animationId = requestAnimationFrame(animate);
-  updateParticles(particleSystem, raycaster, mouse, camera);
+  if (isDesktop()) {
+    updateParticles(particleSystem, raycaster, mouse, camera);
+  } else {
+    updateParticlesSimple(particleSystem);
+  }
   renderer.render(scene, camera);
 }
 
@@ -143,6 +158,24 @@ function setupParticleSystem(scene, texture) {
   const particleSystem = new THREE.Points(particles, material);
   scene.add(particleSystem);
   return particleSystem;
+}
+
+function updateParticlesSimple(particleSystem) {
+  const positions = particleSystem.geometry.attributes.position.array;
+  const time = Date.now() * 0.005;
+
+  for (let i = 0; i < TOTAL_PARTICLES; i++) {
+    const i3 = i * 3;
+    const x = positions[i3];
+    const y = positions[i3 + 1];
+
+    positions[i3 + 2] = 
+      10 * Math.sin(time * 0.1 + x * 0.07) +
+      30 * Math.sin(time * 0.1 + y * 0.01) +
+      7 * Math.cos(time * 0.5 + x * 0.01);
+  }
+
+  particleSystem.geometry.attributes.position.needsUpdate = true;
 }
 
 function updateParticles(particleSystem, raycaster, mouse, camera) {
