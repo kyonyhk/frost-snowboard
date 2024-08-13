@@ -155,10 +155,6 @@ function updateParticles(particleSystem, raycaster, mouse, camera) {
   const intersects = raycaster.intersectObject(particleSystem);
 
   for (let i = 0; i < TOTAL_PARTICLES; i++) {
-    const i3 = i * 3;
-    const x = positions[i3];
-    const y = positions[i3 + 1];
-
     let scale = 1;
     let opacity = 0.5;
 
