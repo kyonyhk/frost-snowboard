@@ -66,7 +66,9 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  particleSystem.material.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
+  if (particleSystem && particleSystem.material.uniforms.resolution) {
+    particleSystem.material.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
+  }
 }
 
 function onDocumentMouseMove(event) {
@@ -134,6 +136,7 @@ function setupParticleSystem(scene, texture) {
       color: { value: new THREE.Color(0xffffff) },
       pointTexture: { value: texture },
       time: { value: 0 },
+      resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader(),
@@ -172,6 +175,7 @@ function vertexShader() {
     attribute float scale;
     attribute float opacity;
     uniform float time;
+    uniform vec2 resolution;
     varying float vOpacity;
     void main() {
       vOpacity = opacity;
