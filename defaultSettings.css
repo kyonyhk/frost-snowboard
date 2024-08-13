@@ -47,6 +47,6 @@ textarea {
 }
 
 img, video, canvas {
-  overflow-clip-margin: content-box;
-  overflow: clip;
+  overflow-clip-margin: content-box !important;
+  overflow: clip !important;
 }
