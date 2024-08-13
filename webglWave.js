@@ -70,7 +70,7 @@ function onWindowResize() {
 }
 
 function onDocumentMouseMove(event) {
-   // Calculate mouse position in normalized device coordinates (-1 to +1)
+  // Calculate mouse position in normalized device coordinates (-1 to +1)
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -139,8 +139,7 @@ function setupParticleSystem(scene, texture) {
       pointTexture: { value: texture },
       time: { value: 0 },
       mousePosition: { value: new THREE.Vector2() },
-      resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-      debugMousePos: { value: new THREE.Vector2() }, // Add this line
+      resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader(),
@@ -181,6 +180,7 @@ function vertexShader() {
     uniform vec2 mousePosition;
     uniform vec2 resolution;
     varying float vOpacity;
+    varying vec3 vColor;
     
     void main() {
       vec3 pos = initialPosition;
@@ -197,9 +197,11 @@ function vertexShader() {
       if (distanceToMouse < interactionRadius) {
         scale = 1.0 + (1.0 - distanceToMouse / interactionRadius) * 1.5;
         vOpacity = 1.0 - (distanceToMouse / interactionRadius) * 0.5;
+        vColor = vec3(1.0, 0.0, 0.0); // Red color for interaction
       } else {
         scale = 1.0;
         vOpacity = 0.5;
+        vColor = vec3(1.0); // White color for non-interaction
       }
       
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
@@ -216,7 +218,8 @@ function fragmentShader() {
     varying float vOpacity;
     varying vec3 vColor;
     void main() {
-      gl_FragColor = vec4(vColor, vOpacity) * texture2D(pointTexture, gl_PointCoord);
+      vec4 texColor = texture2D(pointTexture, gl_PointCoord);
+      gl_FragColor = vec4(vColor * color, vOpacity) * texColor;
     }
   `;
 }
