@@ -76,11 +76,11 @@ function onDocumentMouseMove(event) {
 function animate() {
   animationId = requestAnimationFrame(animate);
   
-  // Update wave animation uniform
+  // Update uniforms
   const time = Date.now() * 0.005;
   particleSystem.material.uniforms.time.value = time;
-  
-  updateParticles(particleSystem, raycaster, mouse, camera);
+
+  updateParticles(particleSystem, raycaster, mouse, camera);  
   renderer.render(scene, camera);
 }
 
@@ -136,9 +136,10 @@ function setupParticleSystem(scene, texture) {
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
+      time: { value: 0.0 },
+      mouse: { value: new THREE.Vector2(0, 0) },
       color: { value: new THREE.Color(0xffffff) },
       pointTexture: { value: texture },
-      time: { value: 0 },
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader(),
