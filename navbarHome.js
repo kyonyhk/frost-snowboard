@@ -354,9 +354,7 @@ function isMobile() {
 }
 
 function updateNavbarDisplay() {
-  const isHomepage =
-    window.location.pathname === 'index.html' ||
-    window.location.pathname === '/';
+  const isHomepage = window.location.pathname === 'index.html' || window.location.pathname === '/';
   const isCollectionsPage = window.location.pathname.includes('/collections/');
   const isFrostTechPage = window.location.pathname.includes('/frost-tech/');
 
@@ -365,7 +363,9 @@ function updateNavbarDisplay() {
       gsap.set(navbar, { display: 'none' });
     } else if (isCollectionsPage || isFrostTechPage) {
       gsap.set(navbar, { display: 'flex' });
-    } 
+    } else {
+      gsap.set(navbar, { display: 'none' }); // Hide on other pages for mobile
+    }
   } else {
     gsap.set(navbar, { display: 'flex' });
   }
@@ -380,43 +380,30 @@ function updateNavbarDisplay() {
 
 function handleNavigation() {
   console.log('Handling navigation');
-  const isHomepage = 
-    window.location.pathname === 'index.html' ||
-    window.location.pathname === '/' ||
-    window.location.pathname === '';
+  const isHomepage = window.location.pathname === 'index.html' || 
+                     window.location.pathname === '/' || 
+                     window.location.pathname === '';
 
   setInitialNavbarState();
 
   if (isHomepage) {
-    // Reset the homepage-specific variables
     loadingButtonClicked = false;
     heroAnimationCompleted = false;
 
     if (document.referrer.includes(window.location.origin)) {
-    // We're navigating back to the homepage from another page on the same site
       console.log('Returning to homepage from internal link');
-      playNavbarIntro();
+      if (!isMobile()) {
+        playNavbarIntro();
+      }
     } else {
       checkNavbarIntroConditions();
     }
     setupCollectionHeadingHoverEffects();
   } else {
-    // For non-homepage, start the animation after a delay
     const isCollectionsPage = window.location.pathname.includes('collection');
     const isFrostTechPage = window.location.pathname.includes('frost-tech');
     
-    if (isCollectionsPage) {
-      startNavbarAnimationForNonHomepage(4000);
-    } else if (isFrostTechPage) {
-      startNavbarAnimationForNonHomepage(3000);
-    } else {
-      startNavbarAnimationForNonHomepage(0);
-    }
-  }
-
-  if (navbar) {
-    navbar.style.display = 'flex';
-    gsap.to(navbar, { opacity: 1, duration: 0.5, ease: 'power4.out' });
+    startNavbarAnimationForNonHomepage(isCollectionsPage ? 4000 : isFrostTechPage ? 3000 : 0);
   }
 
   updateNavbarDisplay();
@@ -700,16 +687,21 @@ function setupNavbarScrollTrigger() {
   const footer = document.querySelector('.section.is-footer');
   const isHomepage = window.location.pathname === 'index.html' || window.location.pathname === '/';
 
-  // Function to check if the device is desktop
   function isDesktop() {
     return window.innerWidth > 991; // Adjust this breakpoint as needed
   }
 
-  // Function to handle the ScrollTrigger setup or removal
   function handleScrollTrigger() {
     if (footer && navbar && isHomepage) {
+      // Kill any existing ScrollTriggers
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.vars.trigger === footer) {
+          trigger.kill();
+        }
+      });
+
       if (isDesktop()) {
-        // Set up ScrollTrigger for desktop
+        // Desktop behavior
         ScrollTrigger.create({
           trigger: footer,
           start: 'top 80%',
@@ -734,27 +726,35 @@ function setupNavbarScrollTrigger() {
           }
         });
       } else {
-        // Remove ScrollTrigger for mobile
-        ScrollTrigger.getAll().forEach(trigger => {
-          if (trigger.vars.trigger === footer) {
-            trigger.kill();
+        // Mobile behavior
+        ScrollTrigger.create({
+          trigger: footer,
+          start: 'bottom bottom',
+          end: 'bottom top',
+          onEnterBack: () => {
+            navbar.style.display = 'flex';
+            gsap.to(navbar, {
+              opacity: 1,
+              duration: 0.5,
+              ease: 'power4.out'
+            });
+          },
+          onLeave: () => {
+            gsap.to(navbar, {
+              opacity: 0,
+              duration: 0.5,
+              ease: 'power4.out',
+              onComplete: () => {
+                navbar.style.display = 'none';
+              }
+            });
           }
-        });
-        // Ensure navbar is visible on mobile when scrolling up
-        navbar.style.display = 'flex';
-        gsap.to(navbar, {
-          opacity: 1,
-          duration: 0.5,
-          ease: 'power4.out'
         });
       }
     }
   }
 
-    // Initial setup
   handleScrollTrigger();
-
-  // Update on window resize
   window.addEventListener('resize', handleScrollTrigger);
 }
 
