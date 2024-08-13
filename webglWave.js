@@ -1,6 +1,6 @@
 // Constants
-const PARTICLES_X = 300;
-const PARTICLES_Y = 300;
+const PARTICLES_X = 200;
+const PARTICLES_Y = 200;
 const TOTAL_PARTICLES = PARTICLES_X * PARTICLES_Y;
 const TWO_PI = 2 * Math.PI;
 
@@ -39,9 +39,7 @@ function initializeParticleSystem() {
 
   mouse = new THREE.Vector2();
   raycaster = new THREE.Raycaster();
-  
-  window.removeEventListener('resize', onWindowResize);
-  window.addEventListener('resize', onWindowResize);
+
   document.addEventListener('mousemove', onDocumentMouseMove);
 
   animate(); // Start the animation
@@ -62,9 +60,6 @@ function cleanupResources() {
   }
   window.removeEventListener('resize', onWindowResize);
   document.removeEventListener('mousemove', onDocumentMouseMove);
-
-  camera = null;
-  renderer = null;
 }
 
 function onWindowResize() {
@@ -74,18 +69,13 @@ function onWindowResize() {
 }
 
 function onDocumentMouseMove(event) {
-  // Calculate mouse position in normalized device coordinates (-1 to +1)
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
 function animate() {
-  requestAnimationFrame(animate);
-
-  const material = particleSystem.material;
-  material.uniforms.time.value = Date.now() * 0.005;
-  material.uniforms.mousePosition.value.set(mouse.x, mouse.y);
-
+  animationId = requestAnimationFrame(animate);
+  updateParticles(particleSystem, raycaster, mouse, camera);
   renderer.render(scene, camera);
 }
 
@@ -119,7 +109,6 @@ function createCircleTexture(radius, color) {
 function setupParticleSystem(scene, texture) {
   const particles = new THREE.BufferGeometry();
   const positions = new Float32Array(TOTAL_PARTICLES * 3);
-  const initialPositions = new Float32Array(TOTAL_PARTICLES * 3);
   const scales = new Float32Array(TOTAL_PARTICLES);
   const opacities = new Float32Array(TOTAL_PARTICLES);
 
@@ -137,24 +126,62 @@ function setupParticleSystem(scene, texture) {
   }
 
   particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  particles.setAttribute('initialPosition', new THREE.BufferAttribute(positions, 3)); // Add this line
+  particles.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
+  particles.setAttribute('opacity', new THREE.BufferAttribute(opacities, 1));
 
   const material = new THREE.ShaderMaterial({
-      uniforms: {
-          color: { value: new THREE.Color(0xffffff) },
-          pointTexture: { value: texture },
-          time: { value: 0 },
-          mousePosition: { value: new THREE.Vector2() }
-      },
-      vertexShader: vertexShader(),
-      fragmentShader: fragmentShader(),
-      depthTest: false,
-      transparent: true,
+    uniforms: {
+      color: { value: new THREE.Color(0xffffff) },
+      pointTexture: { value: texture },
+    },
+    vertexShader: vertexShader(),
+    fragmentShader: fragmentShader(),
+    depthTest: false,
+    transparent: true,
   });
-  
+
   const particleSystem = new THREE.Points(particles, material);
   scene.add(particleSystem);
   return particleSystem;
+}
+
+function updateParticles(particleSystem, raycaster, mouse, camera) {
+  const positions = particleSystem.geometry.attributes.position.array;
+  const scales = particleSystem.geometry.attributes.scale.array;
+  const opacities = particleSystem.geometry.attributes.opacity.array;
+
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObject(particleSystem);
+  const time = Date.now() * 0.005;
+
+  for (let i = 0; i < TOTAL_PARTICLES; i++) {
+    const i3 = i * 3;
+    const x = positions[i3];
+    const y = positions[i3 + 1];
+
+    positions[i3 + 2] = 
+      10 * Math.sin(time * 0.1 + x * 0.07) +
+      30 * Math.sin(time * 0.1 + y * 0.01) +
+      7 * Math.cos(time * 0.5 + x * 0.01);
+
+    let scale = 1;
+    let opacity = 0.5;
+
+    if (intersects.length > 0) {
+      const distance = Math.hypot(x - intersects[0].point.x, y - intersects[0].point.y);
+      if (distance < 10) {
+        scale = 1 + ((10 - distance) / 10) * 1.5;
+        opacity = 1.0 - (distance / 10) * 0.5;
+      }
+    }
+    
+    scales[i] = scale;
+    opacities[i] = opacity;
+  }
+
+  particleSystem.geometry.attributes.position.needsUpdate = true;
+  particleSystem.geometry.attributes.scale.needsUpdate = true;
+  particleSystem.geometry.attributes.opacity.needsUpdate = true;
 }
 
 function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
@@ -175,36 +202,16 @@ function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
 
 function vertexShader() {
   return `
-    uniform float time;
-    uniform vec2 mousePosition;
     attribute float scale;
     attribute float opacity;
     varying vec2 vUv;
     varying float vOpacity;
-    
     void main() {
-        vUv = uv;
-        
-        // Wave animation
-        vec3 pos = position;
-        pos.z = 10.0 * sin(time * 0.1 + pos.x * 0.07) +
-                30.0 * sin(time * 0.1 + pos.y * 0.01) +
-                7.0 * cos(time * 0.5 + pos.x * 0.01);
-        
-        // Mouse interaction
-        float distance = length(pos.xy - mousePosition);
-        float scaleFactor = 1.0;
-        float opacityFactor = opacity;
-        if (distance < 10.0) {
-            scaleFactor = 1.0 + ((10.0 - distance) / 10.0) * 1.5;
-            opacityFactor = 1.0 - (distance / 10.0) * 0.5;
-        }
-        
-        vOpacity = opacityFactor;
-        
-        vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-        gl_PointSize = scale * scaleFactor * (300.0 / -mvPosition.z);
-        gl_Position = projectionMatrix * mvPosition;
+      vUv = uv;
+      vOpacity = opacity;
+      vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+      gl_PointSize = scale * (300.0 / -mvPosition.z);
+      gl_Position = projectionMatrix * mvPosition;
     }
   `;
 }
@@ -215,9 +222,8 @@ function fragmentShader() {
     uniform sampler2D pointTexture;
     varying vec2 vUv;
     varying float vOpacity;
-    
     void main() {
-        gl_FragColor = vec4(color, vOpacity) * texture2D(pointTexture, gl_PointCoord);
+      gl_FragColor = vec4(color, vOpacity) * texture2D(pointTexture, gl_PointCoord);
     }
   `;
 }
