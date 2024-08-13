@@ -109,7 +109,7 @@ function createCircleTexture(radius, color) {
 }
 
 function setupParticleSystem(scene, texture) {
-  const particles = new THREE.BufferGeometry();
+    const particles = new THREE.BufferGeometry();
   const positions = new Float32Array(TOTAL_PARTICLES * 3);
 
   for (let i = 0; i < TOTAL_PARTICLES; i++) {
@@ -128,7 +128,7 @@ function setupParticleSystem(scene, texture) {
       color: { value: new THREE.Color(0xffffff) },
       pointTexture: { value: texture },
       time: { value: 0 },
-      mousePosition: { value: new THREE.Vector2() },
+      mouse: { value: new THREE.Vector2() },
       resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
     },
     vertexShader: vertexShader(),
@@ -143,8 +143,8 @@ function setupParticleSystem(scene, texture) {
 }
 
 function updateParticles(particleSystem, raycaster, mouse, camera) {
-  particleSystem.material.uniforms.time.value += 0.005; // Increment time instead of setting it
-  particleSystem.material.uniforms.mousePosition.value.copy(mouse);
+  particleSystem.material.uniforms.time.value = Date.now() * 0.005;
+  particleSystem.material.uniforms.mouse.value.copy(mouse);
 }
 
 function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
@@ -165,8 +165,9 @@ function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
 
 function vertexShader() {
   return `
-uniform float time;
-    uniform vec2 mousePosition;
+    uniform float time;
+    uniform float time;
+    uniform vec2 mouse;
     uniform vec2 resolution;
     
     varying float vOpacity;
@@ -174,22 +175,22 @@ uniform float time;
     void main() {
       vec3 pos = position;
       
-      // Wave animation
-      float waveX = sin(time * 0.3 + position.x * 0.05) * 5.0;
-      float waveY = cos(time * 0.3 + position.y * 0.05) * 5.0;
-      pos.z = waveX + waveY;
+      // Wave animation (exactly as in the original code)
+      pos.z = 10.0 * sin(time * 0.1 + position.x * 0.07) +
+              30.0 * sin(time * 0.1 + position.y * 0.01) +
+              7.0 * cos(time * 0.5 + position.x * 0.01);
       
       // Calculate distance to mouse in world space
-      vec2 mouseWorld = mousePosition * resolution * 0.5;
-      float distanceToMouse = distance(position.xy, mouseWorld);
+      vec2 mousePos = mouse * resolution * 0.5;
+      float distanceToMouse = distance(position.xy * 120.0, mousePos);
       
       // Hover effect
       float scale = 1.0;
       vOpacity = 0.5;
       
-      if (distanceToMouse < 20.0) {
-        scale = 1.0 + ((20.0 - distanceToMouse) / 20.0) * 1.5;
-        vOpacity = 1.0 - (distanceToMouse / 20.0) * 0.5;
+      if (distanceToMouse < 10.0) {
+        scale = 1.0 + ((10.0 - distanceToMouse) / 10.0) * 1.5;
+        vOpacity = 1.0 - (distanceToMouse / 10.0) * 0.5;
       }
       
       vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
