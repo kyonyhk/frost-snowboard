@@ -108,11 +108,10 @@ function createCircleTexture(radius, color) {
 }
 
 function setupParticleSystem(scene, texture) {
-  const particles = new THREE.InstancedBufferGeometry();
-  const positions = new Float32Array(TOTAL_PARTICLES * 3);
-  const scales = new Float32Array(TOTAL_PARTICLES);
-  const opacities = new Float32Array(TOTAL_PARTICLES);
+  const particles = new THREE.BufferGeometry();
 
+  // Positions - set per vertex, not per instance
+  const positions = new Float32Array(TOTAL_PARTICLES * 3);
   for (let i = 0; i < PARTICLES_X; i++) {
     for (let j = 0; j < PARTICLES_Y; j++) {
       const index = i * PARTICLES_Y + j;
@@ -121,20 +120,29 @@ function setupParticleSystem(scene, texture) {
       positions[index * 3] = x;
       positions[index * 3 + 1] = y;
       positions[index * 3 + 2] = 0;
-      scales[index] = 1;
-      opacities[index] = 0.5;
     }
   }
+  particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-  particles.setAttribute('position', new THREE.InstancedBufferAttribute(positions, 3));
-  particles.setAttribute('scale', new THREE.InstancedBufferAttribute(scales, 1));
-  particles.setAttribute('opacity', new THREE.InstancedBufferAttribute(opacities, 1));
+  // Scales - this is instanced, so divisor must be set to 1
+  const scales = new Float32Array(TOTAL_PARTICLES);
+  for (let i = 0; i < TOTAL_PARTICLES; i++) {
+    scales[i] = 1.0;
+  }
+  particles.setAttribute('scale', new THREE.InstancedBufferAttribute(scales, 1).setUsage(THREE.DynamicDrawUsage));
+
+  // Opacities - this is also instanced
+  const opacities = new Float32Array(TOTAL_PARTICLES);
+  for (let i = 0; i < TOTAL_PARTICLES; i++) {
+    opacities[i] = 0.5;
+  }
+  particles.setAttribute('opacity', new THREE.InstancedBufferAttribute(opacities, 1).setUsage(THREE.DynamicDrawUsage));
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
       color: { value: new THREE.Color(0xffffff) },
       pointTexture: { value: texture },
-      time: { value: 0 },
+      time: { value: 0 }
     },
     vertexShader: vertexShader(),
     fragmentShader: fragmentShader(),
