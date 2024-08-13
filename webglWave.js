@@ -129,14 +129,14 @@ function setupParticleSystem(scene, texture) {
   for (let i = 0; i < TOTAL_PARTICLES; i++) {
     scales[i] = 1.0;
   }
-  particles.setAttribute('scale', new THREE.InstancedBufferAttribute(scales, 1).setUsage(THREE.DynamicDrawUsage));
+  particles.setAttribute('scale', new THREE.InstancedBufferAttribute(scales, 1));
 
   // Opacities - this is also instanced
   const opacities = new Float32Array(TOTAL_PARTICLES);
   for (let i = 0; i < TOTAL_PARTICLES; i++) {
     opacities[i] = 0.5;
   }
-  particles.setAttribute('opacity', new THREE.InstancedBufferAttribute(opacities, 1).setUsage(THREE.DynamicDrawUsage));
+  particles.setAttribute('opacity', new THREE.InstancedBufferAttribute(opacities, 1));
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
