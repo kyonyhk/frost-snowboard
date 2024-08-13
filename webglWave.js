@@ -76,8 +76,12 @@ function onDocumentMouseMove(event) {
 }
 
 function animate() {
-  animationId = requestAnimationFrame(animate);
-  updateParticles(particleSystem, raycaster, mouse, camera);
+  requestAnimationFrame(animate);
+
+  const material = particleSystem.material;
+  material.uniforms.time.value = Date.now() * 0.005;
+  material.uniforms.mousePosition.value.set(mouse.x, mouse.y);
+
   renderer.render(scene, camera);
 }
 
@@ -132,17 +136,16 @@ function setupParticleSystem(scene, texture) {
   particles.setAttribute('initialPosition', new THREE.BufferAttribute(positions, 3)); // Add this line
 
   const material = new THREE.ShaderMaterial({
-    uniforms: {
-      color: { value: new THREE.Color(0xffffff) },
-      pointTexture: { value: texture },
-      time: { value: 0 },
-      mousePosition: { value: new THREE.Vector2() }, // Add this line
-      resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }, // Add this line
-    },
-    vertexShader: vertexShader(),
-    fragmentShader: fragmentShader(),
-    depthTest: false,
-    transparent: true,
+      uniforms: {
+          color: { value: new THREE.Color(0xffffff) },
+          pointTexture: { value: texture },
+          time: { value: 0 },
+          mousePosition: { value: new THREE.Vector2() }
+      },
+      vertexShader: vertexShader(),
+      fragmentShader: fragmentShader(),
+      depthTest: false,
+      transparent: true,
   });
   
   const particleSystem = new THREE.Points(particles, material);
@@ -150,51 +153,38 @@ function setupParticleSystem(scene, texture) {
   return particleSystem;
 }
 
-function updateParticles(particleSystem, raycaster, mouse, camera) {
-  const time = Date.now() * 0.005;
-  particleSystem.material.uniforms.time.value = time;
-  particleSystem.material.uniforms.mousePosition.value.copy(mouse);
-}
-
-function setupScrollTrigger(canvas, stopAnimation, startAnimation) {
-  ScrollTrigger.create({
-    trigger: '.section.is-collections-main',
-    start: 'bottom bottom',
-    end: 'bottom 80%',
-    onLeave: () => {
-      stopAnimation();
-      canvas.style.display = 'none';
-    },
-    onEnterBack: () => {
-      canvas.style.display = 'block';
-      startAnimation();
-    },
-  });
-}
-
 function vertexShader() {
   return `
-    attribute vec3 initialPosition;
+    uniform float time;
+    uniform vec2 mousePosition;
     attribute float scale;
     attribute float opacity;
-    uniform float time;
     varying vec2 vUv;
     varying float vOpacity;
     
     void main() {
-      vUv = uv;
-      vOpacity = opacity;
-      
-      vec3 pos = initialPosition;
-      
-      // Wave animation
-      pos.z = 10.0 * sin(time * 0.1 + initialPosition.x * 0.07) +
-              30.0 * sin(time * 0.1 + initialPosition.y * 0.01) +
-              7.0 * cos(time * 0.5 + initialPosition.x * 0.01);
-      
-      vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
-      gl_PointSize = scale * (300.0 / -mvPosition.z);
-      gl_Position = projectionMatrix * mvPosition;
+        vUv = uv;
+        
+        // Wave animation
+        vec3 pos = position;
+        pos.z = 10.0 * sin(time * 0.1 + pos.x * 0.07) +
+                30.0 * sin(time * 0.1 + pos.y * 0.01) +
+                7.0 * cos(time * 0.5 + pos.x * 0.01);
+        
+        // Mouse interaction
+        float distance = length(pos.xy - mousePosition);
+        float scaleFactor = 1.0;
+        float opacityFactor = opacity;
+        if (distance < 10.0) {
+            scaleFactor = 1.0 + ((10.0 - distance) / 10.0) * 1.5;
+            opacityFactor = 1.0 - (distance / 10.0) * 0.5;
+        }
+        
+        vOpacity = opacityFactor;
+        
+        vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+        gl_PointSize = scale * scaleFactor * (300.0 / -mvPosition.z);
+        gl_Position = projectionMatrix * mvPosition;
     }
   `;
 }
@@ -203,11 +193,12 @@ function fragmentShader() {
   return `
     uniform vec3 color;
     uniform sampler2D pointTexture;
+    varying vec2 vUv;
     varying float vOpacity;
+    
     void main() {
-      gl_FragColor = vec4(color, vOpacity) * texture2D(pointTexture, gl_PointCoord);
+        gl_FragColor = vec4(color, vOpacity) * texture2D(pointTexture, gl_PointCoord);
     }
-
   `;
 }
 
