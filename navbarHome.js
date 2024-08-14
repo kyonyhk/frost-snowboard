@@ -792,21 +792,9 @@ function setupEventListeners() {
 
       playNavbarExit(() => {
         console.log('Inside onComplete callback');
-
-        const currentPath = window.location.pathname;
-        
-        if (document.referrer && new URL(document.referrer).origin === window.location.origin) {
-          console.log('Attempting to go back in history');
-          const startingHref = window.location.href;
+        if (document.referrer && document.referrer.includes(window.location.origin)) {
+          console.log('Going back in history');
           window.history.back();
-          
-          // Check if the navigation actually happened
-          setTimeout(() => {
-            if (window.location.href === startingHref) {
-              console.log('History navigation failed, redirecting to homepage');
-              loadContent('/');
-            }
-          }, 100);
         } else {
           console.log('Redirecting to homepage');
           loadContent('/');
@@ -1040,7 +1028,6 @@ function setupEventListeners() {
 }
 
 function loadContent(url) {
-  console.log('Loading content for URL:', url);
   fetch(url)
     .then(response => {
       if (!response.ok) {
@@ -1049,7 +1036,6 @@ function loadContent(url) {
       response.text()
     })
     .then(html => {
-      console.log('Content loaded successfully');
       const parser = new DOMParser();
       const newDocument = parser.parseFromString(html, 'text/html');
       document.body.innerHTML = newDocument.body.innerHTML;
